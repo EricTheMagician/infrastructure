@@ -1,15 +1,29 @@
 { config, pkgs, ... }:
 let
   # additional rules for dns on adguard. these are rules for unraid apps and ors work apps
-  unraid_apps = import ./dns/unraid_apps.nix;
+  unraid_apps = import ../common/dns/unraid_apps.nix;
   domain_name = "eyen.ca";
   unraid_home_dns = map (app: { domain = "${app}.${domain_name}"; answer = "192.168.88.19"; }) unraid_apps;
-  office_dns = import ./dns/office_apps.nix;
+  office_dns = import ../common/dns/office_apps.nix;
 in
 {
   containers.adguard = {
     autoStart = true;
+    # forward ports for the dns
+    forwardPorts = [
+      {
+        containerPort = 53;
+        hostPort = 53;
+        protocol = "tcp";
+      }
+      {
+        containerPort = 53;
+        hostPort = 53;
+        protocol = "udp";
+      }
+    ];
     config = { config, pkgs, ... }: {
+      system.stateVersion = "23.05";
       services.adguardhome = {
         enable = true;
         openFirewall = true;
