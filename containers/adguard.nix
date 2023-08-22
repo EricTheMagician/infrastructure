@@ -7,8 +7,18 @@ let
   office_dns = import ../common/dns/office_apps.nix;
 in
 {
+  networking.nat = {
+  enable = true;
+  internalInterfaces = ["ve-+"];
+  externalInterface = "eno1";
+  # Lazy IPv6 connectivity for the container
+  enableIPv6 = false;
+};
   containers.adguard = {
     autoStart = true;
+    extraFlags = [ "-U" ]; # for unprivileged
+    ephemeral = true; # don't keep track of files modified
+
     # forward ports for the dns
     forwardPorts = [
       {

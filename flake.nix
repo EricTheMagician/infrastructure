@@ -46,7 +46,6 @@
           # > Our main nixos configuration file <
           modules = [
             disko.nixosModules.disko
-            ./mini-nix/disks.nix
             ./containers/adguard.nix
             ./mini-nix/configuration.nix
           ];
@@ -65,10 +64,14 @@
         };
       };
       # deploy-rs section
-      deploy.nodes.some-random-system.profiles.system = {
-        hostname = "mini-nix";
-        user = "root";
-        path = deploy-rs.lib.x86_64-linux.activate.nixos self.nixosConfigurations.mini-nix;
+      deploy.nodes.mini-nix = {
+        hostname = "192.168.88.23";
+        profiles.system = {
+          sshUser = "root";
+          hostname = "mini-nix";
+          user = "root";
+          path = deployPkgs.deploy-rs.lib.activate.nixos self.nixosConfigurations.mini-nix;
+        };
       };
 
       # This is highly advised, and will prevent many possible mistakes

@@ -17,6 +17,7 @@ in
 
     # Import your generated (nixos-generate-config) hardware configuration
     ./hardware-configuration.nix
+    ./disks.nix
   ];
 
   nixpkgs = {
@@ -84,7 +85,7 @@ in
     };
   };
   containers = {
-    #enable = true;
+    enable = true;
     database =
       {
         autoStart = true;
