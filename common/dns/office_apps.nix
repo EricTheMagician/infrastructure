@@ -16,4 +16,6 @@
   { domain = "vm-server1.ors"; answer = "192.168.0.12"; }
   { domain = "vm-server2.ors"; answer = "131.153.203.129"; }
   { domain = "lxc-external.ors"; answer = "192.168.0.81"; }
+  { domain = "mini-nix.home"; answer = "192.168.88.23"; }
+  { domain = "nixos-workstation.home"; answer = "192.168.88.14"; }
 ]
