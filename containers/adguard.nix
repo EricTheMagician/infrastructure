@@ -5,35 +5,64 @@ let
   domain_name = "eyen.ca";
   unraid_home_dns = map (app: { domain = "${app}.${domain_name}"; answer = "192.168.88.19"; }) unraid_apps;
   office_dns = import ../common/dns/office_apps.nix;
+  container_dns_port = 2048;
 in
 {
-  networking.nat = {
-  enable = true;
-  internalInterfaces = ["ve-+"];
-  externalInterface = "eno1";
-  # Lazy IPv6 connectivity for the container
-  enableIPv6 = false;
-};
+  networking = {
+    firewall = {
+      # ports needed for dns
+      allowedTCPPorts = [ 53 3000 ];
+      allowedUDPPorts = [ 53 ];
+    };
+
+    nat = {
+      enable = true;
+      internalInterfaces = [ "ve-adguard" ];
+      externalInterface = "eno1";
+      # Lazy IPv6 connectivity for the container
+      enableIPv6 = false;
+    };
+  };
+
   containers.adguard = {
     autoStart = true;
     extraFlags = [ "-U" ]; # for unprivileged
     ephemeral = true; # don't keep track of files modified
-
+    privateNetwork = true;
+    hostAddress = "192.168.100.10";
+    localAddress = "192.168.100.11";
     # forward ports for the dns
     forwardPorts = [
       {
-        containerPort = 53;
+        containerPort = container_dns_port;
         hostPort = 53;
         protocol = "tcp";
       }
       {
-        containerPort = 53;
+        containerPort = container_dns_port;
         hostPort = 53;
         protocol = "udp";
       }
+      {
+        containerPort = 3000;
+        hostPort = 3000;
+        protocol = "tcp";
+      }
+
+
     ];
     config = { config, pkgs, ... }: {
       system.stateVersion = "23.05";
+      # for some reason, adguard openfirewall does not open the firewall for the dns port, only the http port
+      networking = {
+        firewall = {
+          # ports needed for dns
+          allowedTCPPorts = [ container_dns_port ];
+          allowedUDPPorts = [ container_dns_port ];
+        };
+      };
+
+
       services.adguardhome = {
         enable = true;
         openFirewall = true;
@@ -46,7 +75,7 @@ in
           }];
 
           dns = {
-            port = 53;
+            port = container_dns_port;
             rewrites = [
 
               { domain = "perforce.lan.theobjects.com"; answer = "192.168.0.37"; }
@@ -99,11 +128,5 @@ in
       };
     };
   };
-  networking.firewall = {
-    # ports needed for dns
-    allowedTCPPorts = [ 53 ];
-    allowedUDPPorts = [ 53 ];
-  };
-
 
 }

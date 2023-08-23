@@ -84,19 +84,6 @@ in
       PermitRootLogin = "yes";
     };
   };
-  containers = {
-    enable = true;
-    database =
-      {
-        autoStart = true;
-        config =
-          { config, pkgs, ... }:
-          {
-            services.postgresql.enable = true;
-            services.postgresql.package = pkgs.postgresql_14;
-          };
-      };
-  };
 
   # https://nixos.wiki/wiki/FAQ/When_do_I_update_stateVersion
   system.stateVersion = "23.05";
