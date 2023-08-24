@@ -4,6 +4,7 @@
   inputs = {
     # Nixpkgs
     nixpkgs.url = "github:nixos/nixpkgs/nixos-23.05";
+    unstable-pkgs.url = "github:nixos/nixpkgs";
 
     # Home manager
     home-manager.url = "github:nix-community/home-manager/release-23.05";
@@ -26,12 +27,13 @@
     deploy-rs.url = "github:serokell/deploy-rs";
   };
 
-  outputs = { self, nixpkgs, home-manager, disko, deploy-rs, sops-nix, ... }@inputs:
+  outputs = inputs@{ self, nixpkgs, home-manager, disko, deploy-rs, sops-nix, unstable-pkgs, ... }:
     let
       system = "x86_64-linux";
       # Unmodified nixpkgs
       pkgs = import nixpkgs { inherit system; };
       sops = import sops-nix { inherit system; };
+      unstable = import unstable-pkgs { inherit system; };
 
       deployPkgs = import nixpkgs {
         inherit system;
@@ -57,7 +59,6 @@
             ./mini-nix/configuration.nix
             # adguard needs to come after configuration since it usese the hostname in the url
             ./containers/adguard.nix
-
           ];
         };
       };

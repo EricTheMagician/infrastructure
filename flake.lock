@@ -131,7 +131,8 @@
         "disko": "disko",
         "home-manager": "home-manager",
         "nixpkgs": "nixpkgs_2",
-        "sops-nix": "sops-nix"
+        "sops-nix": "sops-nix",
+        "unstable-pkgs": "unstable-pkgs"
       }
     },
     "sops-nix": {
@@ -152,6 +153,21 @@
       "original": {
         "owner": "Mic92",
         "repo": "sops-nix",
+        "type": "github"
+      }
+    },
+    "unstable-pkgs": {
+      "locked": {
+        "lastModified": 1692846487,
+        "narHash": "sha256-VJNF9B226p0G4vXXILJ0y35HSiLZPh4TSU7Y1Z8h6kE=",
+        "owner": "nixos",
+        "repo": "nixpkgs",
+        "rev": "73bbe4bbcf66cdc7cb0291bb570b2e23f0caaf92",
+        "type": "github"
+      },
+      "original": {
+        "owner": "nixos",
+        "repo": "nixpkgs",
         "type": "github"
       }
     },
