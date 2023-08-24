@@ -1,7 +1,7 @@
 # This is your system's configuration file.
 # Use this to configure your system environment (it replaces /etc/nixos/configuration.nix)
 
-{ inputs, lib, config, pkgs, ... }:
+{ inputs, lib, config, pkgs, sops, ... }:
 let
   sshKeys = import ../common/ssh-keys.nix;
 in
@@ -19,7 +19,24 @@ in
     ./hardware-configuration.nix
     ./disks.nix
   ];
+  sops = {
 
+    defaultSopsFile = ../secrets/cloudflare-api.yaml;
+    age = {
+      # This will automatically import SSH keys as age keys
+      sshKeyPaths = [ "/etc/ssh/ssh_host_ed25519_key" ];
+      # This is using an age key that is expected to already be in the filesystem
+      keyFile = "/var/lib/sops-nix/key.txt";
+      # This will generate a new key if the key specified above does not exist
+      generateKey = true;
+    };
+    # This is the actual specification of the secrets.
+    secrets."cloudflare_api_dns" = {
+      mode = "0440";
+      # group = config.security.acme.defaults.group;
+    };
+
+  };
   nixpkgs = {
     # You can add overlays here
     overlays = [
@@ -72,6 +89,7 @@ in
     };
   };
 
+  security.acme.certs."dummy.eyen.ca" = { };
   # This setups a SSH server. Very important if you're setting up a headless system.
   # Feel free to remove if you don't need it.
   services.openssh = {

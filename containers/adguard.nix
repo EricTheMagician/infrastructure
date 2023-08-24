@@ -6,12 +6,13 @@ let
   unraid_home_dns = map (app: { domain = "${app}.${domain_name}"; answer = "192.168.88.19"; }) unraid_apps;
   office_dns = import ../common/dns/office_apps.nix;
   container_dns_port = 2048;
+  adguard_hostname = config.networking.hostName + "-adguard.eyen.ca";
 in
 {
   networking = {
     firewall = {
       # ports needed for dns
-      allowedTCPPorts = [ 53 3000 ];
+      allowedTCPPorts = [ 53 ];
       allowedUDPPorts = [ 53 ];
     };
 
@@ -23,6 +24,14 @@ in
       enableIPv6 = false;
     };
   };
+  services.nginx.virtualHosts.${adguard_hostname} = {
+    useACMEHost = adguard_hostname;
+    forceSSL = true;
+    locations."/" = {
+      proxyPass = "http://192.168.100.11:3000";
+    };
+  };
+  security.acme.certs.${adguard_hostname} = { };
 
   containers.adguard = {
     autoStart = true;

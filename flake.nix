@@ -11,6 +11,11 @@
     # disko disk formatter
     disko.url = "github:nix-community/disko";
     disko.inputs.nixpkgs.follows = "nixpkgs";
+
+    sops-nix.url = "github:Mic92/sops-nix";
+    sops-nix.inputs.nixpkgs.follows = "nixpkgs";
+
+
     # TODO: Add any other flake you might need
     # hardware.url = "github:nixos/nixos-hardware";
 
@@ -21,11 +26,12 @@
     deploy-rs.url = "github:serokell/deploy-rs";
   };
 
-  outputs = { self, nixpkgs, home-manager, disko, deploy-rs, ... }@inputs:
+  outputs = { self, nixpkgs, home-manager, disko, deploy-rs, sops-nix, ... }@inputs:
     let
       system = "x86_64-linux";
       # Unmodified nixpkgs
       pkgs = import nixpkgs { inherit system; };
+      sops = import sops-nix { inherit system; };
 
       deployPkgs = import nixpkgs {
         inherit system;
@@ -46,8 +52,12 @@
           # > Our main nixos configuration file <
           modules = [
             disko.nixosModules.disko
-            ./containers/adguard.nix
+            sops-nix.nixosModules.sops
+            ./modules/nginx.nix
             ./mini-nix/configuration.nix
+            # adguard needs to come after configuration since it usese the hostname in the url
+            ./containers/adguard.nix
+
           ];
         };
       };
