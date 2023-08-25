@@ -4,7 +4,7 @@
   inputs = {
     # Nixpkgs
     nixpkgs.url = "github:nixos/nixpkgs/nixos-23.05";
-    unstable-pkgs.url = "github:nixos/nixpkgs";
+    nixpkgs-unstable.url = "github:nixos/nixpkgs/nixos-unstable";
 
     # Home manager
     home-manager.url = "github:nix-community/home-manager/release-23.05";
@@ -27,13 +27,13 @@
     deploy-rs.url = "github:serokell/deploy-rs";
   };
 
-  outputs = inputs@{ self, nixpkgs, home-manager, disko, deploy-rs, sops-nix, unstable-pkgs, ... }:
+  outputs = { self, nixpkgs, home-manager, disko, deploy-rs, sops-nix, nixpkgs-unstable, ... } @ inputs:
     let
       system = "x86_64-linux";
       # Unmodified nixpkgs
       pkgs = import nixpkgs { inherit system; };
+      # unstable = import nixpkgs-unstable { inherit system; };
       sops = import sops-nix { inherit system; };
-      unstable = import unstable-pkgs { inherit system; };
 
       deployPkgs = import nixpkgs {
         inherit system;
@@ -45,6 +45,8 @@
     in
     {
       formatter.x86_64-linux = nixpkgs.legacyPackages.x86_64-linux.nixpkgs-fmt;
+      # overlays = import ./overlays.nix { inherit inputs; };
+
       # NixOS configuration entrypoint
       # Available through 'nixos-rebuild --flake .#your-hostname'
       nixosConfigurations = {
@@ -55,10 +57,24 @@
           modules = [
             disko.nixosModules.disko
             sops-nix.nixosModules.sops
+            ./modules/sops.nix
             ./modules/nginx.nix
             ./mini-nix/configuration.nix
+            ./modules/tailscale.nix
+            {
+              _module.args.tailscale_auth_path = ./secrets/tailscale/infrastructure.yaml;
+            }
             # adguard needs to come after configuration since it usese the hostname in the url
             ./containers/adguard.nix
+          ];
+        };
+        headscale = nixpkgs.lib.nixosSystem {
+          specialArgs = { inherit inputs; }; # Pass flake inputs to our config
+          # > Our main nixos configuration file <
+          modules = [
+            sops-nix.nixosModules.sops
+            ./headscale-nix/hardware-configuration.nix
+            ./headscale-nix/configuration.nix
           ];
         };
       };

@@ -1,4 +1,4 @@
-{ config, pkgs, ... }:
+{ config, pkgs, sops, ... }:
 let
 in
 {
@@ -21,6 +21,14 @@ in
       credentialsFile = "/run/secrets/cloudflare_api_dns";
     };
 
+  };
+  sops = {
+    # This is the actual specification of the secrets.
+    secrets."cloudflare_api_dns" = {
+      mode = "0440";
+      sopsFile = ../secrets/cloudflare-api.yaml;
+      group = config.security.acme.defaults.group;
+    };
   };
 }
 
