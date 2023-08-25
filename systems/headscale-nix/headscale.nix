@@ -6,12 +6,11 @@
 #
 #####################
 
-{ config, pkgs, unstable, ... }:
+{ inputs, config, pkgs, ... }:
 let
-  unstable = import <nixos-unstable> { config = config.nixpkgs.config; };
   domain = "hs.eyen.ca";
   docker_host = "100.64.0.2";
-
+  unstable = inputs.nixpkgs-unstable.legacyPackages.x86_64-linux;
   # This is a function that takes in 2 parameters, name and ip
   # to generate the dns entries for headscale
   unraid_apps = import ../common/dns/unraid_apps.nix;

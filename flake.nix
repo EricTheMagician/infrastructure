@@ -34,6 +34,7 @@
       pkgs = import nixpkgs { inherit system; };
       # unstable = import nixpkgs-unstable { inherit system; };
       sops = import sops-nix { inherit system; };
+      sshKeys = import ./common/ssh-keys.nix;
 
       deployPkgs = import nixpkgs {
         inherit system;
@@ -59,12 +60,15 @@
             sops-nix.nixosModules.sops
             ./modules/sops.nix
             ./modules/nginx.nix
-            ./mini-nix/configuration.nix
+            ./systems/mini-nix/configuration.nix
+            {
+              _module.args.sshKeys = sshKeys;
+            }
             ./modules/tailscale.nix
             {
               _module.args.tailscale_auth_path = ./secrets/tailscale/infrastructure.yaml;
             }
-            # adguard needs to come after configuration since it usese the hostname in the url
+            # # adguard needs to come after configuration since it usese the hostname in the url
             ./containers/adguard.nix
           ];
         };
@@ -73,8 +77,13 @@
           # > Our main nixos configuration file <
           modules = [
             sops-nix.nixosModules.sops
-            ./headscale-nix/hardware-configuration.nix
-            ./headscale-nix/configuration.nix
+            ./systems/headscale-nix/hardware-configuration.nix
+            ./systems/headscale-nix/configuration.nix
+            ./modules/tailscale.nix
+            {
+              _module.args.tailscale_auth_path = ./secrets/tailscale/headscale.yaml;
+              _module.args.sshKeys = sshKeys;
+            }
           ];
         };
       };

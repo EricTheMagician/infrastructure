@@ -1,16 +1,11 @@
-{ config, pkgs, ... }:
+{ config, pkgs, sshKeys, ... }:
 let
-  sshKeys = import ../common/ssh-keys.nix;
 in
 {
   imports = [
     ./hardware-configuration.nix
     ./headscale.nix
-    ../modules/tailscale.nix
-    {
-      _module.args.tailscale_auth_path = ../secrets/tailscale/headscale.yaml;
-    }
-    ../common
+    ../../common
   ];
 
   boot.tmp.cleanOnBoot = true;
