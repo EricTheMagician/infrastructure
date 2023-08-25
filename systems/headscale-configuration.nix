@@ -3,9 +3,9 @@ let
 in
 {
   imports = [
-    ./hardware-configuration.nix
-    ./headscale.nix
-    ../../common
+    ./headscale-hardware-configuration.nix
+    ../modules/headscale.nix
+    ../common
   ];
 
   boot.tmp.cleanOnBoot = true;

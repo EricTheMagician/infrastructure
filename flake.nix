@@ -60,7 +60,7 @@
             sops-nix.nixosModules.sops
             ./modules/sops.nix
             ./modules/nginx.nix
-            ./systems/mini-nix/configuration.nix
+            ./systems/mini-nix-configuration.nix
             {
               _module.args.sshKeys = sshKeys;
             }
@@ -77,8 +77,8 @@
           # > Our main nixos configuration file <
           modules = [
             sops-nix.nixosModules.sops
-            ./systems/headscale-nix/hardware-configuration.nix
-            ./systems/headscale-nix/configuration.nix
+            ./systems/headscale-hardware-configuration.nix
+            ./systems/headscale-configuration.nix
             ./modules/tailscale.nix
             {
               _module.args.tailscale_auth_path = ./secrets/tailscale/headscale.yaml;

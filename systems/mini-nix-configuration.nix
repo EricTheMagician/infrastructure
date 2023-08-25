@@ -13,8 +13,8 @@
     # ./users.nix
 
     # Import your generated (nixos-generate-config) hardware configuration
-    ./hardware-configuration.nix
-    ./disks.nix
+    ./mini-nix-hardware-configuration.nix
+    ./mini-nix-disks.nix
   ];
   sops = {
 

@@ -1,5 +1,11 @@
 { config, pkgs, ... }:
 let
+  hostIp = "10.100.0.1";
+  containerIp = "10.100.0.0/24";
+  hostIp6 = "fc00::1";
+  containerIp6 = "fc00::2/7";
+
+  external_network_interface = "eno1";
   # additional rules for dns on adguard. these are rules for unraid apps and ors work apps
   unraid_apps = import ../common/dns/unraid_apps.nix;
   domain_name = "eyen.ca";
@@ -16,19 +22,14 @@ in
       allowedUDPPorts = [ 53 ];
     };
 
-    nat = {
-      enable = true;
-      internalInterfaces = [ "ve-adguard" ];
-      externalInterface = "eno1";
-      # Lazy IPv6 connectivity for the container
-      enableIPv6 = false;
-    };
+    bridges.br-adguard.interfaces = [ external_network_interface ];
+    interfaces.br-adguard.ipv4.addresses = [{ address = hostIp; prefixLength = 24; }];
   };
   services.nginx.virtualHosts.${adguard_hostname} = {
     useACMEHost = adguard_hostname;
     forceSSL = true;
     locations."/" = {
-      proxyPass = "http://192.168.100.11:3000";
+      proxyPass = "http://ve-adguard:3000";
     };
   };
   security.acme.certs.${adguard_hostname} = { };
@@ -38,8 +39,9 @@ in
     extraFlags = [ "-U" ]; # for unprivileged
     ephemeral = true; # don't keep track of files modified
     privateNetwork = true;
-    hostAddress = "192.168.100.10";
-    localAddress = "192.168.100.11";
+    hostBridge = "br-adguard";
+    # hostAddress = "192.168.100.10";
+    # localAddress = "192.168.100.11";
     # forward ports for the dns
     forwardPorts = [
       {
@@ -57,8 +59,6 @@ in
         hostPort = 3000;
         protocol = "tcp";
       }
-
-
     ];
     config = { config, pkgs, ... }: {
       system.stateVersion = "23.05";
