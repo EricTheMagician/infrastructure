@@ -6,8 +6,8 @@
   # You can import other NixOS modules here
   imports = [
     # If you want to use modules from other flakes (such as nixos-hardware):
-    # inputs.hardware.nixosModules.common-cpu-amd
-    # inputs.hardware.nixosModules.common-ssd
+    inputs.hardware.nixosModules.common-cpu-intel
+    inputs.hardware.nixosModules.common-pc-ssd
 
     # You can also split up your configuration and import pieces of it here:
     # ./users.nix
@@ -15,18 +15,9 @@
     # Import your generated (nixos-generate-config) hardware configuration
     ./mini-nix-hardware-configuration.nix
     ./mini-nix-disks.nix
+    ../containers/adguard.nix
+    # ../common
   ];
-  sops = {
-
-    age = {
-      # This will automatically import SSH keys as age keys
-      sshKeyPaths = [ "/etc/ssh/ssh_host_ed25519_key" ];
-      # This is using an age key that is expected to already be in the filesystem
-      keyFile = "/var/lib/sops-nix/key.txt";
-      # This will generate a new key if the key specified above does not exist
-      generateKey = true;
-    };
-  };
   nixpkgs = {
     # You can add overlays here
     overlays = [
@@ -78,7 +69,6 @@
   };
 
   # This setups a SSH server. Very important if you're setting up a headless system.
-  # Feel free to remove if you don't need it.
   services.openssh = {
     enable = true;
     settings = {
@@ -92,4 +82,18 @@
 
   # https://nixos.wiki/wiki/FAQ/When_do_I_update_stateVersion
   system.stateVersion = "23.05";
+
+  # configure my containers
+  container.adguard = {
+    #   enable = true;
+    #   domain_name = "mini-nix-adguard.eyen.ca";
+    #   hostIp = "10.0.0.1";
+    #   containerIp = "10.0.0.2";
+    bridge = {
+      name = "br-adguard";
+      address = "10.100.0.1";
+      prefixLength = 24;
+    };
+    # nginx.domain.name = "mini-nix-adguard.eyen.ca";
+  };
 }

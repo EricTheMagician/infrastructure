@@ -17,12 +17,7 @@
     sops-nix.inputs.nixpkgs.follows = "nixpkgs";
 
 
-    # TODO: Add any other flake you might need
-    # hardware.url = "github:nixos/nixos-hardware";
-
-    # Shameless plug: looking for a way to nixify your themes and make
-    # everything match nicely? Try nix-colors!
-    # nix-colors.url = "github:misterio77/nix-colors";
+    hardware.url = "github:nixos/nixos-hardware";
 
     deploy-rs.url = "github:serokell/deploy-rs";
   };
@@ -51,15 +46,12 @@
       # NixOS configuration entrypoint
       # Available through 'nixos-rebuild --flake .#your-hostname'
       nixosConfigurations = {
-        # FIXME replace with your hostname
         mini-nix = nixpkgs.lib.nixosSystem {
           specialArgs = { inherit inputs; }; # Pass flake inputs to our config
           # > Our main nixos configuration file <
           modules = [
             disko.nixosModules.disko
             sops-nix.nixosModules.sops
-            ./modules/sops.nix
-            ./modules/nginx.nix
             ./systems/mini-nix-configuration.nix
             {
               _module.args.sshKeys = sshKeys;
@@ -68,8 +60,6 @@
             {
               _module.args.tailscale_auth_path = ./secrets/tailscale/infrastructure.yaml;
             }
-            # # adguard needs to come after configuration since it usese the hostname in the url
-            ./containers/adguard.nix
           ];
         };
         headscale = nixpkgs.lib.nixosSystem {

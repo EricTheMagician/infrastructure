@@ -1,9 +1,10 @@
-let 
+let
   unraid_apps = import ../../common/dns/unraid_apps.nix;
   domain_name = "eyen.ca";
   unraid_home_dns = map (app: { domain = "${app}.${domain_name}"; answer = "192.168.88.19"; }) unraid_apps;
   office_dns = import ../../common/dns/office_apps.nix;
-in{
+in
+{
   bind_port = 3000;
   bind_host = "0.0.0.0";
   users = [{

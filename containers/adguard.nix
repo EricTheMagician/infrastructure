@@ -1,141 +1,171 @@
-{ config, pkgs, ... }:
+{ config, pkgs, lib, ... }:
 let
-  hostIp = "10.100.0.1";
-  containerIp = "10.100.0.0/24";
-  hostIp6 = "fc00::1";
-  containerIp6 = "fc00::2/7";
-
-  external_network_interface = "eno1";
-  # additional rules for dns on adguard. these are rules for unraid apps and ors work apps
-  unraid_apps = import ../common/dns/unraid_apps.nix;
-  domain_name = "eyen.ca";
-  unraid_home_dns = map (app: { domain = "${app}.${domain_name}"; answer = "192.168.88.19"; }) unraid_apps;
-  office_dns = import ../common/dns/office_apps.nix;
-  container_dns_port = 2048;
-  adguard_hostname = config.networking.hostName + "-adguard.eyen.ca";
+  net = (import ../common/net.nix { inherit lib; }).lib.net;
+  inherit (lib) mkOption mkIf types;
+  cfg = config.container.adguard;
 in
 {
-  networking = {
-    firewall = {
-      # ports needed for dns
-      allowedTCPPorts = [ 53 ];
-      allowedUDPPorts = [ 53 ];
-    };
-
-    bridges.br-adguard.interfaces = [ external_network_interface ];
-    interfaces.br-adguard.ipv4.addresses = [{ address = hostIp; prefixLength = 24; }];
-  };
-  services.nginx.virtualHosts.${adguard_hostname} = {
-    useACMEHost = adguard_hostname;
-    forceSSL = true;
-    locations."/" = {
-      proxyPass = "http://ve-adguard:3000";
-    };
-  };
-  security.acme.certs.${adguard_hostname} = { };
-
-  containers.adguard = {
-    autoStart = true;
-    extraFlags = [ "-U" ]; # for unprivileged
-    ephemeral = true; # don't keep track of files modified
-    privateNetwork = true;
-    hostBridge = "br-adguard";
-    # hostAddress = "192.168.100.10";
-    # localAddress = "192.168.100.11";
-    # forward ports for the dns
-    forwardPorts = [
-      {
-        containerPort = container_dns_port;
-        hostPort = 53;
-        protocol = "tcp";
-      }
-      {
-        containerPort = container_dns_port;
-        hostPort = 53;
-        protocol = "udp";
-      }
-      {
-        containerPort = 3000;
-        hostPort = 3000;
-        protocol = "tcp";
-      }
-    ];
-    config = { config, pkgs, ... }: {
-      system.stateVersion = "23.05";
-      # for some reason, adguard openfirewall does not open the firewall for the dns port, only the http port
-      networking = {
-        firewall = {
-          # ports needed for dns
-          allowedTCPPorts = [ container_dns_port ];
-          allowedUDPPorts = [ container_dns_port ];
-        };
+  imports = [
+    ../common/net.nix
+  ];
+  options.container.adguard = {
+    bridge = {
+      name = mkOption { type = types.str; };
+      address = mkOption {
+        type = types.str;
       };
+      prefixLength = mkOption { type = types.int; };
+    };
+    nginx.domain.name = mkOption {
+      type = types.str;
+    };
+  };
 
-
-      services.adguardhome = {
-        enable = true;
-        openFirewall = true;
-        settings = {
-          bind_port = 3000;
-          bind_host = "0.0.0.0";
-          users = [{
-            name = "eric_adguard";
-            password = "$2y$05$cEOh52jIMsMy2QCyCjgUSO2L3NHtjRXCfXiAyB7ioF1xkd.u6l1Tq";
+  config = {
+    networking = {
+      bridges.${cfg.bridge.name}.interfaces = [ ];
+      interfaces.${cfg.bridge.name}.ipv4.addresses = [
+        {
+          address = cfg.bridge.address;
+          prefixLength = cfg.bridge.prefixLength;
+        }
+      ];
+      # interfaces.br-adguard.ipv6.addresses = [{ address = hostIp6; prefixLength = 7; }];
+    };
+    networking.nat = {
+      enable = true;
+      internalInterfaces = [ cfg.bridge.name ];
+    };
+    containers.adguard = {
+      autoStart = true;
+      # extraFlags = [ "-U" ]; # for unprivileged
+      ephemeral = true; # don't keep track of files modified
+      privateNetwork = true;
+      hostBridge = cfg.bridge.name;
+      # hostAddress = hostIp;
+      # localAddress = containerIp + "/24";
+      # forward ports for the dns
+      config = {
+        system.stateVersion = "23.05";
+        networking = {
+          interfaces.eth0.ipv4.addresses = [{
+            # Configure a prefix address.
+            address = (net.ip.add 1 cfg.bridge.address);
+            prefixLength = cfg.bridge.prefixLength;
           }];
-
-          dns = {
-            port = container_dns_port;
-            rewrites = [
-
-              { domain = "perforce.lan.theobjects.com"; answer = "192.168.0.37"; }
-              { domain = "swarm.lan.theobjects.com"; answer = "192.168.0.37"; }
-              { domain = "docs.lan.theobjects.com"; answer = "192.168.0.37"; }
-            ] ++ unraid_home_dns ++ office_dns;
-
-
-          };
-          user_rules = [
-            # custom rules to filter out additional ads
-            "||wd.adcolony.xyz^$important"
-            "||is2-ssl.mzstatic.com^$important"
-            "||app.appsflyer.com^$important"
-            "||a1931.dscgi3.akamai.net^$important"
-            "#||e673.dscx.akamaiedge.net^$client=''192.168.88.46''"
-            "#||e673.dscx.akamaiedge.net^$client=''192.168.88.46''"
-            "||impressions.crossinstall.io^$important"
-            "||szeventhub.servicebus.windows.net^$important"
-            "||logs.ironsrc.mobi^$important"
-            "||logs-01.loggly.com^$important"
-            "||hades.getsocial.im^$important"
-            "#||p-hyper-hippo-mainserver-815458781.us-west-2.elb.amazonaws.com^$important"
-            "||edge.safedk.com^$important"
-            "#||apps.mzstatic.com^$important"
-          ];
-          # the filters list
-          filters = [
-            {
-              enabled = true;
-              url = "https://adguardteam.github.io/AdGuardSDNSFilter/Filters/filter.txt";
-              name = "AdGuard DNS filter";
-              id = 1;
-            }
-            {
-              enabled = true;
-              url = "https://adaway.org/hosts.txt";
-              name = "AdAway Default Blocklist";
-              id = 2;
-            }
-            {
-              enabled = true;
-              url = "https://secure.fanboy.co.nz/fanboy-cookiemonster.txt";
-              name = "EasyList Cookie List";
-              id = 1665209809;
-            }
-          ];
-          statistics.interval = "1h";
+          defaultGateway.address = cfg.bridge.address;
+          defaultGateway.interface = "eth0";
+          defaultGateway.metric = 0;
         };
       };
     };
   };
 
 }
+
+# { config, pkgs, lib, ... }:
+# let
+#   hostIp = "10.100.0.1";
+#   containerIp = "10.100.0.2";
+#   prefixLength = 24;
+#   hostIp6 = "fc00::1";
+#   containerIp6 = "fc00::2/7";
+
+#   # additional rules for dns on adguard. these are rules for unraid apps and ors work apps
+#   adguard_hostname = config.networking.hostName + "-adguard.eyen.ca";
+#   adguard_settings = import ./settings/adguard.nix;
+# in
+# {
+#   imports = [
+#     ../modules/nginx.nix
+#   ];
+#   networking = {
+#     firewall = {
+#       # ports needed for dns
+#       allowedTCPPorts = [ 53 ];
+#       allowedUDPPorts = [ 53 ];
+#     };
+#     # nat = {
+#     #   enable = true;
+#     #   # internalInterfaces = [ "ve-adguard" ];
+#     #   # externalInterface = "eno1";
+#     #   # Lazy IPv6 connectivity for the container
+#     #   enableIPv6 = false;
+#     # };
+#     bridges.br-adguard.interfaces = [ ];
+#     interfaces.br-adguard.ipv4.addresses = [{ address = hostIp; prefixLength = prefixLength; }];
+#     interfaces.br-adguard.ipv6.addresses = [{ address = hostIp6; prefixLength = 7; }];
+#     interfaces.br-adguard.useDHCP = false;
+#     enableIPv6 = false;
+#   };
+#   # services.nginx.virtualHosts.${adguard_hostname} = {
+#   #   useACMEHost = adguard_hostname;
+#   #   forceSSL = true;
+#   #   locations."/" = {
+#   #     proxyPass = "http://ve-adguard:3000";
+#   #   };
+#   # };
+#   security.acme.certs.${adguard_hostname} = { };
+
+#   containers.adguard = {
+#     autoStart =  true;
+#     # extraFlags = [ "-U" ]; # for unprivileged
+#     # ephemeral = true; # don't keep track of files modified
+#     privateNetwork = true;
+#     hostBridge = "br-adguard";
+#     # hostAddress = hostIp;
+#     # localAddress = containerIp;
+#     # localAddress = containerIp + "/24";
+#     # forward ports for the dns
+#     # forwardPorts = [
+#     #   {
+#     #     containerPort = 53;
+#     #     hostPort = 53;
+#     #     protocol = "tcp";
+#     #   }
+#     #   {
+#     #     containerPort = 53;
+#     #     hostPort = 53;
+#     #     protocol = "udp";
+#     #   }
+#     #   {
+#     #     containerPort = 3000;
+#     #     hostPort = 3000;
+#     #     protocol = "tcp";
+#     #   }
+#     # ];
+#     config = {
+#       system.stateVersion = "23.05";
+#       # for some reason, adguard openfirewall does not open the firewall for the dns port, only the http port
+#       networking = {
+#         # firewall = {
+#         #   # ports needed for dns
+#         #   allowedTCPPorts = [ 53 ];
+#         #   allowedUDPPorts = [ 53 ];
+#         # };
+#         interfaces.eth0.useDHCP = false;
+#         interfaces.eth0.ipv4.addresses = [{
+#           # Configure a prefix address.
+#           address = containerIp;
+#           prefixLength = prefixLength;
+#         }];
+#         interfaces.eth0.ipv6.addresses = [{
+#           # Configure a prefix address.
+#           address = containerIp6;
+#           prefixLength = prefixLength;
+#         }];
+#           # defaultGateway.address = hostIp;
+#           # defaultGateway.interface = "eno1";
+#           # defaultGateway.metric = 0;
+#           # nameservers = ["1.1.1.1"];
+#       };
+
+#       # services.adguardhome = {
+#       #   enable = true;
+#       #   openFirewall = true;
+#       #   settings = adguard_settings;
+#       # };
+#     };
+#   };
+
+# }

@@ -2,6 +2,9 @@
 let
 in
 {
+  import = [
+    ./sops.nix
+  ];
   services.nginx = {
     enable = true;
     recommendedProxySettings = true;
