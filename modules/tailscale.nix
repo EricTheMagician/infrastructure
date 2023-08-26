@@ -28,7 +28,6 @@
     secrets."tailscale_auth" = {
       mode = "0440";
       sopsFile = tailscale_auth_path;
-      group = config.security.acme.defaults.group;
     };
 
   };
