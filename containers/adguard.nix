@@ -2,11 +2,15 @@
 let
   net = (import ../common/net.nix { inherit lib; }).lib.net;
   inherit (lib) mkOption mkIf types;
+  adguard_settings = import ./settings/adguard.nix;
   cfg = config.container.adguard;
+  # this is the ip we need to expose
+  containerIp = net.ip.add 1 cfg.bridge.address;
 in
 {
   imports = [
     ../common/net.nix
+    ../modules/nginx.nix
   ];
   options.container.adguard = {
     bridge = {
@@ -22,6 +26,8 @@ in
   };
 
   config = {
+
+    # create the network bridge from the host to the container
     networking = {
       bridges.${cfg.bridge.name}.interfaces = [ ];
       interfaces.${cfg.bridge.name}.ipv4.addresses = [
@@ -30,33 +36,49 @@ in
           prefixLength = cfg.bridge.prefixLength;
         }
       ];
-      # interfaces.br-adguard.ipv6.addresses = [{ address = hostIp6; prefixLength = 7; }];
     };
-    networking.nat = {
-      enable = true;
-      internalInterfaces = [ cfg.bridge.name ];
+    # create the nginx virtual host and security certificates
+    security.acme.certs.${cfg.nginx.domain.name} = { };
+    services.nginx.virtualHosts.${cfg.nginx.domain.name} = {
+      useACMEHost = cfg.nginx.domain.name;
+      forceSSL = true;
+      locations."/" = {
+        proxyPass = "http://${containerIp}:3000";
+      };
     };
+
+
+    # create the adguard container
     containers.adguard = {
       autoStart = true;
-      # extraFlags = [ "-U" ]; # for unprivileged
+      extraFlags = [ "-U" ]; # for unprivileged
       ephemeral = true; # don't keep track of files modified
       privateNetwork = true;
       hostBridge = cfg.bridge.name;
-      # hostAddress = hostIp;
-      # localAddress = containerIp + "/24";
-      # forward ports for the dns
       config = {
         system.stateVersion = "23.05";
         networking = {
           interfaces.eth0.ipv4.addresses = [{
             # Configure a prefix address.
-            address = (net.ip.add 1 cfg.bridge.address);
+            address = containerIp;
             prefixLength = cfg.bridge.prefixLength;
           }];
           defaultGateway.address = cfg.bridge.address;
           defaultGateway.interface = "eth0";
           defaultGateway.metric = 0;
         };
+        networking.firewall = {
+          # ports needed for dns
+          allowedTCPPorts = [ 53 ];
+          allowedUDPPorts = [ 53 ];
+        };
+
+        services.adguardhome = {
+          enable = true;
+          openFirewall = true;
+          settings = adguard_settings;
+        };
+
       };
     };
   };

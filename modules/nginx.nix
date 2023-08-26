@@ -2,7 +2,7 @@
 let
 in
 {
-  import = [
+  imports = [
     ./sops.nix
   ];
   services.nginx = {
@@ -10,6 +10,9 @@ in
     recommendedProxySettings = true;
     recommendedTlsSettings = true;
   };
+  # ensure that default acme group is created and nginx is part of me
+  # the group has permission to read the cloudflare private key
+  users.groups.${config.security.acme.defaults.group} = { };
   users.users.nginx.extraGroups = [ config.security.acme.defaults.group ];
   networking.firewall = {
     # ports needed for dns
