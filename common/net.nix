@@ -45,7 +45,7 @@ let
           delta' = typechecks.numeric function "delta" delta;
           ip' = typechecks.ip function "ip" ip;
         in
-          builders.ip (implementations.ip.add delta' ip');
+        builders.ip (implementations.ip.add delta' ip');
 
       # diff :: ip -> ip -> (integer | ipv6)
       #
@@ -68,9 +68,9 @@ let
           subtrahend' = typechecks.ip function "subtrahend" subtrahend;
           result = implementations.ip.diff minuend' subtrahend';
         in
-          if result ? ipv6
-          then builders.ipv6 result
-          else result;
+        if result ? ipv6
+        then builders.ipv6 result
+        else result;
 
       # subtract :: (ip | mac | integer) -> ip -> ip
       #
@@ -90,7 +90,7 @@ let
           delta' = typechecks.numeric function "delta" delta;
           ip' = typechecks.ip function "ip" ip;
         in
-          builders.ip (implementations.ip.subtract delta' ip');
+        builders.ip (implementations.ip.subtract delta' ip');
     };
 
     mac = {
@@ -120,7 +120,7 @@ let
           delta' = typechecks.numeric function "delta" delta;
           mac' = typechecks.mac function "mac" mac;
         in
-          builders.mac (implementations.mac.add delta' mac');
+        builders.mac (implementations.mac.add delta' mac');
 
       # diff :: mac -> mac -> integer
       #
@@ -137,7 +137,7 @@ let
           minuend' = typechecks.mac function "minuend" minuend;
           subtrahend' = typechecks.mac function "subtrahend" subtrahend;
         in
-          implementations.mac.diff minuend' subtrahend';
+        implementations.mac.diff minuend' subtrahend';
 
       # subtract :: (ip | mac | integer) -> mac -> mac
       #
@@ -154,7 +154,7 @@ let
           delta' = typechecks.numeric function "delta" delta;
           mac' = typechecks.mac function "mac" mac;
         in
-          builders.mac (implementations.mac.subtract delta' mac');
+        builders.mac (implementations.mac.subtract delta' mac');
     };
 
     cidr = {
@@ -171,7 +171,7 @@ let
           delta' = typechecks.numeric function "delta" delta;
           cidr' = typechecks.cidr function "cidr" cidr;
         in
-          builders.cidr (implementations.cidr.add delta' cidr');
+        builders.cidr (implementations.cidr.add delta' cidr');
 
       # child :: cidr -> cidr -> bool
       #
@@ -186,7 +186,7 @@ let
           subcidr' = typechecks.cidr function "subcidr" subcidr;
           cidr' = typechecks.cidr function "cidr" cidr;
         in
-          implementations.cidr.child subcidr' cidr';
+        implementations.cidr.child subcidr' cidr';
 
       # contains :: ip -> cidr -> bool
       #
@@ -201,7 +201,7 @@ let
           ip' = typechecks.ip function "ip" ip;
           cidr' = typechecks.cidr function "cidr" cidr;
         in
-          implementations.cidr.contains ip' cidr';
+        implementations.cidr.contains ip' cidr';
 
       # capacity :: cidr -> integer
       #
@@ -218,7 +218,7 @@ let
           function = "net.cidr.capacity";
           cidr' = typechecks.cidr function "cidr" cidr;
         in
-          implementations.cidr.capacity cidr';
+        implementations.cidr.capacity cidr';
 
       # host :: (ip | mac | integer) -> cidr -> ip
       #
@@ -239,7 +239,7 @@ let
           hostnum' = typechecks.numeric function "hostnum" hostnum;
           cidr' = typechecks.cidr function "cidr" cidr;
         in
-          builders.ip (implementations.cidr.host hostnum' cidr');
+        builders.ip (implementations.cidr.host hostnum' cidr');
 
       # length :: cidr -> integer
       #
@@ -253,7 +253,7 @@ let
           function = "net.cidr.length";
           cidr' = typechecks.cidr function "cidr" cidr;
         in
-          implementations.cidr.length cidr';
+        implementations.cidr.length cidr';
 
       # make :: integer -> ip -> cidr
       #
@@ -268,7 +268,7 @@ let
           length' = typechecks.int function "length" length;
           base' = typechecks.ip function "base" base;
         in
-          builders.cidr (implementations.cidr.make length' base');
+        builders.cidr (implementations.cidr.make length' base');
 
       # netmask :: cidr -> ip
       #
@@ -282,7 +282,7 @@ let
           function = "net.cidr.netmask";
           cidr' = typechecks.cidr function "cidr" cidr;
         in
-          builders.ip (implementations.cidr.netmask cidr');
+        builders.ip (implementations.cidr.netmask cidr');
 
       # size :: cidr -> integer
       #
@@ -296,7 +296,7 @@ let
           function = "net.cidr.size";
           cidr' = typechecks.cidr function "cidr" cidr;
         in
-          implementations.cidr.size cidr';
+        implementations.cidr.size cidr';
 
       # subnet :: integer -> (ip | mac | integer) -> cidr -> cidr
       #
@@ -318,11 +318,11 @@ let
           netnum' = typechecks.numeric function "netnum" netnum;
           cidr' = typechecks.cidr function "cidr" cidr;
         in
-          builders.cidr (implementations.cidr.subnet length' netnum' cidr');
+        builders.cidr (implementations.cidr.subnet length' netnum' cidr');
 
     };
   } // (
-    if builtins.isNull lib then {} else {
+    if builtins.isNull lib then { } else {
       types =
         let
 
@@ -332,11 +332,11 @@ let
                 value = builder (parser def.value);
               };
             in
-              lib.mkOptionType {
-                inherit name description;
-                check = x: builtins.isString x && parser x != null;
-                merge = loc: defs: lib.mergeEqualOption loc (map normalize defs);
-              };
+            lib.mkOptionType {
+              inherit name description;
+              check = x: builtins.isString x && parser x != null;
+              merge = loc: defs: lib.mergeEqualOption loc (map normalize defs);
+            };
 
           dependent-ip = type: cidr:
             let
@@ -345,9 +345,9 @@ let
                 then cidr
                 else [ cidr ];
             in
-              lib.types.addCheck type (i: lib.any (net.cidr.contains i) cidrs) // {
-                description = type.description + " in ${builtins.concatStringsSep " or " cidrs}";
-              };
+            lib.types.addCheck type (i: lib.any (net.cidr.contains i) cidrs) // {
+              description = type.description + " in ${builtins.concatStringsSep " or " cidrs}";
+            };
 
           dependent-cidr = type: cidr:
             let
@@ -356,75 +356,75 @@ let
                 then cidr
                 else [ cidr ];
             in
-              lib.types.addCheck type (i: lib.any (net.cidr.child i) cidrs) // {
-                description = type.description + " in ${builtins.concatStringsSep " or " cidrs}";
-              };
+            lib.types.addCheck type (i: lib.any (net.cidr.child i) cidrs) // {
+              description = type.description + " in ${builtins.concatStringsSep " or " cidrs}";
+            };
 
         in
-          rec {
+        rec {
 
-            ip = mkParsedOptionType {
-              name = "ip";
-              description = "IPv4 or IPv6 address";
-              parser = parsers.ip;
-              builder = builders.ip;
-            };
-
-            ip-in = dependent-ip ip;
-
-            ipv4 = mkParsedOptionType {
-              name = "ipv4";
-              description = "IPv4 address";
-              parser = parsers.ipv4;
-              builder = builders.ipv4;
-            };
-
-            ipv4-in = dependent-ip ipv4;
-
-            ipv6 = mkParsedOptionType {
-              name = "ipv6";
-              description = "IPv6 address";
-              parser = parsers.ipv6;
-              builder = builders.ipv6;
-            };
-
-            ipv6-in = dependent-ip ipv6;
-
-            cidr = mkParsedOptionType {
-              name = "cidr";
-              description = "IPv4 or IPv6 address range in CIDR notation";
-              parser = parsers.cidr;
-              builder = builders.cidr;
-            };
-
-            cidr-in = dependent-cidr cidr;
-
-            cidrv4 = mkParsedOptionType {
-              name = "cidrv4";
-              description = "IPv4 address range in CIDR notation";
-              parser = parsers.cidrv4;
-              builder = builders.cidrv4;
-            };
-
-            cidrv4-in = dependent-cidr cidrv4;
-
-            cidrv6 = mkParsedOptionType {
-              name = "cidrv6";
-              description = "IPv6 address range in CIDR notation";
-              parser = parsers.cidrv6;
-              builder = builders.cidrv6;
-            };
-
-            cidrv6-in = dependent-cidr cidrv6;
-
-            mac = mkParsedOptionType {
-              name = "mac";
-              description = "MAC address";
-              parser = parsers.mac;
-              builder = builders.mac;
-            };
-
+          ip = mkParsedOptionType {
+            name = "ip";
+            description = "IPv4 or IPv6 address";
+            parser = parsers.ip;
+            builder = builders.ip;
           };
+
+          ip-in = dependent-ip ip;
+
+          ipv4 = mkParsedOptionType {
+            name = "ipv4";
+            description = "IPv4 address";
+            parser = parsers.ipv4;
+            builder = builders.ipv4;
+          };
+
+          ipv4-in = dependent-ip ipv4;
+
+          ipv6 = mkParsedOptionType {
+            name = "ipv6";
+            description = "IPv6 address";
+            parser = parsers.ipv6;
+            builder = builders.ipv6;
+          };
+
+          ipv6-in = dependent-ip ipv6;
+
+          cidr = mkParsedOptionType {
+            name = "cidr";
+            description = "IPv4 or IPv6 address range in CIDR notation";
+            parser = parsers.cidr;
+            builder = builders.cidr;
+          };
+
+          cidr-in = dependent-cidr cidr;
+
+          cidrv4 = mkParsedOptionType {
+            name = "cidrv4";
+            description = "IPv4 address range in CIDR notation";
+            parser = parsers.cidrv4;
+            builder = builders.cidrv4;
+          };
+
+          cidrv4-in = dependent-cidr cidrv4;
+
+          cidrv6 = mkParsedOptionType {
+            name = "cidrv6";
+            description = "IPv6 address range in CIDR notation";
+            parser = parsers.cidrv6;
+            builder = builders.cidrv6;
+          };
+
+          cidrv6-in = dependent-cidr cidrv6;
+
+          mac = mkParsedOptionType {
+            name = "mac";
+            description = "MAC address";
+            parser = parsers.mac;
+            builder = builders.mac;
+          };
+
+        };
     }
   );
 
@@ -442,9 +442,9 @@ let
             safeDiv = n: d: if d == 0 then 0 else n / d;
             d = math.pow 2 n;
           in
-            if x < 0
-            then not (safeDiv (not x) d)
-            else safeDiv x d;
+          if x < 0
+          then not (safeDiv (not x) d)
+          else safeDiv x d;
 
       left = n: shift (-n);
 
@@ -460,9 +460,9 @@ let
 
       mask = n: and (left n 1 - 1);
     in
-      {
-        inherit left right and or xor not mask;
-      };
+    {
+      inherit left right and or xor not mask;
+    };
 
   math = rec {
     max = a: b:
@@ -518,12 +518,12 @@ let
         let
           result = left string;
         in
-          if builtins.isNull result
-          then right string
-          else result;
+        if builtins.isNull result
+        then right string
+        else result;
 
       # guard :: bool -> parser {}
-      guard = condition: if condition then pure {} else empty;
+      guard = condition: if condition then pure { } else empty;
 
       # mfilter :: (a -> bool) -> parser a -> parser a
       mfilter = f: parser: bind parser (a: then_ (guard (f a)) (pure a));
@@ -532,25 +532,25 @@ let
       some = v: liftA2 list.cons v (many v);
 
       # many :: parser a -> parser [a]
-      many = v: alt (some v) (pure []);
+      many = v: alt (some v) (pure [ ]);
 
       # bind :: parser a -> (a -> parser b) -> parser b
       bind = parser: f: string:
         let
           a = parser string;
         in
-          if builtins.isNull a
-          then null
-          else f a.result a.leftovers;
+        if builtins.isNull a
+        then null
+        else f a.result a.leftovers;
 
       # run :: parser a -> string -> maybe a
       run = parser: string:
         let
           result = parser string;
         in
-          if builtins.isNull result || result.leftovers != ""
-          then null
-          else result.result;
+        if builtins.isNull result || result.leftovers != ""
+        then null
+        else result.result;
 
       next = string:
         if string == ""
@@ -565,15 +565,15 @@ let
         let
           result = parser string;
         in
-          if builtins.isNull result
-          then null
-          else result // {
-            result = {
-              inherit (result) result;
-              count = with result;
-                builtins.stringLength string - builtins.stringLength leftovers;
-            };
+        if builtins.isNull result
+        then null
+        else result // {
+          result = {
+            inherit (result) result;
+            count = with result;
+              builtins.stringLength string - builtins.stringLength leftovers;
           };
+        };
 
       # Limit the parser to n characters at most
       limit = n: parser:
@@ -587,13 +587,13 @@ let
 
       string = css:
         if css == ""
-        then pure {}
+        then pure { }
         else
           let
             c = builtins.substring 0 1 css;
             cs = builtins.substring 1 (-1) css;
           in
-            then_ (char c) (string cs);
+          then_ (char c) (string cs);
 
       digit = set: bind next (
         c: then_
@@ -635,9 +635,10 @@ let
       # disallow leading zeros
       decimal = bind (digit decimalDigits) (
         n:
-          if n == 0
-          then pure 0
-          else fmap
+        if n == 0
+        then pure 0
+        else
+          fmap
             (ns: fromDecimalDigits (list.cons n ns))
             (many (digit decimalDigits))
       );
@@ -656,7 +657,7 @@ let
             ipv4 = bit.or (bit.left 8 (bit.or (bit.left 8 (bit.or (bit.left 8 a) b)) c)) d;
           };
         in
-          liftA4 fromOctets octet octet' octet' octet';
+        liftA4 fromOctets octet octet' octet' octet';
 
       # This is more or less a literal translation of
       # https://hackage.haskell.org/package/ip/docs/src/Net.IPv6.html#parser
@@ -682,23 +683,23 @@ let
                 g = builtins.elemAt hextets 6;
                 h = builtins.elemAt hextets 7;
               in
-                pure {
-                  ipv6 = {
-                    a = bit.or (bit.left 16 a) b;
-                    b = bit.or (bit.left 16 c) d;
-                    c = bit.or (bit.left 16 e) f;
-                    d = bit.or (bit.left 16 g) h;
-                  };
+              pure {
+                ipv6 = {
+                  a = bit.or (bit.left 16 a) b;
+                  b = bit.or (bit.left 16 c) d;
+                  c = bit.or (bit.left 16 e) f;
+                  d = bit.or (bit.left 16 g) h;
                 };
+              };
 
           ipv4' = fmap
             (
               address:
-                let
-                  upper = bit.right 16 address.ipv4;
-                  lower = bit.mask 16 address.ipv4;
-                in
-                  [ upper lower ]
+              let
+                upper = bit.right 16 address.ipv4;
+                lower = bit.mask 16 address.ipv4;
+              in
+              [ upper lower ]
             )
             ipv4;
 
@@ -715,22 +716,22 @@ let
                     )
                 );
             in
-              if n == 7
-              then fmap (a: [ a ]) hextet
-              else
-                if n == 6
-                then alt ipv4' hex
-                else hex;
+            if n == 7
+            then fmap (a: [ a ]) hextet
+            else
+              if n == 6
+              then alt ipv4' hex
+              else hex;
 
           doubleColon = n:
-            bind (alt afterDoubleColon (pure [])) (
+            bind (alt afterDoubleColon (pure [ ])) (
               rest:
-                let
-                  missing = 8 - n - builtins.length rest;
-                in
-                  if missing < 0
-                  then empty
-                  else pure (builtins.genList (_: 0) missing ++ rest)
+              let
+                missing = 8 - n - builtins.length rest;
+              in
+              if missing < 0
+              then empty
+              else pure (builtins.genList (_: 0) missing ++ rest)
             );
 
           afterDoubleColon =
@@ -740,22 +741,22 @@ let
                   (
                     alt
                       (then_ colon afterDoubleColon)
-                      (pure [])
+                      (pure [ ])
                   )
               );
 
         in
-          bind
-            (
-              alt
-                (
-                  then_
-                    (string "::")
-                    (doubleColon 0)
-                )
-                (part 0)
-            )
-            fromHextets;
+        bind
+          (
+            alt
+              (
+                then_
+                  (string "::")
+                  (doubleColon 0)
+              )
+              (part 0)
+          )
+          fromHextets;
 
       cidrv4 =
         liftA2
@@ -781,19 +782,19 @@ let
             mac = bit.or (bit.left 8 (bit.or (bit.left 8 (bit.or (bit.left 8 (bit.or (bit.left 8 (bit.or (bit.left 8 a) b)) c)) d)) e)) f;
           };
         in
-          liftA6 fromOctets octet octet' octet' octet' octet' octet';
+        liftA6 fromOctets octet octet' octet' octet' octet' octet';
 
     in
-      {
-        ipv4 = run ipv4;
-        ipv6 = run ipv6;
-        ip = run (alt ipv4 ipv6);
-        cidrv4 = run cidrv4;
-        cidrv6 = run cidrv6;
-        cidr = run (alt cidrv4 cidrv6);
-        mac = run mac;
-        numeric = run (alt (alt ipv4 ipv6) mac);
-      };
+    {
+      ipv4 = run ipv4;
+      ipv6 = run ipv6;
+      ip = run (alt ipv4 ipv6);
+      cidrv4 = run cidrv4;
+      cidrv6 = run cidrv6;
+      cidr = run (alt cidrv4 cidrv6);
+      mac = run mac;
+      numeric = run (alt (alt ipv4 ipv6) mac);
+    };
 
   builders =
     let
@@ -808,7 +809,7 @@ let
           c = bit.mask 8 abc;
           d = bit.mask 8 abcd;
         in
-          builtins.concatStringsSep "." (map toString [ a b c d ]);
+        builtins.concatStringsSep "." (map toString [ a b c d ]);
 
       # This is more or less a literal translation of
       # https://hackage.haskell.org/package/ip/docs/src/Net.IPv6.html#encode
@@ -826,86 +827,86 @@ let
                 then ""
                 else toHexString rest;
             in
-              "${prefix}${builtins.substring current 1 digits}";
+            "${prefix}${builtins.substring current 1 digits}";
 
         in
-          if (with address.ipv6; a == 0 && b == 0 && c == 0 && d > 65535)
-          then "::${ipv4 { ipv4 = address.ipv6.d; }}"
+        if (with address.ipv6; a == 0 && b == 0 && c == 0 && d > 65535)
+        then "::${ipv4 { ipv4 = address.ipv6.d; }}"
+        else
+          if (with address.ipv6; a == 0 && b == 0 && c == 65535)
+          then "::ffff:${ipv4 { ipv4 = address.ipv6.d; }}"
           else
-            if (with address.ipv6; a == 0 && b == 0 && c == 65535)
-            then "::ffff:${ipv4 { ipv4 = address.ipv6.d; }}"
+            let
+
+              a = bit.right 16 address.ipv6.a;
+              b = bit.mask 16 address.ipv6.a;
+              c = bit.right 16 address.ipv6.b;
+              d = bit.mask 16 address.ipv6.b;
+              e = bit.right 16 address.ipv6.c;
+              f = bit.mask 16 address.ipv6.c;
+              g = bit.right 16 address.ipv6.d;
+              h = bit.mask 16 address.ipv6.d;
+
+              hextets = [ a b c d e f g h ];
+
+              # calculate the position and size of the longest sequence of
+              # zeroes within the list of hextets
+              longest =
+                let
+                  go = i: current: best:
+                    if i < builtins.length hextets
+                    then
+                      let
+                        n = builtins.elemAt hextets i;
+
+                        current' =
+                          if n == 0
+                          then
+                            if builtins.isNull current
+                            then {
+                              size = 1;
+                              position = i;
+                            }
+                            else current // {
+                              size = current.size + 1;
+                            }
+                          else null;
+
+                        best' =
+                          if n == 0
+                          then
+                            if builtins.isNull best
+                            then current'
+                            else
+                              if current'.size > best.size
+                              then current'
+                              else best
+                          else best;
+                      in
+                      go (i + 1) current' best'
+                    else best;
+                in
+                go 0 null null;
+
+              format = hextets:
+                builtins.concatStringsSep ":" (map toHexString hextets);
+            in
+            if builtins.isNull longest
+            then format hextets
             else
               let
+                sublist = i: length: xs:
+                  map
+                    (builtins.elemAt xs)
+                    (builtins.genList (x: x + i) length);
 
-                a = bit.right 16 address.ipv6.a;
-                b = bit.mask 16 address.ipv6.a;
-                c = bit.right 16 address.ipv6.b;
-                d = bit.mask 16 address.ipv6.b;
-                e = bit.right 16 address.ipv6.c;
-                f = bit.mask 16 address.ipv6.c;
-                g = bit.right 16 address.ipv6.d;
-                h = bit.mask 16 address.ipv6.d;
+                end = longest.position + longest.size;
 
-                hextets = [ a b c d e f g h ];
+                before = sublist 0 longest.position hextets;
 
-                # calculate the position and size of the longest sequence of
-                # zeroes within the list of hextets
-                longest =
-                  let
-                    go = i: current: best:
-                      if i < builtins.length hextets
-                      then
-                        let
-                          n = builtins.elemAt hextets i;
-
-                          current' =
-                            if n == 0
-                            then
-                              if builtins.isNull current
-                              then {
-                                size = 1;
-                                position = i;
-                              }
-                              else current // {
-                                size = current.size + 1;
-                              }
-                            else null;
-
-                          best' =
-                            if n == 0
-                            then
-                              if builtins.isNull best
-                              then current'
-                              else
-                                if current'.size > best.size
-                                then current'
-                                else best
-                            else best;
-                        in
-                          go (i + 1) current' best'
-                      else best;
-                  in
-                    go 0 null null;
-
-                format = hextets:
-                  builtins.concatStringsSep ":" (map toHexString hextets);
+                after = sublist end (builtins.length hextets - end) hextets;
               in
-                if builtins.isNull longest
-                then format hextets
-                else
-                  let
-                    sublist = i: length: xs:
-                      map
-                        (builtins.elemAt xs)
-                        (builtins.genList (x: x + i) length);
-
-                    end = longest.position + longest.size;
-
-                    before = sublist 0 longest.position hextets;
-
-                    after = sublist end (builtins.length hextets - end) hextets;
-                  in
-                    "${format before}::${format after}";
+              "${format before}::${format after}";
 
       ip = address:
         if address ? ipv4
@@ -929,22 +930,22 @@ let
               upper = bit.right 4 n;
               lower = bit.mask 4 n;
             in
-              "${builtins.substring upper 1 digits}${builtins.substring lower 1 digits}";
+            "${builtins.substring upper 1 digits}${builtins.substring lower 1 digits}";
         in
-          let
-            a = bit.mask 8 (bit.right 40 address.mac);
-            b = bit.mask 8 (bit.right 32 address.mac);
-            c = bit.mask 8 (bit.right 24 address.mac);
-            d = bit.mask 8 (bit.right 16 address.mac);
-            e = bit.mask 8 (bit.right 8 address.mac);
-            f = bit.mask 8 (bit.right 0 address.mac);
-          in
-            "${octet a}:${octet b}:${octet c}:${octet d}:${octet e}:${octet f}";
+        let
+          a = bit.mask 8 (bit.right 40 address.mac);
+          b = bit.mask 8 (bit.right 32 address.mac);
+          c = bit.mask 8 (bit.right 24 address.mac);
+          d = bit.mask 8 (bit.right 16 address.mac);
+          e = bit.mask 8 (bit.right 8 address.mac);
+          f = bit.mask 8 (bit.right 0 address.mac);
+        in
+        "${octet a}:${octet b}:${octet c}:${octet d}:${octet e}:${octet f}";
 
     in
-      {
-        inherit ipv4 ipv6 ip cidrv4 cidrv6 cidr mac;
-      };
+    {
+      inherit ipv4 ipv6 ip cidrv4 cidrv6 cidr mac;
+    };
 
   arithmetic = rec {
     # or :: (ip | mac | integer) -> (ip | mac | integer) -> (ip | mac | integer)
@@ -952,48 +953,48 @@ let
       let
         a = coerce b a_;
       in
-        if a ? ipv6
-        then {
-          ipv6 = {
-            a = bit.or a.ipv6.a b.ipv6.a;
-            b = bit.or a.ipv6.b b.ipv6.b;
-            c = bit.or a.ipv6.c b.ipv6.c;
-            d = bit.or a.ipv6.d b.ipv6.d;
-          };
-        }
-        else if a ? ipv4
-        then {
-          ipv4 = bit.or a.ipv4 b.ipv4;
-        }
-        else if a ? mac
-        then {
-          mac = bit.or a.mac b.mac;
-        }
-        else bit.or a b;
+      if a ? ipv6
+      then {
+        ipv6 = {
+          a = bit.or a.ipv6.a b.ipv6.a;
+          b = bit.or a.ipv6.b b.ipv6.b;
+          c = bit.or a.ipv6.c b.ipv6.c;
+          d = bit.or a.ipv6.d b.ipv6.d;
+        };
+      }
+      else if a ? ipv4
+      then {
+        ipv4 = bit.or a.ipv4 b.ipv4;
+      }
+      else if a ? mac
+      then {
+        mac = bit.or a.mac b.mac;
+      }
+      else bit.or a b;
 
     # and :: (ip | mac | integer) -> (ip | mac | integer) -> (ip | mac | integer)
     and = a_: b:
       let
         a = coerce b a_;
       in
-        if a ? ipv6
-        then {
-          ipv6 = {
-            a = bit.and a.ipv6.a b.ipv6.a;
-            b = bit.and a.ipv6.b b.ipv6.b;
-            c = bit.and a.ipv6.c b.ipv6.c;
-            d = bit.and a.ipv6.d b.ipv6.d;
-          };
-        }
-        else if a ? ipv4
-        then {
-          ipv4 = bit.and a.ipv4 b.ipv4;
-        }
-        else if a ? mac
-        then {
-          mac = bit.and a.mac b.mac;
-        }
-        else bit.and a b;
+      if a ? ipv6
+      then {
+        ipv6 = {
+          a = bit.and a.ipv6.a b.ipv6.a;
+          b = bit.and a.ipv6.b b.ipv6.b;
+          c = bit.and a.ipv6.c b.ipv6.c;
+          d = bit.and a.ipv6.d b.ipv6.d;
+        };
+      }
+      else if a ? ipv4
+      then {
+        ipv4 = bit.and a.ipv4 b.ipv4;
+      }
+      else if a ? mac
+      then {
+        mac = bit.and a.mac b.mac;
+      }
+      else bit.and a b;
 
     # not :: (ip | mac | integer) -> (ip | mac | integer)
     not = a:
@@ -1024,35 +1025,35 @@ let
           snd = bit.mask 32 a;
         };
       in
-        a_: b:
+      a_: b:
+        let
+          a = coerce b a_;
+        in
+        if a ? ipv6
+        then
           let
-            a = coerce b a_;
+            a' = split (a.ipv6.a + b.ipv6.a + b'.fst);
+            b' = split (a.ipv6.b + b.ipv6.b + c'.fst);
+            c' = split (a.ipv6.c + b.ipv6.c + d'.fst);
+            d' = split (a.ipv6.d + b.ipv6.d);
           in
-            if a ? ipv6
-            then
-              let
-                a' = split (a.ipv6.a + b.ipv6.a + b'.fst);
-                b' = split (a.ipv6.b + b.ipv6.b + c'.fst);
-                c' = split (a.ipv6.c + b.ipv6.c + d'.fst);
-                d' = split (a.ipv6.d + b.ipv6.d);
-              in
-                {
-                  ipv6 = {
-                    a = a'.snd;
-                    b = b'.snd;
-                    c = c'.snd;
-                    d = d'.snd;
-                  };
-                }
-            else if a ? ipv4
-            then {
-              ipv4 = bit.mask 32 (a.ipv4 + b.ipv4);
-            }
-            else if a ? mac
-            then {
-              mac = bit.mask 48 (a.mac + b.mac);
-            }
-            else a + b;
+          {
+            ipv6 = {
+              a = a'.snd;
+              b = b'.snd;
+              c = c'.snd;
+              d = d'.snd;
+            };
+          }
+        else if a ? ipv4
+        then {
+          ipv4 = bit.mask 32 (a.ipv4 + b.ipv4);
+        }
+        else if a ? mac
+        then {
+          mac = bit.mask 48 (a.mac + b.mac);
+        }
+        else a + b;
 
     # subtract :: (ip | mac | integer) -> (ip | mac | integer) -> (ip | mac | integer)
     subtract = a: b: add (add 1 (not (coerce b a))) b;
@@ -1064,11 +1065,11 @@ let
         result = (subtract b (toIPv6 a)).ipv6;
         max32 = bit.left 32 1 - 1;
       in
-        if result.a == 0 && result.b == 0 && bit.right 31 result.c == 0 || result.a == max32 && result.b == max32 && bit.right 31 result.c == 1
-        then bit.or (bit.left 32 result.c) result.d
-        else {
-          ipv6 = result;
-        };
+      if result.a == 0 && result.b == 0 && bit.right 31 result.c == 0 || result.a == max32 && result.b == max32 && bit.right 31 result.c == 1
+      then bit.or (bit.left 32 result.c) result.d
+      else {
+        ipv6 = result;
+      };
 
     # left :: integer -> (ip | mac | integer) -> (ip | mac | integer)
     left = i: right (-i);
@@ -1087,32 +1088,32 @@ let
         };
         ors = builtins.foldl' bit.or 0;
       in
-        i: x:
-          if x ? ipv6
-          then
-            let
-              a' = step i x.ipv6.a;
-              b' = step i x.ipv6.b;
-              c' = step i x.ipv6.c;
-              d' = step i x.ipv6.d;
-            in
-              {
-                ipv6 = {
-                  a = ors [ a'._4 b'._3 c'._2 d'._1 ];
-                  b = ors [ a'._5 b'._4 c'._3 d'._2 ];
-                  c = ors [ a'._6 b'._5 c'._4 d'._3 ];
-                  d = ors [ a'._7 b'._6 c'._5 d'._4 ];
-                };
-              }
-          else if x ? ipv4
-          then {
-            ipv4 = bit.mask 32 (bit.right i x.ipv4);
+      i: x:
+        if x ? ipv6
+        then
+          let
+            a' = step i x.ipv6.a;
+            b' = step i x.ipv6.b;
+            c' = step i x.ipv6.c;
+            d' = step i x.ipv6.d;
+          in
+          {
+            ipv6 = {
+              a = ors [ a'._4 b'._3 c'._2 d'._1 ];
+              b = ors [ a'._5 b'._4 c'._3 d'._2 ];
+              c = ors [ a'._6 b'._5 c'._4 d'._3 ];
+              d = ors [ a'._7 b'._6 c'._5 d'._4 ];
+            };
           }
-          else if x ? mac
-          then {
-            mac = bit.mask 48 (bit.right i x.mac);
-          }
-          else bit.right i x;
+        else if x ? ipv4
+        then {
+          ipv4 = bit.mask 32 (bit.right i x.ipv4);
+        }
+        else if x ? mac
+        then {
+          mac = bit.mask 48 (bit.right i x.mac);
+        }
+        else bit.right i x;
 
     # shadow :: integer -> (ip | mac | integer) -> (ip | mac | integer)
     shadow = n: a: and (right n (left n (coerce a (-1)))) a;
@@ -1184,13 +1185,14 @@ let
         }
       else
         if value ? ipv6
-        then builtins.foldl' bit.or 0
-          [
-            (bit.left 96 value.ipv6.a)
-            (bit.left 64 value.ipv6.b)
-            (bit.left 32 value.ipv6.c)
-            value.ipv6.d
-          ]
+        then
+          builtins.foldl' bit.or 0
+            [
+              (bit.left 96 value.ipv6.a)
+              (bit.left 64 value.ipv6.b)
+              (bit.left 32 value.ipv6.c)
+              value.ipv6.d
+            ]
         else if value ? ipv4
         then value.ipv4
         else if value ? mac
@@ -1227,19 +1229,19 @@ let
         let
           size' = size cidr;
         in
-          {
-            base = arithmetic.left size' (arithmetic.add delta (arithmetic.right size' cidr.base));
-            inherit (cidr) length;
-          };
+        {
+          base = arithmetic.left size' (arithmetic.add delta (arithmetic.right size' cidr.base));
+          inherit (cidr) length;
+        };
 
       # capacity :: cidr -> integer
       capacity = cidr:
         let
           size' = size cidr;
         in
-          if size' > 62
-          then 9223372036854775807 # maxBound to prevent overflow
-          else bit.left size' 1;
+        if size' > 62
+        then 9223372036854775807 # maxBound to prevent overflow
+        else bit.left size' 1;
 
       # child :: cidr -> cidr -> bool
       child = subcidr: cidr:
@@ -1253,7 +1255,7 @@ let
         let
           index' = arithmetic.coerce cidr.base index;
         in
-          arithmetic.or (arithmetic.shadow cidr.length index') cidr.base;
+        arithmetic.or (arithmetic.shadow cidr.length index') cidr.base;
 
       # length :: cidr -> integer
       length = cidr: cidr.length;
@@ -1271,17 +1273,17 @@ let
           index' = arithmetic.coerce cidr.base index;
           size = (if cidr.base ? ipv6 then 128 else 32) - length';
         in
-          make length' (host (arithmetic.left size index') cidr);
+        make length' (host (arithmetic.left size index') cidr);
 
       # make :: integer -> ip -> cidr
       make = length: base:
         let
           length' = math.clamp 0 (if base ? ipv6 then 128 else 32) length;
         in
-          {
-            base = arithmetic.coshadow length' base;
-            length = length';
-          };
+        {
+          base = arithmetic.coshadow length' base;
+          length = length';
+        };
     };
   };
 
@@ -1295,30 +1297,30 @@ let
         let
           error = fail description function argument;
         in
-          if !builtins.isString input
+        if !builtins.isString input
+        then error
+        else
+          let
+            result = parser input;
+          in
+          if builtins.isNull result
           then error
-          else
-            let
-              result = parser input;
-            in
-              if builtins.isNull result
-              then error
-              else result;
+          else result;
 
     in
-      {
-        int = function: argument: input:
-          if builtins.isInt input
-          then input
-          else fail "an integer" function argument;
-        ip = meta parsers.ip "an IPv4 or IPv6 address";
-        cidr = meta parsers.cidr "an IPv4 or IPv6 address range in CIDR notation";
-        mac = meta parsers.mac "a MAC address";
-        numeric = function: argument: input:
-          if builtins.isInt input
-          then input
-          else meta parsers.numeric "an integer or IPv4, IPv6 or MAC address" function argument input;
-      };
+    {
+      int = function: argument: input:
+        if builtins.isInt input
+        then input
+        else fail "an integer" function argument;
+      ip = meta parsers.ip "an IPv4 or IPv6 address";
+      cidr = meta parsers.cidr "an IPv4 or IPv6 address range in CIDR notation";
+      mac = meta parsers.mac "a MAC address";
+      numeric = function: argument: input:
+        if builtins.isInt input
+        then input
+        else meta parsers.numeric "an integer or IPv4, IPv6 or MAC address" function argument input;
+    };
 
 in
 
