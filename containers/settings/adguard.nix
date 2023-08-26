@@ -14,12 +14,7 @@ in
 
   dns = {
     port = 53;
-    rewrites = [
-
-      { domain = "perforce.lan.theobjects.com"; answer = "192.168.0.37"; }
-      { domain = "swarm.lan.theobjects.com"; answer = "192.168.0.37"; }
-      { domain = "docs.lan.theobjects.com"; answer = "192.168.0.37"; }
-    ] ++ unraid_home_dns ++ office_dns;
+    rewrites = (import ../../common/dns).adguard_dns_entries;
 
 
   };

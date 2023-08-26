@@ -9,18 +9,8 @@
 { inputs, config, pkgs, ... }:
 let
   domain = "hs.eyen.ca";
-  docker_host = "100.64.0.2";
   unstable = inputs.nixpkgs-unstable.legacyPackages.x86_64-linux;
-  # This is a function that takes in 2 parameters, name and ip
-  # to generate the dns entries for headscale
-  unraid_apps = import ../common/dns/unraid_apps.nix;
-  domain_name = "eyen.ca";
-  unraid_ts_ip = "100.64.0.2";
-  unraid_ts_dns = map (app: { name = "${app}.${domain_name}"; type = "A"; value = unraid_ts_ip; }) unraid_apps;
-  office_dns = import ../common/dns/office_apps.nix;
-  office_ts_dns = map (app: { name = "${app.domain}"; type = "A"; value = "${app.answer}"; }) office_dns;
-
-
+  tailscale_dns_entries = (import ../common/dns).tailscale_dns_entries;
 in
 {
   environment.systemPackages = [
@@ -51,14 +41,8 @@ in
         nameservers = [ "10.64.0.9" "1.1.1.1" ];
         baseDomain = "ts.lan";
         override_local_dns = true;
-        extra_records = [
-          {
-            name = "headscale.${domain_name}";
-            value = "100.64.0.1";
-            type = "A";
-          }
-
-        ] ++ unraid_ts_dns ++ office_ts_dns;
+        extra_records = tailscale_dns_entries;
+        
         # Search domains to inject.
         domains = [
           "eyen.ca"
