@@ -38,7 +38,13 @@ in {
           prefixLength = cfg.bridge.prefixLength;
         }
       ];
+      firewall = {
+        # ports needed for dns
+        allowedTCPPorts = [53];
+        allowedUDPPorts = [53];
+      };
     };
+
     # create the nginx virtual host and security certificates
     security.acme.certs.${cfg.nginx.domain.name} = {};
     services.nginx.virtualHosts.${cfg.nginx.domain.name} = {
@@ -50,12 +56,26 @@ in {
     };
 
     # create the adguard container
+
     containers.adguard = {
       autoStart = true;
       extraFlags = ["-U"]; # for unprivileged
       ephemeral = true; # don't keep track of files modified
       privateNetwork = true;
       hostBridge = cfg.bridge.name;
+      # forward ports for the dns
+      forwardPorts = [
+        {
+          containerPort = 53;
+          hostPort = 53;
+          protocol = "tcp";
+        }
+        {
+          containerPort = 53;
+          hostPort = 53;
+          protocol = "udp";
+        }
+      ];
       config = {
         system.stateVersion = "23.05";
         networking = {
