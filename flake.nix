@@ -27,7 +27,7 @@
       system = "x86_64-linux";
       # Unmodified nixpkgs
       pkgs = import nixpkgs { inherit system; };
-      # unstable = import nixpkgs-unstable { inherit system; };
+      unstable = import nixpkgs-unstable { inherit system; };
       sops = import sops-nix { inherit system; };
       sshKeys = import ./common/ssh-keys.nix;
 
@@ -79,7 +79,7 @@
           ];
         };
         vscode-infrastructure = nixpkgs.lib.nixosSystem {
-          specialArgs = { inherit inputs; };
+          specialArgs = { inherit inputs; inherit unstable; };
           modules = [
             sops-nix.nixosModules.sops
             ./systems/vscode-server-configuration.nix
@@ -98,12 +98,35 @@
       # Available through 'home-manager --flake .#your-username@your-hostname'
       homeConfigurations = {
         # FIXME replace with your username@hostname
-        "eric@mini-nix" = home-manager.lib.homeManagerConfiguration {
+        "eric" = home-manager.lib.homeManagerConfiguration {
           pkgs = nixpkgs.legacyPackages.x86_64-linux; # Home-manager requires 'pkgs' instance
-          extraSpecialArgs = { inherit inputs; }; # Pass flake inputs to our config
+          extraSpecialArgs = { inherit inputs; inherit unstable; }; # Pass flake inputs to our config
           # > Our main home-manager configuration file <
-          modules = [ ./home-manager/home.nix ];
+          modules = [
+            ./home-manager
+            {
+              home = {
+                username = "eric";
+                homeDirectory = "/home/eric";
+              };
+            }
+          ];
         };
+        "eric-desktop" = home-manager.lib.homeManagerConfiguration {
+          pkgs = nixpkgs.legacyPackages.x86_64-linux; # Home-manager requires 'pkgs' instance
+          extraSpecialArgs = { inherit inputs; inherit unstable; }; # Pass flake inputs to our config
+          # > Our main home-manager configuration file <
+          modules = [
+            ./home-manager
+            {
+              home = {
+                username = "eric";
+                homeDirectory = "/home/eric";
+              };
+            }
+          ];
+        };
+
       };
       # deploy-rs section
       deploy.nodes.mini-nix = {
@@ -126,13 +149,20 @@
         };
       };
 
-      deploy.nodes.vscode-infrastructure= {
+      deploy.nodes.vscode-infrastructure = {
         hostname = "192.168.88.32";
         profiles.system = {
           sshUser = "root";
           hostname = "vscode-server-unraid";
           user = "root";
           path = deployPkgs.deploy-rs.lib.activate.nixos self.nixosConfigurations.vscode-infrastructure;
+        };
+        profiles.eric = {
+          hostname = "vscode-server-unraid";
+          user = "eric";
+          profilePath = "/nix/var/nix/profiles/per-user/eric/home-manager";
+          path = deploy-rs.lib.${system}.activate.custom self.homeConfigurations.eric.activationPackage "$PROFILE/activate";
+
         };
       };
 

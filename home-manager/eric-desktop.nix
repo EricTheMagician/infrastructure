@@ -1,0 +1,94 @@
+{ inputs, unstable, config, pkgs, lib, ... }:
+let
+  # this will allow the unstable packages to use the same config as on the stable
+  #unstable = import <nixos-unstable> { config = config.nixpkgs.config; };
+in
+{
+  home.packages = with unstable; [
+    # # Adds the 'hello' command to your environment. It prints a friendly
+    # # "Hello, world!" when run.
+    # pkgs.hello
+
+    # # It is sometimes useful to fine-tune packages, for example, by applying
+    # # overrides. You can do that directly here, just don't forget the
+    # # parentheses. Maybe you want to install Nerd Fonts with a limited number of
+    # # fonts?
+    # (pkgs.nerdfonts.override { fonts = [ "FantasqueSansMono" ]; })
+
+    # # You can also create simple shell scripts directly inside your
+    # # configuration. For example, this adds a command 'my-hello' to your
+    # # environment:
+    # (pkgs.writeShellScriptBin "my-hello" ''
+    #   echo "Hello, ${config.home.username}!"
+    # '')
+    vivaldi
+    vivaldi-ffmpeg-codecs
+    # unstable.vscode.fhs
+    # vscode
+    # (
+    #   vscode-with-extensions.override 
+    #   {
+    #     vscodeExtensions = with unstable.vscode-extensions; 
+    #     [
+
+    #       # generatl development related packages
+    #       ms-vscode-remote.remote-ssh
+    #       eamodio.gitlens
+    #       # ms-vscode.powershell
+    #       # ms-azuretools.vscode-docker
+
+    #       # python related packages
+    #       ms-python.python
+    #       ms-python.vscode-pylance
+
+    #       # C++ related packages
+    #       ms-vscode.cpptools
+    #       ms-vscode.cmake-tools
+    #       xaver.clang-format
+
+    #       # nix related packages
+    #       bbenoist.nix
+    #       arrterian.nix-env-selector
+    #       jnoortheen.nix-ide
+    #     ] ++ pkgs.vscode-utils.extensionsFromVscodeMarketplace 
+    #     [
+    #       {
+    #         publisher = "mjcrouch";
+    #         name = "perforce";
+    #         version = "4.15.7";
+    #         sha256 = "sha256-BXBfxg2GrXvohvu2b02JqtxbGxPxSanNId6DQ39akHI=";
+    #       }
+    #       {
+    #         publisher = "ms-python";
+    #         name = "black-formatter";
+    #         version ="2023.5.12151008";
+    #         sha256 = "sha256-YBcyyE9Z2eL914J8I97WQW8a8A4Ue6C0pCUjWRRPcr8=";
+    #       }
+    #       {
+    #         publisher = "Codeium";
+    #         name = "codeium-enterprise-updater";
+    #         version = "1.0.9";
+    #         sha256 = "sha256-WyDVhc9fjQ+Qgw7F04ESxicRK53vaVxgFtGRHQGpgeI=";
+    #       }
+    #     ];
+    #   }
+    # )
+
+    obsidian
+    nextcloud-client
+  ];
+
+  services.syncthing = {
+    enable = true;
+    tray.enable = false;
+  };
+
+  programs = {
+    # enable ripgrep
+    vscode = {
+      enable = true;
+      package = pkgs.vscode.fhs;
+    };
+  };
+
+}
