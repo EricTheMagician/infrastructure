@@ -23,6 +23,9 @@
 
     rnix-lsp.url = "github:nix-community/rnix-lsp";
     rnix-lsp.inputs.nixpkgs.follows = "nixpkgs";
+
+    # for multi architecture systems
+    flake-utils.url = "github:numtide/flake-utils";
   };
 
   outputs = {
@@ -191,5 +194,8 @@
 
     # This is highly advised, and will prevent many possible mistakes
     checks = builtins.mapAttrs (system: deployLib: deployLib.deployChecks self.deploy) deploy-rs.lib;
+    devShell.x86_64-linux = pkgs.mkShell {
+      buildInputs = [unstable.deploy-rs unstable.rnix-lsp unstable.sops unstable.ssh-to-age]; # [deploy-rs rnix-lsp sops ssh-to-age];
+    };
   };
 }
