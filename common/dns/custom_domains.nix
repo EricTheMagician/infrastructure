@@ -30,5 +30,15 @@ in
     home = "192.168.88.19";
     ts = "100.64.0.2";
   }
+  {
+    domain = "vscode-server-unraid.eyen.ca";
+    home = "192.168.88.32";
+    ts = "100.64.0.11";
+  }  
+  {
+    domain = "adguard-unraid.eyen.ca";
+    home = "192.168.88.28";
+    ts = "100.64.0.9";
+  }
 
 ] ++ (map (app: { domain = "${app}.eyen.ca"; home = unraid.home; ts = unraid.ts; }) unraid_apps) 
