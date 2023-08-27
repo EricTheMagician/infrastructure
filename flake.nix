@@ -69,10 +69,12 @@
             sops-nix.nixosModules.sops
             ./systems/headscale-hardware-configuration.nix
             ./systems/headscale-configuration.nix
+            {
+              _module.args.sshKeys = sshKeys;
+            }
             ./modules/tailscale.nix
             {
               _module.args.tailscale_auth_path = ./secrets/tailscale/headscale.yaml;
-              _module.args.sshKeys = sshKeys;
             }
           ];
         };
@@ -97,6 +99,16 @@
           hostname = "mini-nix";
           user = "root";
           path = deployPkgs.deploy-rs.lib.activate.nixos self.nixosConfigurations.mini-nix;
+        };
+      };
+
+      deploy.nodes.headscale = {
+        hostname = "100.64.0.1";
+        profiles.system = {
+          sshUser = "root";
+          hostname = "headscale";
+          user = "root";
+          path = deployPkgs.deploy-rs.lib.activate.nixos self.nixosConfigurations.headscale;
         };
       };
 

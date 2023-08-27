@@ -42,7 +42,7 @@ in
         baseDomain = "ts.lan";
         override_local_dns = true;
         extra_records = tailscale_dns_entries;
-        
+
         # Search domains to inject.
         domains = [
           "eyen.ca"

@@ -23,7 +23,7 @@ in
   }
   {
     domain = "headscale.eyen.ca";
-    ts = "headscale.ts";
+    ts = headscale.ts;
   }
   {
     domain = "unraid.eyen.ca";
