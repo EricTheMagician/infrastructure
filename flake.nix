@@ -78,6 +78,20 @@
             }
           ];
         };
+        vscode-infrastructure = nixpkgs.lib.nixosSystem {
+          specialArgs = { inherit inputs; };
+          modules = [
+            sops-nix.nixosModules.sops
+            ./systems/vscode-server-configuration.nix
+            {
+              _module.args.sshKeys = sshKeys;
+            }
+            ./modules/tailscale.nix
+            {
+              _module.args.tailscale_auth_path = ./secrets/tailscale/infrastructure.yaml;
+            }
+          ];
+        };
       };
 
       # Standalone home-manager configuration entrypoint
@@ -111,6 +125,17 @@
           path = deployPkgs.deploy-rs.lib.activate.nixos self.nixosConfigurations.headscale;
         };
       };
+
+      deploy.nodes.vscode-infrastructure= {
+        hostname = "192.168.88.32";
+        profiles.system = {
+          sshUser = "root";
+          hostname = "vscode-server-unraid";
+          user = "root";
+          path = deployPkgs.deploy-rs.lib.activate.nixos self.nixosConfigurations.vscode-infrastructure;
+        };
+      };
+
 
       # This is highly advised, and will prevent many possible mistakes
       checks = builtins.mapAttrs (system: deployLib: deployLib.deployChecks self.deploy) deploy-rs.lib;
