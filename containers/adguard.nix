@@ -1,24 +1,27 @@
-{ config, pkgs, lib, ... }:
-let
-  net = (import ../common/net.nix { inherit lib; }).lib.net;
+{
+  config,
+  pkgs,
+  lib,
+  ...
+}: let
+  net = (import ../common/net.nix {inherit lib;}).lib.net;
   inherit (lib) mkOption mkIf types;
   adguard_settings = import ./settings/adguard.nix;
   cfg = config.container.adguard;
   # this is the ip we need to expose
   containerIp = net.ip.add 1 cfg.bridge.address;
-in
-{
+in {
   imports = [
     ../common/net.nix
     ../modules/nginx.nix
   ];
   options.container.adguard = {
     bridge = {
-      name = mkOption { type = types.str; };
+      name = mkOption {type = types.str;};
       address = mkOption {
         type = types.str;
       };
-      prefixLength = mkOption { type = types.int; };
+      prefixLength = mkOption {type = types.int;};
     };
     nginx.domain.name = mkOption {
       type = types.str;
@@ -26,10 +29,9 @@ in
   };
 
   config = {
-
     # create the network bridge from the host to the container
     networking = {
-      bridges.${cfg.bridge.name}.interfaces = [ ];
+      bridges.${cfg.bridge.name}.interfaces = [];
       interfaces.${cfg.bridge.name}.ipv4.addresses = [
         {
           address = cfg.bridge.address;
@@ -38,7 +40,7 @@ in
       ];
     };
     # create the nginx virtual host and security certificates
-    security.acme.certs.${cfg.nginx.domain.name} = { };
+    security.acme.certs.${cfg.nginx.domain.name} = {};
     services.nginx.virtualHosts.${cfg.nginx.domain.name} = {
       useACMEHost = cfg.nginx.domain.name;
       forceSSL = true;
@@ -47,30 +49,31 @@ in
       };
     };
 
-
     # create the adguard container
     containers.adguard = {
       autoStart = true;
-      extraFlags = [ "-U" ]; # for unprivileged
+      extraFlags = ["-U"]; # for unprivileged
       ephemeral = true; # don't keep track of files modified
       privateNetwork = true;
       hostBridge = cfg.bridge.name;
       config = {
         system.stateVersion = "23.05";
         networking = {
-          interfaces.eth0.ipv4.addresses = [{
-            # Configure a prefix address.
-            address = containerIp;
-            prefixLength = cfg.bridge.prefixLength;
-          }];
+          interfaces.eth0.ipv4.addresses = [
+            {
+              # Configure a prefix address.
+              address = containerIp;
+              prefixLength = cfg.bridge.prefixLength;
+            }
+          ];
           defaultGateway.address = cfg.bridge.address;
           defaultGateway.interface = "eth0";
           defaultGateway.metric = 0;
         };
         networking.firewall = {
           # ports needed for dns
-          allowedTCPPorts = [ 53 ];
-          allowedUDPPorts = [ 53 ];
+          allowedTCPPorts = [53];
+          allowedUDPPorts = [53];
         };
 
         services.adguardhome = {
@@ -78,13 +81,10 @@ in
           openFirewall = true;
           settings = adguard_settings;
         };
-
       };
     };
   };
-
 }
-
 # { config, pkgs, lib, ... }:
 # let
 #   hostIp = "10.100.0.1";
@@ -92,7 +92,6 @@ in
 #   prefixLength = 24;
 #   hostIp6 = "fc00::1";
 #   containerIp6 = "fc00::2/7";
-
 #   # additional rules for dns on adguard. these are rules for unraid apps and ors work apps
 #   adguard_hostname = config.networking.hostName + "-adguard.eyen.ca";
 #   adguard_settings = import ./settings/adguard.nix;
@@ -128,7 +127,6 @@ in
 #   #   };
 #   # };
 #   security.acme.certs.${adguard_hostname} = { };
-
 #   containers.adguard = {
 #     autoStart =  true;
 #     # extraFlags = [ "-U" ]; # for unprivileged
@@ -181,7 +179,6 @@ in
 #           # defaultGateway.metric = 0;
 #           # nameservers = ["1.1.1.1"];
 #       };
-
 #       # services.adguardhome = {
 #       #   enable = true;
 #       #   openFirewall = true;
@@ -189,5 +186,5 @@ in
 #       # };
 #     };
 #   };
-
 # }
+

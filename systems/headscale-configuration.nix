@@ -1,7 +1,10 @@
-{ config, pkgs, sshKeys, ... }:
-let
-in
 {
+  config,
+  pkgs,
+  sshKeys,
+  ...
+}: let
+in {
   imports = [
     ./headscale-hardware-configuration.nix
     ../modules/headscale.nix

@@ -1,7 +1,10 @@
-{ config, pkgs, sops, ... }:
-let
-in
 {
+  config,
+  pkgs,
+  sops,
+  ...
+}: let
+in {
   imports = [
     ./sops.nix
   ];
@@ -12,11 +15,11 @@ in
   };
   # ensure that default acme group is created and nginx is part of me
   # the group has permission to read the cloudflare private key
-  users.groups.${config.security.acme.defaults.group} = { };
-  users.users.nginx.extraGroups = [ config.security.acme.defaults.group ];
+  users.groups.${config.security.acme.defaults.group} = {};
+  users.users.nginx.extraGroups = [config.security.acme.defaults.group];
   networking.firewall = {
     # ports needed for dns
-    allowedTCPPorts = [ 80 443 ];
+    allowedTCPPorts = [80 443];
   };
 
   security.acme = {
@@ -26,7 +29,6 @@ in
       dnsProvider = "cloudflare";
       credentialsFile = "/run/secrets/cloudflare_api_dns";
     };
-
   };
   sops = {
     # This is the actual specification of the secrets.
@@ -37,6 +39,3 @@ in
     };
   };
 }
-
-
-

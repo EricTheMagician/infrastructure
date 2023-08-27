@@ -1,9 +1,14 @@
-{ inputs, unstable, config, pkgs, lib, ... }:
-let
+{
+  inputs,
+  unstable,
+  config,
+  pkgs,
+  lib,
+  ...
+}: let
   # this will allow the unstable packages to use the same config as on the stable
   #unstable = import <nixos-unstable> { config = config.nixpkgs.config; };
-in
-{
+in {
   home.packages = with unstable; [
     # # Adds the 'hello' command to your environment. It prints a friendly
     # # "Hello, world!" when run.
@@ -26,9 +31,9 @@ in
     # unstable.vscode.fhs
     # vscode
     # (
-    #   vscode-with-extensions.override 
+    #   vscode-with-extensions.override
     #   {
-    #     vscodeExtensions = with unstable.vscode-extensions; 
+    #     vscodeExtensions = with unstable.vscode-extensions;
     #     [
 
     #       # generatl development related packages
@@ -50,7 +55,7 @@ in
     #       bbenoist.nix
     #       arrterian.nix-env-selector
     #       jnoortheen.nix-ide
-    #     ] ++ pkgs.vscode-utils.extensionsFromVscodeMarketplace 
+    #     ] ++ pkgs.vscode-utils.extensionsFromVscodeMarketplace
     #     [
     #       {
     #         publisher = "mjcrouch";
@@ -90,5 +95,4 @@ in
       package = pkgs.vscode.fhs;
     };
   };
-
 }

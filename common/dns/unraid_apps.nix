@@ -1,7 +1,7 @@
 # these are the apps that are running on my unraid machine.
 [
   "artifactory" # personal artifactory
-  "bbpb" # Back Blaze Personal Backup 
+  "bbpb" # Back Blaze Personal Backup
   "budget" # Actual Budget
   "cloud-office" # Nextcloud Only Office Plugin
   "cloud" # Nextcloud
@@ -27,4 +27,3 @@
   "unraid"
   "vw" # vault warden
 ]
-      

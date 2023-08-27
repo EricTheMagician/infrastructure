@@ -1,22 +1,26 @@
 let
   unraid_apps = import ../../common/dns/unraid_apps.nix;
   domain_name = "eyen.ca";
-  unraid_home_dns = map (app: { domain = "${app}.${domain_name}"; answer = "192.168.88.19"; }) unraid_apps;
+  unraid_home_dns =
+    map (app: {
+      domain = "${app}.${domain_name}";
+      answer = "192.168.88.19";
+    })
+    unraid_apps;
   office_dns = import ../../common/dns/office_apps.nix;
-in
-{
+in {
   bind_port = 3000;
   bind_host = "0.0.0.0";
-  users = [{
-    name = "eric_adguard";
-    password = "$2y$05$cEOh52jIMsMy2QCyCjgUSO2L3NHtjRXCfXiAyB7ioF1xkd.u6l1Tq";
-  }];
+  users = [
+    {
+      name = "eric_adguard";
+      password = "$2y$05$cEOh52jIMsMy2QCyCjgUSO2L3NHtjRXCfXiAyB7ioF1xkd.u6l1Tq";
+    }
+  ];
 
   dns = {
     port = 53;
     rewrites = (import ../../common/dns).adguard_dns_entries;
-
-
   };
   user_rules = [
     # custom rules to filter out additional ads

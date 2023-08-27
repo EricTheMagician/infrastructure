@@ -1,22 +1,24 @@
 # Edit this configuration file to define what should be installed on
 # your system.  Help is available in the configuration.nix(5) man page
 # and in the NixOS manual (accessible by running ‘nixos-help’).
-
-{ inputs, config, pkgs, lib, sshKeys, ... }:
-let
-in
 {
+  inputs,
+  config,
+  pkgs,
+  lib,
+  sshKeys,
+  ...
+}: let
+in {
   # enable nix flakes
-  nix.settings.experimental-features = [ "nix-command" "flakes" ];
+  nix.settings.experimental-features = ["nix-command" "flakes"];
 
-  imports =
-    [
-      # Include the results of the hardware scan.
-      ./vscode-server-hardware-configuration.nix
-      # for vscode server
-      # (fetchTarball "https://github.com/msteen/nixos-vscode-server/tarball/master") 
-
-    ];
+  imports = [
+    # Include the results of the hardware scan.
+    ./vscode-server-hardware-configuration.nix
+    # for vscode server
+    # (fetchTarball "https://github.com/msteen/nixos-vscode-server/tarball/master")
+  ];
 
   # Use the systemd-boot EFI boot loader.
   boot.loader.systemd-boot.enable = true;
@@ -45,9 +47,6 @@ in
   # Enable the X11 windowing system.
   # services.xserver.enable = true;
 
-
-
-
   # Configure keymap in X11
   # services.xserver.layout = "us";
   # services.xserver.xkbOptions = {
@@ -68,7 +67,7 @@ in
   # Define a user account. Don't forget to set a password with ‘passwd’.
   users.users.eric = {
     isNormalUser = true;
-    extraGroups = [ "wheel" ]; # Enable ‘sudo’ for the user.
+    extraGroups = ["wheel"]; # Enable ‘sudo’ for the user.
     #   packages = with pkgs; [
     #     firefox
     #     thunderbird
@@ -78,6 +77,7 @@ in
   # $ nix search wget
   environment.systemPackages = with pkgs; [
     deploy-rs
+    sops
     vim # Do not forget to add an editor to edit configuration.nix! The Nano editor is also installed by default.
     curl
     byobu
@@ -131,5 +131,4 @@ in
 
   # Enable qemu agent
   services.qemuGuest.enable = true;
-
 }

@@ -1,8 +1,12 @@
-{ inputs, unstable, config, pkgs, lib, ... }:
-let
-in
 {
-
+  inputs,
+  unstable,
+  config,
+  pkgs,
+  lib,
+  ...
+}: let
+in {
   # This value determines the Home Manager release that your configuration is
   # compatible with. This helps avoid breakage when a new Home Manager release
   # introduces backwards incompatible changes.
@@ -31,6 +35,7 @@ in
     # (pkgs.writeShellScriptBin "my-hello" ''
     #   echo "Hello, ${config.home.username}!"
     # '')
+    inputs.rnix-lsp.packages.${pkgs.stdenv.hostPlatform.system}.rnix-lsp
     rclone
     # viber
     btop
@@ -122,7 +127,17 @@ in
     viAlias = true;
     vimAlias = true;
     defaultEditor = true;
-    coc = { enable = true; };
+    coc = {
+      enable = true;
+      settings = {
+        languageserver = {
+          nix = {
+            command = "rnix-lsp";
+            filetypes = ["nix"];
+          };
+        };
+      };
+    };
     extraConfig = ''
       " set the maplearder to the spacebar
       " vim.g.mapleader = "<Space>"
@@ -153,6 +168,20 @@ in
       " <C-g>u breaks current undo, please make your own choice
       inoremap <silent><expr> <CR> coc#pum#visible() ? coc#pum#confirm()
                                     \: "\<C-g>u\<CR>\<c-r>=coc#on_enter()\<CR>"
+
+    '';
+    extraLuaConfig = ''
+          vim.o.foldcolumn = '1' -- '0' is not bad
+      vim.o.foldlevel = 99 -- Using ufo provider need a large value, feel free to decrease the value
+      vim.o.foldlevelstart = 99
+      vim.o.foldenable = true
+
+      -- Using ufo provider need remap `zR` and `zM`. If Neovim is 0.6.1, remap yourself
+      vim.keymap.set('n', 'zR', require('ufo').openAllFolds)
+      vim.keymap.set('n', 'zM', require('ufo').closeAllFolds)
+
+      -- Option 1: coc.nvim as LSP client
+      require('ufo').setup()
     '';
 
     plugins = with pkgs.vimPlugins; [
@@ -175,26 +204,25 @@ in
   #
   #  export CONDA_EXE=$MAMBA_ROOT_PREFIX/bin/conda
   #  # This uses the type -q command to check if micromamba is in the PATH. If it is, it will run the eval command to set up the micromamba shell hook for fish. The -s fish part tells it to generate code for the fish shell.
-  #  eval "$(micromamba shell hook -s fish)" 
-  #  alias ca "python --version" 
+  #  eval "$(micromamba shell hook -s fish)"
+  #  alias ca "python --version"
   #end
   #'';
 
   # Home Manager is pretty good at managing dotfiles. The primary way to manage
   # plain files is through 'home.file'.
-  home.file =
-    {
-      # # Building this configuration will create a copy of 'dotfiles/screenrc' in
-      # # the Nix store. Activating the configuration will then make '~/.screenrc' a
-      # # symlink to the Nix store copy.
-      # ".screenrc".source = dotfiles/screenrc;
+  home.file = {
+    # # Building this configuration will create a copy of 'dotfiles/screenrc' in
+    # # the Nix store. Activating the configuration will then make '~/.screenrc' a
+    # # symlink to the Nix store copy.
+    # ".screenrc".source = dotfiles/screenrc;
 
-      # # You can also set the file content immediately.
-      # ".gradle/gradle.properties".text = ''
-      #   org.gradle.console=verbose
-      #   org.gradle.daemon.idletimeout=3600000
-      # '';
-    };
+    # # You can also set the file content immediately.
+    # ".gradle/gradle.properties".text = ''
+    #   org.gradle.console=verbose
+    #   org.gradle.daemon.idletimeout=3600000
+    # '';
+  };
   # You can also manage environment variables but you will have to manually
   # source
   #
@@ -215,7 +243,7 @@ in
     enable = true;
     userName = "Eric Yen";
     userEmail = "eric@ericyen.com";
-    aliases = { prettylog = "..."; };
+    aliases = {prettylog = "...";};
     delta = {
       enable = true;
       options = {
@@ -225,11 +253,11 @@ in
       };
     };
     extraConfig = {
-      core = { editor = "nvim"; };
-      color = { ui = true; };
-      push = { default = "simple"; };
-      pull = { ff = "only"; };
-      init = { defaultBranch = "main"; };
+      core = {editor = "nvim";};
+      color = {ui = true;};
+      push = {default = "simple";};
+      pull = {ff = "only";};
+      init = {defaultBranch = "main";};
     };
     ignores = [
       ".DS_Store"
@@ -240,5 +268,4 @@ in
       "build/"
     ];
   };
-
 }
