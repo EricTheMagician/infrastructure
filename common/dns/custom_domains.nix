@@ -34,7 +34,7 @@ in
     domain = "vscode-server-unraid.eyen.ca";
     home = "192.168.88.32";
     ts = "100.64.0.11";
-  }  
+  }
   {
     domain = "adguard-unraid.eyen.ca";
     home = "192.168.88.28";
