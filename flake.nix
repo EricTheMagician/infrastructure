@@ -47,6 +47,7 @@
       # Available through 'nixos-rebuild --flake .#your-hostname'
       nixosConfigurations = {
         mini-nix = nixpkgs.lib.nixosSystem {
+          inherit system;
           specialArgs = { inherit inputs; }; # Pass flake inputs to our config
           # > Our main nixos configuration file <
           modules = [
