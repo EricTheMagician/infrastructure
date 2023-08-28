@@ -40,8 +40,14 @@
   } @ inputs: let
     system = "x86_64-linux";
     # Unmodified nixpkgs
-    pkgs = import nixpkgs {inherit system;};
-    unstable = import nixpkgs-unstable {inherit system;};
+    pkgs = import nixpkgs {
+      inherit system;
+      config.allowUnfree = true;
+    };
+    unstable = import nixpkgs-unstable {
+      inherit system;
+      config.allowUnfree = true;
+    };
     sops = import sops-nix {inherit system;};
     sshKeys = import ./common/ssh-keys.nix;
 
@@ -64,6 +70,26 @@
     # NixOS configuration entrypoint
     # Available through 'nixos-rebuild --flake .#your-hostname'
     nixosConfigurations = {
+      nixos-workstation = nixpkgs.lib.nixosSystem {
+        inherit system;
+        specialArgs = {
+          inherit inputs;
+          inherit unstable;
+        }; # Pass flake inputs to our config
+        # > Our main nixos configuration file <
+        modules = [
+          disko.nixosModules.disko
+          sops-nix.nixosModules.sops
+          ./systems/nixos-workstation-configuration.nix
+          {
+            _module.args.sshKeys = sshKeys;
+          }
+          #          ./modules/tailscale.nix
+          #{
+          #_module.args.tailscale_auth_path = ./secrets/tailscale/eric.yaml;
+          #         }
+        ];
+      };
       mini-nix = nixpkgs.lib.nixosSystem {
         inherit system;
         specialArgs = {inherit inputs;}; # Pass flake inputs to our config
@@ -202,16 +228,28 @@
       };
     };
 
+    deploy.nodes.nixos-workstation = {
+      hostname = "nixos-workstation";
+      fastConnection = true;
+      profiles.system = {
+        user = "root";
+        path = deployPkgs.deploy-rs.lib.activate.nixos self.nixosConfigurations.nixos-workstation;
+      };
+      profiles.eric = {
+        user = "eric";
+        profilePath = "/nix/var/nix/profiles/per-user/eric/home-manager";
+        path = deploy-rs.lib.${system}.activate.custom self.homeConfigurations.eric-desktop.activationPackage "$PROFILE/activate";
+      };
+    };
+
     deploy.nodes.vscode-infrastructure = {
-      hostname = "192.168.88.32";
+      hostname = "vscode-server-unraid";
       profiles.system = {
         sshUser = "root";
-        hostname = "vscode-server-unraid";
         user = "root";
         path = deployPkgs.deploy-rs.lib.activate.nixos self.nixosConfigurations.vscode-infrastructure;
       };
       profiles.eric = {
-        hostname = "vscode-server-unraid";
         user = "eric";
         profilePath = "/nix/var/nix/profiles/per-user/eric/home-manager";
         path = deploy-rs.lib.${system}.activate.custom self.homeConfigurations.eric.activationPackage "$PROFILE/activate";
