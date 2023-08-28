@@ -1,6 +1,7 @@
 keys:
   - &admin_infrastructure age1jxa6adhk5azfsefvtw84gk5ge3hxkfygf3sljm3v00s6n8pcdqrq3u92md
   - &admin_workstation age1z9fxldccff0xtmudz4gc44srmf4865vp3r77t3srv5jwmrp8jdcsjdafmt
+  - &server_adguard_lxc age1ew6eh5z96z67jqx5anvaylmz9srhnhlehrgacysrh7tvqvqedp0qgrx3k3
   - &server_mini-nix age1awrvevdqa2uac7es3g3fydz2zsj4zspqgmwflumhgxd7lk2x9fkq2l4qk7
   - &server_infrastructure age1vjhly9gdhewd4d8l6duqh06lvyvrczzkraj8n7r9dym86dehe9vq39uhph
   - &server_headscale age1ddc9huyw7vfwpu9zj5g0qkmavyxppqlsn6kkynnygaly4f0tjg4splm092
@@ -14,6 +15,7 @@ creation_rules:
       - *server_mini-nix
       - *server_infrastructure
       - *server_headscale
+      - *server_adguard_lxc
   - path_regex: secrets/tailscale/eric\.yaml
     key_groups:
     - age:
@@ -34,5 +36,6 @@ creation_rules:
       - *server_infrastructure
       - *server_mini-nix
       - *server_headscale
+      - *server_adguard_lxc
 
     

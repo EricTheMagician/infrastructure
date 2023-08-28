@@ -81,6 +81,22 @@
           }
         ];
       };
+      adguard-lxc = nixpkgs.lib.nixosSystem {
+        inherit system;
+        specialArgs = {inherit inputs;};
+        modules = [
+          sops-nix.nixosModules.sops
+          ./systems/adguard-lxc.nix
+          {
+            _module.args.sshKeys = sshKeys;
+          }
+          ./modules/tailscale.nix
+          {
+            _module.args.tailscale_auth_path = ./secrets/tailscale/infrastructure.yaml;
+          }
+        ];
+      };
+
       headscale = nixpkgs.lib.nixosSystem {
         specialArgs = {inherit inputs;}; # Pass flake inputs to our config
         # > Our main nixos configuration file <
@@ -166,7 +182,17 @@
       };
     };
 
-    deploy.nodes.headscale = {
+    deploy.nodes.adguard-lxc = {
+      hostname = "100.64.0.9";
+      profiles.system = {
+        sshUser = "root";
+        hostname = "adguard-lxc";
+        user = "root";
+        path = deployPkgs.deploy-rs.lib.activate.nixos self.nixosConfigurations.adguard-lxc;
+      };
+    };
+
+   deploy.nodes.headscale = {
       hostname = "100.64.0.1";
       profiles.system = {
         sshUser = "root";
@@ -194,7 +220,7 @@
 
     # This is highly advised, and will prevent many possible mistakes
     checks = builtins.mapAttrs (system: deployLib: deployLib.deployChecks self.deploy) deploy-rs.lib;
-    devShell.x86_64-linux = pkgs.mkShell {
+    devShells.x86_64-linux.default = pkgs.mkShell {
       buildInputs = [unstable.deploy-rs unstable.rnix-lsp unstable.sops unstable.ssh-to-age]; # [deploy-rs rnix-lsp sops ssh-to-age];
     };
   };
