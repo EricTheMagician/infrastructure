@@ -105,7 +105,7 @@ in {
     isNormalUser = true;
     description = "Eric";
     extraGroups = ["networkmanager" "wheel" "plocate"];
-    shell = pkgs.fish;
+    shell = pkgs.bash;
     packages = with pkgs; [
       unstable.ferdium
       unstable.zoom-us

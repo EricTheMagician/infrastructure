@@ -199,10 +199,9 @@
     };
     # deploy-rs section
     deploy.nodes.mini-nix = {
-      hostname = "192.168.88.23";
+      hostname = "mini-nix";
       profiles.system = {
         sshUser = "root";
-        hostname = "mini-nix";
         user = "root";
         path = deployPkgs.deploy-rs.lib.activate.nixos self.nixosConfigurations.mini-nix;
       };
@@ -212,17 +211,15 @@
       hostname = "100.64.0.9";
       profiles.system = {
         sshUser = "root";
-        hostname = "adguard-lxc";
         user = "root";
         path = deployPkgs.deploy-rs.lib.activate.nixos self.nixosConfigurations.adguard-lxc;
       };
     };
 
     deploy.nodes.headscale = {
-      hostname = "100.64.0.1";
+      hostname = "headscale";
       profiles.system = {
         sshUser = "root";
-        hostname = "headscale";
         user = "root";
         path = deployPkgs.deploy-rs.lib.activate.nixos self.nixosConfigurations.headscale;
       };
@@ -232,6 +229,7 @@
       hostname = "nixos-workstation";
       fastConnection = true;
       profiles.system = {
+	sshUser = "eric";
         user = "root";
         path = deployPkgs.deploy-rs.lib.activate.nixos self.nixosConfigurations.nixos-workstation;
       };
