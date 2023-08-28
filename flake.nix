@@ -183,11 +183,13 @@
         pkgs = nixpkgs.legacyPackages.x86_64-linux; # Home-manager requires 'pkgs' instance
         extraSpecialArgs = {
           inherit inputs;
+          inherit pkgs;
           inherit unstable;
         }; # Pass flake inputs to our config
         # > Our main home-manager configuration file <
         modules = [
           ./home-manager
+          ./home-manager/eric-desktop.nix
           {
             home = {
               username = "eric";
@@ -229,7 +231,7 @@
       hostname = "nixos-workstation";
       fastConnection = true;
       profiles.system = {
-	sshUser = "eric";
+        sshUser = "eric";
         user = "root";
         path = deployPkgs.deploy-rs.lib.activate.nixos self.nixosConfigurations.nixos-workstation;
       };

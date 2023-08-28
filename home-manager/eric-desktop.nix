@@ -6,8 +6,6 @@
   lib,
   ...
 }: let
-  # this will allow the unstable packages to use the same config as on the stable
-  #unstable = import <nixos-unstable> { config = config.nixpkgs.config; };
 in {
   home.packages = with unstable; [
     # # Adds the 'hello' command to your environment. It prints a friendly
