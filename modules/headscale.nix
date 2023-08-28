@@ -44,7 +44,7 @@ in {
         };
       };
       dns_config = {
-        nameservers = ["100.64.0.9" "100.64.0.16"];
+        nameservers = ["100.64.0.9" "100.64.0.17"];
         baseDomain = "ts.lan";
         override_local_dns = true;
         extra_records = tailscale_dns_entries;
