@@ -91,10 +91,6 @@
 
   # configure my containers
   container.adguard = {
-    #   enable = true;
-    #   domain_name = "mini-nix-adguard.eyen.ca";
-    #   hostIp = "10.0.0.1";
-    #   containerIp = "10.0.0.2";
     bridge = {
       name = "br-adguard";
       address = "10.100.0.1";

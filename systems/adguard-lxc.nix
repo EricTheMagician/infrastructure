@@ -13,9 +13,10 @@ in {
   system.stateVersion = "23.05";
   users.users.root.openssh.authorizedKeys.keys = sshKeys;
 
+  networking.hostName = "adguard-unraid-lxc";
   # Time zone settings
   time.timeZone = "America/Vancouver";
- 
+
   # Clean /tmp on boot.
   boot.tmp.cleanOnBoot = true;
   # automatically optimize the Nix store to save space
@@ -41,7 +42,6 @@ in {
     };
   };
 
-
   # configure my containers
   container.adguard = {
     bridge = {
@@ -56,5 +56,4 @@ in {
     enable = true;
     internalInterfaces = [config.container.adguard.bridge.name];
   };
-
 }

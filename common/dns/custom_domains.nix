@@ -17,6 +17,11 @@ in
       ts = mini-nix.ts;
     }
     {
+      domain = "adguard-unraid.eyen.ca";
+      home = "192.168.88.23";
+      ts = "100.64.0.9";
+    }
+    {
       domain = "mini-nix-adguard.eyen.ca";
       home = mini-nix.home;
       ts = mini-nix.ts;

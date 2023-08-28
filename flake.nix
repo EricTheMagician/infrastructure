@@ -192,7 +192,7 @@
       };
     };
 
-   deploy.nodes.headscale = {
+    deploy.nodes.headscale = {
       hostname = "100.64.0.1";
       profiles.system = {
         sshUser = "root";
