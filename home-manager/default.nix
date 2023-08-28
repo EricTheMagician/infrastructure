@@ -183,7 +183,7 @@ in {
     #require('ufo').setup()
     #'';
 
-    plugins = with pkgs.vimPlugins; [
+    plugins = with unstable.vimPlugins; [
       vim-surround
       vim-gitgutter
       nerdtree
@@ -193,6 +193,7 @@ in {
       vim-airline
       nerdcommenter
       #nvim-ufo
+      coc-pyright
     ];
   };
   #  home.file.".config/fish/config.fish".text = ''
