@@ -391,17 +391,19 @@ in
       vim-airline
       nerdcommenter
       nvim-ufo
+      # markdown stuff
       markdown-preview-nvim
+      vim-markdown-toc
+
+      # telescope and plugins
       telescope-nvim
       telescope-vim-bookmarks-nvim
-      telescope-undo-nvim
       telescope-undo-nvim
       telescope-media-files-nvim
       telescope-live-grep-args-nvim
       telescope-fzf-native-nvim
       telescope-file-browser-nvim
       telescope-coc-nvim
-      telescope-symbols-nvim
       neorg-telescope
     ];
   };
