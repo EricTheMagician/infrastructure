@@ -1,12 +1,13 @@
+{ inputs
+, unstable
+, config
+, pkgs
+, lib
+, ...
+}:
+let
+in
 {
-  inputs,
-  unstable,
-  config,
-  pkgs,
-  lib,
-  ...
-}: let
-in {
   # This value determines the Home Manager release that your configuration is
   # compatible with. This helps avoid breakage when a new Home Manager release
   # introduces backwards incompatible changes.
@@ -64,7 +65,7 @@ in {
       };
 
       "vscode-server-unraid" = {
-        hostname = "100.64.0.11";
+        hostname = "vscode-server-unraid";
         user = "eric";
       };
 
@@ -101,12 +102,6 @@ in {
         proxyJump = "vm-server2";
       };
 
-      "vm-server2-mattermost" = {
-        hostname = "10.99.99.6";
-        user = "user";
-        proxyJump = "vm-server2";
-      };
-
       "vm-server2-license-server" = {
         hostname = "10.99.99.7";
         user = "user";
@@ -132,7 +127,7 @@ in {
         languageserver = {
           nix = {
             command = "rnix-lsp";
-            filetypes = ["nix"];
+            filetypes = [ "nix" ];
           };
         };
       };
@@ -163,6 +158,7 @@ in {
       "      \ coc#refresh()
       inoremap <expr><S-TAB> coc#pum#visible() ? coc#pum#prev(1) : "\<C-h>"
 
+
       " Make <CR> to accept selected completion item or notify coc.nvim to format
       " <C-g>u breaks current undo, please make your own choice
       inoremap <silent><expr> <CR> coc#pum#visible() ? coc#pum#confirm()
@@ -171,6 +167,11 @@ in {
     '';
 
     extraLuaConfig = ''
+      local builtin = require('telescope.builtin')
+      vim.keymap.set('n', '<leader>ff', builtin.find_files, {})
+      vim.keymap.set('n', '<leader>fg', builtin.live_grep, {})
+      vim.keymap.set('n', '<leader>fb', builtin.buffers, {})
+      vim.keymap.set('n', '<leader>fh', builtin.help_tags, {})
       vim.o.foldcolumn = '1' -- '0' is not bad
       vim.o.foldlevel = 99 -- Using ufo provider need a large value, feel free to decrease the value
       vim.o.foldlevelstart = 99
@@ -373,6 +374,16 @@ in {
       vim-gitgutter
       vim-fugitive
       vim-surround
+      coc-pyright
+      coc-sh
+      coc-docker
+      coc-git
+      coc-yaml
+      coc-json
+      coc-html
+      coc-clangd
+      coc-nginx
+      coc-spell-checker
       nerdtree
       nerdtree-git-plugin
       fzfWrapper
@@ -380,7 +391,18 @@ in {
       vim-airline
       nerdcommenter
       nvim-ufo
-      coc-pyright
+      markdown-preview-nvim
+      telescope-nvim
+      telescope-vim-bookmarks-nvim
+      telescope-undo-nvim
+      telescope-undo-nvim
+      telescope-media-files-nvim
+      telescope-live-grep-args-nvim
+      telescope-fzf-native-nvim
+      telescope-file-browser-nvim
+      telescope-coc-nvim
+      telescope-symbols-nvim
+      neorg-telescope
     ];
   };
   #  home.file.".config/fish/config.fish".text = ''
@@ -430,7 +452,7 @@ in {
     enable = true;
     userName = "Eric Yen";
     userEmail = "eric@ericyen.com";
-    aliases = {prettylog = "...";};
+    aliases = { prettylog = "..."; };
     delta = {
       enable = true;
       options = {
@@ -440,11 +462,11 @@ in {
       };
     };
     extraConfig = {
-      core = {editor = "nvim";};
-      color = {ui = true;};
-      push = {default = "simple";};
-      pull = {ff = "only";};
-      init = {defaultBranch = "main";};
+      core = { editor = "nvim"; };
+      color = { ui = true; };
+      push = { default = "simple"; };
+      pull = { ff = "only"; };
+      init = { defaultBranch = "main"; };
     };
     ignores = [
       ".DS_Store"
