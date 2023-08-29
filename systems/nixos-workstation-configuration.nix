@@ -137,7 +137,7 @@ in {
 
   environment.sessionVariables = {
     # Hint electron apps to use wayland;
-    NIXOS_OZONE_WL = "1";
+    #NIXOS_OZONE_WL = "1";
   };
   # List packages installed in system profile. To search, run:
   # $ nix search wget
