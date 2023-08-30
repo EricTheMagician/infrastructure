@@ -1,13 +1,12 @@
 {
   inputs,
-  unstable,
   config,
   pkgs,
   lib,
   ...
 }: let
 in {
-  home.packages = with unstable; [
+  home.packages = with pkgs; [
     # # Adds the 'hello' command to your environment. It prints a friendly
     # # "Hello, world!" when run.
     # pkgs.hello
@@ -26,12 +25,12 @@ in {
     # '')
     vivaldi
     vivaldi-ffmpeg-codecs
-    # unstable.vscode.fhs
+    # gs.unstablevscode.fhs
     # vscode
     # (
     #   vscode-with-extensions.override
     #   {
-    #     vscodeExtensions = with unstable.vscode-extensions;
+    #     vscodeExtensions = with pkgs.vscode-extensions;
     #     [
 
     #       # generatl development related packages
@@ -87,7 +86,7 @@ in {
   };
 
   programs = {
-    # enable ripgrep
+    # dconf.enable = true;
     vscode = {
       enable = true;
       package = pkgs.vscode.fhs;

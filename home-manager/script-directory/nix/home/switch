@@ -2,4 +2,4 @@
 # switch to `--flake .#eric`
 set -euo pipefail
 
-home-manager switch --flake .#eric
+home-manager switch --flake .

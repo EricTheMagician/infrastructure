@@ -161,26 +161,8 @@
     # Standalone home-manager configuration entrypoint
     # Available through 'home-manager --flake .#your-username@your-hostname'
     homeConfigurations = {
-      "eric" = home-manager.lib.homeManagerConfiguration {
-        pkgs = nixpkgs-unstable.legacyPackages.x86_64-linux; # Home-manager requires 'pkgs' instance
-        extraSpecialArgs = {
-          inherit inputs;
-          inherit unstable;
-        }; # Pass flake inputs to our config
-        # > Our main home-manager configuration file <
-        modules = [
-          ./home-manager
-          {
-            home = {
-              username = "eric";
-              homeDirectory = "/home/eric";
-            };
-          }
-        ];
-      };
-
       "eric@nixos-workstation" = home-manager.lib.homeManagerConfiguration {
-        pkgs = unstable.legacyPackages.x86_64-linux; # Home-manager requires 'pkgs' instance
+        pkgs = unstable; # Home-manager requires 'pkgs' instance
         extraSpecialArgs = {
           inherit inputs;
           stable = pkgs;
@@ -197,7 +179,24 @@
           }
         ];
       };
+      "eric" = home-manager.lib.homeManagerConfiguration {
+        pkgs = unstable; # Home-manager requires 'pkgs' instance
+        extraSpecialArgs = {
+          inherit inputs;
+        }; # Pass flake inputs to our config
+        # > Our main home-manager configuration file <
+        modules = [
+          ./home-manager
+          {
+            home = {
+              username = "eric";
+              homeDirectory = "/home/eric";
+            };
+          }
+        ];
+      };
     };
+
     # deploy-rs section
     deploy.nodes.mini-nix = {
       hostname = "mini-nix";

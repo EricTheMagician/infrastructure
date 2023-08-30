@@ -6,6 +6,24 @@
   lib,
   ...
 }: let
+  updated_pylance = pkgs.vscode-utils.buildVscodeMarketplaceExtension {
+    mktplcRef = {
+      name = "vscode-pylance";
+      publisher = "MS-python";
+      version = "2023.8.41";
+      sha256 = "sha256-PYZqu1ULeh5V/BCDAbWNVNbNVGv2X4EQSOXppFdUaRk=";
+    };
+
+    buildInputs = [pkgs.nodePackages.pyright];
+
+    meta = {
+      changelog = "https://marketplace.visualstudio.com/items/ms-python.vscode-pylance/changelog";
+      description = "A performant, feature-rich language server for Python in VS Code";
+      downloadPage = "https://marketplace.visualstudio.com/items?itemName=ms-python.vscode-pylance";
+      homepage = "https://github.com/microsoft/pylance-release";
+      license = lib.licenses.unfree;
+    };
+  };
 in {
   # This value determines the Home Manager release that your configuration is
   # compatible with. This helps avoid breakage when a new Home Manager release
@@ -87,6 +105,26 @@ in {
           };
         };
         languageserver = {
+          pylance = {
+            enabled = true;
+            filetypes = ["python"];
+            env = {
+              ELECTRON_RUN_AS_NODE = "1";
+              VSCODE_NLS_CONFIG = "1";
+            };
+            #module = pkgs.vscode-extensions.ms-python.vscode-pylance + "/share/vscode/extensions/MS-python.vscode-pylance/dist/server.bundle.js";
+            module = updated_pylance + "/share/vscode/extensions/MS-python.vscode-pylance/dist/server.bundle.js";
+            initializationOptions = {};
+            settings = {
+              python.analysis.typeCheckingMode = "basic";
+              python.analysis.diagnosticMode = "openFilesOnly";
+              python.analysis.stubPath = "./typings";
+              python.analysis.autoSearchPaths = true;
+              python.analysis.extraPaths = [];
+              python.analysis.diagnosticSeverityOverrides = {};
+              python.analysis.useLibraryCodeForTypes = true;
+            };
+          };
           nix = {
             command = "rnix-lsp";
             filetypes = ["nix"];
@@ -116,7 +154,7 @@ in {
       vim-gitgutter
       vim-fugitive
       vim-surround
-      coc-pyright
+      #coc-pyright
       coc-sh
       coc-docker
       coc-git

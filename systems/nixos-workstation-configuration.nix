@@ -104,7 +104,7 @@ in {
   users.users.eric = {
     isNormalUser = true;
     description = "Eric";
-    extraGroups = ["networkmanager" "wheel" "plocate"];
+    extraGroups = ["networkmanager" "wheel" "plocate" "libvirtd"];
     shell = pkgs.bash;
     packages = with pkgs; [
       unstable.ferdium
@@ -119,7 +119,7 @@ in {
       unstable.vscode.fhs # without managing extensions
       unstable.git
       ansible
-      apache-directory-studio
+      # apache-directory-studio
       #  thunderbird
     ];
   };
@@ -144,7 +144,7 @@ in {
   environment.systemPackages = with pkgs; [
     wpsoffice
     unstable.nomachine-client
-    unstable.thunderbird
+    # unstable.thunderbird
     unstable.element-desktop
     bitwarden
     vim # Do not forget to add an editor to edit configuration.nix! The Nano editor is also installed by default.
@@ -166,6 +166,7 @@ in {
     mesa
     libglvnd
     rustdesk
+    virt-manager # kvm management
   ];
   programs.nix-ld.enable = true;
 
@@ -211,6 +212,10 @@ in {
       # interval = "hourly"; # default 02:15
     };
   };
+
+  # kvm virt manager
+  virtualisation.libvirtd.enable = true;
+
   # Open ports in the firewall.
   # networking.firewall.allowedTCPPorts = [ ... ];
   # networking.firewall.allowedUDPPorts = [ ... ];

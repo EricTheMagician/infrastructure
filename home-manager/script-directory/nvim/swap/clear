@@ -1,0 +1,4 @@
+#!/usr/bin/env bash
+# clear the neovim swap folder
+
+find "$HOME/.local/state/nvim/swap" -type f -delete
