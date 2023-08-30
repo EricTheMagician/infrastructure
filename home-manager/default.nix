@@ -1,6 +1,6 @@
 {
   inputs,
-  unstable,
+  stable,
   config,
   pkgs,
   lib,
@@ -18,7 +18,7 @@ in {
 
   # The home.packages option allows you to install Nix packages into your
   # environment.
-  home.packages = with unstable; [
+  home.packages = with pkgs; [
     # # Adds the 'hello' command to your environment. It prints a friendly
     # # "Hello, world!" when run.
     # pkgs.hello
@@ -41,7 +41,6 @@ in {
     dua
     byobu
     tmux
-    ripgrep
   ];
 
   programs = {
@@ -57,7 +56,7 @@ in {
       defaultCommand = "rg --files --hidden --ignore-file ${config.home.homeDirectory}/.gitignore";
     };
     # enable ripgrep
-    # ripgrep.enable = true; # rg command
+    ripgrep.enable = true; # rg command
   };
 
   programs.ssh = {
@@ -380,7 +379,7 @@ in {
 
     '';
 
-    plugins = with unstable.vimPlugins; [
+    plugins = with pkgs.vimPlugins; [
       vim-surround
       vim-gitgutter
       vim-fugitive
