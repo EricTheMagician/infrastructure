@@ -21,9 +21,6 @@
     deploy-rs.url = "github:serokell/deploy-rs";
     deploy-rs.inputs.nixpkgs.follows = "nixpkgs";
 
-    rnix-lsp.url = "github:nix-community/rnix-lsp";
-    rnix-lsp.inputs.nixpkgs.follows = "nixpkgs";
-
     # for multi architecture systems
     flake-utils.url = "github:numtide/flake-utils";
   };
@@ -71,25 +68,26 @@
     # Available through 'nixos-rebuild --flake .#your-hostname'
     nixosConfigurations = {
       nixos-workstation = nixpkgs.lib.nixosSystem {
-        inherit system;
-        specialArgs = {
-          inherit inputs;
-          inherit unstable;
-        }; # Pass flake inputs to our config
-        # > Our main nixos configuration file <
-        modules = [
-          disko.nixosModules.disko
-          sops-nix.nixosModules.sops
-          ./systems/nixos-workstation-configuration.nix
-          {
-            _module.args.sshKeys = sshKeys;
-          }
-          #          ./modules/tailscale.nix
-          #{
-          #_module.args.tailscale_auth_path = ./secrets/tailscale/eric.yaml;
-          #         }
-        ];
+	inherit system;
+	specialArgs = {
+	  inherit inputs;
+	  inherit unstable;
+	}; # Pass flake inputs to our config
+	# > Our main nixos configuration file <
+	modules = [
+	  disko.nixosModules.disko
+	  sops-nix.nixosModules.sops
+	  ./systems/nixos-workstation-configuration.nix
+	  {
+	    _module.args.sshKeys = sshKeys;
+	  }
+	  #          ./modules/tailscale.nix
+	  #{
+	  #_module.args.tailscale_auth_path = ./secrets/tailscale/eric.yaml;
+	  #         }
+	];
       };
+
       mini-nix = nixpkgs.lib.nixosSystem {
         inherit system;
         specialArgs = {inherit inputs;}; # Pass flake inputs to our config
@@ -107,6 +105,7 @@
           }
         ];
       };
+
       adguard-lxc = nixpkgs.lib.nixosSystem {
         inherit system;
         specialArgs = {inherit inputs;};
@@ -139,6 +138,7 @@
           }
         ];
       };
+
       vscode-infrastructure = nixpkgs.lib.nixosSystem {
         specialArgs = {
           inherit inputs;
@@ -161,7 +161,6 @@
     # Standalone home-manager configuration entrypoint
     # Available through 'home-manager --flake .#your-username@your-hostname'
     homeConfigurations = {
-      # FIXME replace with your username@hostname
       "eric" = home-manager.lib.homeManagerConfiguration {
         pkgs = nixpkgs.legacyPackages.x86_64-linux; # Home-manager requires 'pkgs' instance
         extraSpecialArgs = {
@@ -179,7 +178,8 @@
           }
         ];
       };
-      "eric-desktop" = home-manager.lib.homeManagerConfiguration {
+
+      "eric@nixos-workstation" = home-manager.lib.homeManagerConfiguration {
         pkgs = nixpkgs.legacyPackages.x86_64-linux; # Home-manager requires 'pkgs' instance
         extraSpecialArgs = {
           inherit inputs;
@@ -207,6 +207,11 @@
         user = "root";
         path = deployPkgs.deploy-rs.lib.activate.nixos self.nixosConfigurations.mini-nix;
       };
+      profiles.eric = {
+        user = "eric";
+        profilePath = "/nix/var/nix/profiles/per-user/eric/home-manager";
+        path = deploy-rs.lib.${system}.activate.custom self.homeConfigurations.eric.activationPackage "$PROFILE/activate";
+      };
     };
 
     deploy.nodes.adguard-lxc = {
@@ -231,15 +236,16 @@
       hostname = "nixos-workstation";
       fastConnection = true;
       profiles.system = {
-        sshUser = "eric";
-        user = "root";
-        path = deployPkgs.deploy-rs.lib.activate.nixos self.nixosConfigurations.nixos-workstation;
+	sshUser = "eric";
+	user = "root";
+	path = deployPkgs.deploy-rs.lib.activate.nixos self.nixosConfigurations.nixos-workstation;
       };
       profiles.eric = {
-        user = "eric";
-        profilePath = "/nix/var/nix/profiles/per-user/eric/home-manager";
-        path = deploy-rs.lib.${system}.activate.custom self.homeConfigurations.eric-desktop.activationPackage "$PROFILE/activate";
+	user = "eric";
+	profilePath = "/nix/var/nix/profiles/per-user/eric/home-manager";
+	path = deploy-rs.lib.${system}.activate.custom self.homeConfigurations."eric@nixos-workstation".activationPackage "$PROFILE/activate";
       };
+      remoteBuild = true;
     };
 
     deploy.nodes.vscode-infrastructure = {
