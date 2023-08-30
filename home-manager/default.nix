@@ -51,6 +51,11 @@ in {
     gitui.enable = true;
     # Let Home Manager install and manage itself.
     home-manager.enable = true;
+    fzf = {
+      enable = true;
+      # uses ripgrep to ignore files in my ~/.gitignore
+      defaultCommand = "rg --files --hidden --ignore-file ${config.home.homeDirectory}/.gitignore";
+    };
     # enable ripgrep
     # ripgrep.enable = true; # rg command
   };
@@ -123,6 +128,13 @@ in {
     coc = {
       enable = true;
       settings = {
+        coc.preferences.formatOnSaveFiletypes = ["python"];
+        python = {
+          formatting = {
+            provider = "black";
+            blackPath = "black";
+          };
+        };
         languageserver = {
           nix = {
             command = "rnix-lsp";
@@ -427,22 +439,14 @@ in {
     # # symlink to the Nix store copy.
     # ".screenrc".source = dotfiles/screenrc;
 
+    ".gitignore".source = ./gitignore.global;
     # # You can also set the file content immediately.
     # ".gradle/gradle.properties".text = ''
     #   org.gradle.console=verbose
     #   org.gradle.daemon.idletimeout=3600000
     # '';
   };
-  # You can also manage environment variables but you will have to manually
-  # source
-  #
-  #  ~/.nix-profile/etc/profile.d/hm-session-vars.sh
-  #
-  # or
-  #
-  #  /etc/profiles/per-user/eric/etc/profile.d/hm-session-vars.sh
-  #
-  # if you don't want to manage your shell through Home Manager.
+
   home.sessionVariables = {
     EDITOR = "nvim";
     WORLD = "hello";
