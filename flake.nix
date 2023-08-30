@@ -236,11 +236,12 @@
       hostname = "nixos-workstation";
       fastConnection = true;
       profiles.system = {
-        sshUser = "eric";
+        sshUser = "root";
         user = "root";
         path = deployPkgs.deploy-rs.lib.activate.nixos self.nixosConfigurations.nixos-workstation;
       };
       profiles.eric = {
+        sshUser = "eric";
         user = "eric";
         profilePath = "/nix/var/nix/profiles/per-user/eric/home-manager";
         path = deploy-rs.lib.${system}.activate.custom self.homeConfigurations."eric@nixos-workstation".activationPackage "$PROFILE/activate";

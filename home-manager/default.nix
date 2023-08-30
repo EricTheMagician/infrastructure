@@ -1,13 +1,12 @@
-{ inputs
-, unstable
-, config
-, pkgs
-, lib
-, ...
-}:
-let
-in
 {
+  inputs,
+  unstable,
+  config,
+  pkgs,
+  lib,
+  ...
+}: let
+in {
   # This value determines the Home Manager release that your configuration is
   # compatible with. This helps avoid breakage when a new Home Manager release
   # introduces backwards incompatible changes.
@@ -127,7 +126,7 @@ in
         languageserver = {
           nix = {
             command = "rnix-lsp";
-            filetypes = [ "nix" ];
+            filetypes = ["nix"];
           };
         };
       };
@@ -454,7 +453,7 @@ in
     enable = true;
     userName = "Eric Yen";
     userEmail = "eric@ericyen.com";
-    aliases = { prettylog = "..."; };
+    aliases = {prettylog = "...";};
     delta = {
       enable = true;
       options = {
@@ -464,11 +463,11 @@ in
       };
     };
     extraConfig = {
-      core = { editor = "nvim"; };
-      color = { ui = true; };
-      push = { default = "simple"; };
-      pull = { ff = "only"; };
-      init = { defaultBranch = "main"; };
+      core = {editor = "nvim";};
+      color = {ui = true;};
+      push = {default = "simple";};
+      pull = {ff = "only";};
+      init = {defaultBranch = "main";};
     };
     ignores = [
       ".DS_Store"
