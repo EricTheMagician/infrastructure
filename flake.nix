@@ -183,7 +183,7 @@
         pkgs = unstable.legacyPackages.x86_64-linux; # Home-manager requires 'pkgs' instance
         extraSpecialArgs = {
           inherit inputs;
-	  stable = pkgs;
+          stable = pkgs;
         }; # Pass flake inputs to our config
         # > Our main home-manager configuration file <
         modules = [
