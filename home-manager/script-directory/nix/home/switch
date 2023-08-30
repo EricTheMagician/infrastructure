@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-
+# switch to `--flake .#eric`
 set -euo pipefail
 
 home-manager switch --flake .#eric
