@@ -1,3 +1,5 @@
+# for fzf
+.git/
 # dragonfly installer folder
 output/
 # nix result folder
