@@ -1,0 +1,4 @@
+#!/usr/bin/env bash
+
+echo "$WORLD"
+nix run github:serokell/deploy-rs '.#'
