@@ -68,24 +68,24 @@
     # Available through 'nixos-rebuild --flake .#your-hostname'
     nixosConfigurations = {
       nixos-workstation = nixpkgs.lib.nixosSystem {
-	inherit system;
-	specialArgs = {
-	  inherit inputs;
-	  inherit unstable;
-	}; # Pass flake inputs to our config
-	# > Our main nixos configuration file <
-	modules = [
-	  disko.nixosModules.disko
-	  sops-nix.nixosModules.sops
-	  ./systems/nixos-workstation-configuration.nix
-	  {
-	    _module.args.sshKeys = sshKeys;
-	  }
-	  #          ./modules/tailscale.nix
-	  #{
-	  #_module.args.tailscale_auth_path = ./secrets/tailscale/eric.yaml;
-	  #         }
-	];
+        inherit system;
+        specialArgs = {
+          inherit inputs;
+          inherit unstable;
+        }; # Pass flake inputs to our config
+        # > Our main nixos configuration file <
+        modules = [
+          disko.nixosModules.disko
+          sops-nix.nixosModules.sops
+          ./systems/nixos-workstation-configuration.nix
+          {
+            _module.args.sshKeys = sshKeys;
+          }
+          #          ./modules/tailscale.nix
+          #{
+          #_module.args.tailscale_auth_path = ./secrets/tailscale/eric.yaml;
+          #         }
+        ];
       };
 
       mini-nix = nixpkgs.lib.nixosSystem {
@@ -236,14 +236,14 @@
       hostname = "nixos-workstation";
       fastConnection = true;
       profiles.system = {
-	sshUser = "eric";
-	user = "root";
-	path = deployPkgs.deploy-rs.lib.activate.nixos self.nixosConfigurations.nixos-workstation;
+        sshUser = "eric";
+        user = "root";
+        path = deployPkgs.deploy-rs.lib.activate.nixos self.nixosConfigurations.nixos-workstation;
       };
       profiles.eric = {
-	user = "eric";
-	profilePath = "/nix/var/nix/profiles/per-user/eric/home-manager";
-	path = deploy-rs.lib.${system}.activate.custom self.homeConfigurations."eric@nixos-workstation".activationPackage "$PROFILE/activate";
+        user = "eric";
+        profilePath = "/nix/var/nix/profiles/per-user/eric/home-manager";
+        path = deploy-rs.lib.${system}.activate.custom self.homeConfigurations."eric@nixos-workstation".activationPackage "$PROFILE/activate";
       };
       remoteBuild = true;
     };

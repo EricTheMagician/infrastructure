@@ -72,12 +72,12 @@
     root = {
       openssh.authorizedKeys.keys = sshKeys;
     };
-    #eric = {
-    #isNormalUser = true;
-    #extraGroups = ["wheel"];
-    #home = "/home/eric";
-    #openssh.authorizedKeys.keys = sshKeys;
-    #};
+    eric = {
+      isNormalUser = true;
+      extraGroups = ["wheel"];
+      home = "/home/eric";
+      openssh.authorizedKeys.keys = sshKeys;
+    };
   };
 
   # This setups a SSH server. Very important if you're setting up a headless system.
