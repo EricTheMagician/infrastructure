@@ -246,6 +246,11 @@ in {
       push = {default = "simple";};
       pull = {ff = "only";};
       init = {defaultBranch = "main";};
+      credential = {
+        "https://github.com" = {
+          helper = "!${pkgs.gh}/bin/gh auth git-credential";
+        };
+      };
     };
     ignores = [
       ".DS_Store"
