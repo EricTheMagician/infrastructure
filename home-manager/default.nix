@@ -190,7 +190,7 @@ in {
            nnoremap <C-t> :NERDTreeToggle<CR>
            nnoremap <C-p> :FZF<CR>
            " disbles mouse in neovim in general
-           set mouse=
+           " set mouse=
 
            " for nerd commentary
            filetype plugin on
