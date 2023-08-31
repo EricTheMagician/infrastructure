@@ -10,8 +10,8 @@
     mktplcRef = {
       name = "vscode-pylance";
       publisher = "MS-python";
-      version = "2023.8.41";
-      sha256 = "sha256-PYZqu1ULeh5V/BCDAbWNVNbNVGv2X4EQSOXppFdUaRk=";
+      version = "2023.8.50";
+      sha256 = "sha256-xJU/j5r/Idp/0VorEfciT4SFKRBpMCv9Z0LKO/++1Gk=";
     };
 
     buildInputs = [pkgs.nodePackages.pyright];
