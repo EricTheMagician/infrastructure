@@ -24,6 +24,24 @@
       license = lib.licenses.unfree;
     };
   };
+  vim-perforce = pkgs.vimUtils.buildVimPluginFrom2Nix {
+    name = "vim-perforce";
+    src = pkgs.fetchFromGitHub {
+      owner = "nfvs";
+      repo = "vim-perforce";
+      rev = "d1dcbe8aca797976678200f42cc2994b7f6c86c2";
+      hash = "sha256-CbRZXZdGeQOSM2FH8eDWXLhsznSRtx9B8txH5Ilk+Ag=";
+    };
+  };
+  vim-codeium = pkgs.vimUtils.buildVimPluginFrom2Nix {
+    name = "codeium.vim";
+    src = pkgs.fetchFromGitHub {
+      owner = "Exafunction";
+      repo = "codeium.vim";
+      rev = "1.2.78";
+      hash = "sha256-SO0H0cXg0Pcmx4tvzRhtSQBgCvV11EUtYZ9vh+ZASAA=";
+    };
+  };
 in {
   # This value determines the Home Manager release that your configuration is
   # compatible with. This helps avoid breakage when a new Home Manager release
@@ -98,10 +116,27 @@ in {
       enable = true;
       settings = {
         coc.preferences.formatOnSaveFiletypes = ["python"];
+        pyright.enable = true;
         python = {
           formatting = {
             provider = "black";
-            blackPath = "black";
+            blackPath = "${pkgs.black}/bin/black";
+          };
+          # pyright only
+          analysis.autoImportCompletions = false;
+        };
+        pyright = {
+          disableCompletion = true;
+          disableDiagnostics = true;
+          disableDocumentation = true;
+          disableProgressNotifications = true;
+          completion = {
+            importSupport = false;
+            snippetSupport = false;
+          };
+          inlayHints = {
+            functionReturnTypes = false;
+            variableTypes = false;
           };
         };
         languageserver = {
@@ -133,28 +168,44 @@ in {
       };
     };
     extraConfig = ''
-      " set the maplearder to the spacebar
-      " vim.g.mapleader = "<Space>"
-      let mapleader = " "
+           " set the maplearder to the spacebar
+           " vim.g.mapleader = "<Space>"
+           let mapleader = " "
+           " open file on perforce on save
+           let g:perforce_open_on_save = 1
+           " saving on change is preferred, at least in neovim.
+           " writing a buffer to disk is a change.
+           " editing a buffer is not a change.
+           let g:perforce_open_on_change = 1
+           " don't prompt on every save
+           let g:perforce_prompt_on_open = 0
 
-      set number relativenumber
-      nnoremap <C-t> :NERDTreeToggle<CR>
-      nnoremap <C-p> :FZF<CR>
-      " disbles mouse in neovim in general
-      set mouse=
+           " codeium
+           let g:codeium_server_config = {
+           	\'portal_url': 'https://codeium.lan.theobjects.com',
+      \'api_url': 'https://codeium.lan.theobjects.com/_route/api_server' }
 
-      " for nerd commentary
-      filetype plugin on
+
+           set number relativenumber
+           nnoremap <C-t> :NERDTreeToggle<CR>
+           nnoremap <C-p> :FZF<CR>
+           " disbles mouse in neovim in general
+           set mouse=
+
+           " for nerd commentary
+           filetype plugin on
 
     '';
 
-    extraLuaConfig = import ./neovim-config.lua.nix;
+    extraLuaConfig = import ./neovim-config.lua.nix { inherit config; };
     plugins = with pkgs.vimPlugins; [
+      vim-perforce
+      vim-codeium
       vim-surround
       vim-gitgutter
       vim-fugitive
       vim-surround
-      #coc-pyright
+      coc-pyright # only here to enable black format with coc-python. most of it's options are disabled in favour of pylance
       coc-sh
       coc-docker
       coc-git

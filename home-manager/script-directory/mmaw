@@ -1,0 +1,3 @@
+echo 'eval "$(micromamba shell hook --shell=bash)"'
+echo 'micromamba activate $ORSROOT/dragonfly_python_environment_linux'
+
