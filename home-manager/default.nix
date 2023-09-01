@@ -44,7 +44,7 @@
   python-debugpy = pkgs.python310.withPackages (ps: with ps; [debugpy]);
   debugpy_path = python-debugpy + "/lib/python3.10/site-packages/debugpy";
 
-  codelldb = pkgs.vscode-extensions.vadimcn.vscode-lldb;
+  codelldb = pkgs.vscode-extensions.vadimcn.vscode-lldb.overrideAttrs (finalAttrs: previousAttrs: {lldb = pkgs.lldb_16;});
   codelldb_path = "${codelldb}/share/vscode/extensions/vadimcn.vscode-lldb/${codelldb.vscodeExtPublisher}.${codelldb.vscodeExtName}";
 in {
   # This value determines the Home Manager release that your configuration is
