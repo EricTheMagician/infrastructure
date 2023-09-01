@@ -167,6 +167,7 @@ in {
     libglvnd
     rustdesk
     virt-manager # kvm management
+    xclip # for vim clipboard
   ];
   programs.nix-ld.enable = true;
 
