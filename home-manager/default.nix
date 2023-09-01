@@ -1,6 +1,4 @@
 {
-  inputs,
-  stable,
   config,
   pkgs,
   lib,
@@ -77,6 +75,7 @@ in {
     dua
     byobu
     tmux
+    nil # nix lsp
   ];
 
   programs = {
@@ -91,6 +90,8 @@ in {
       # uses ripgrep to ignore files in my ~/.gitignore
       defaultCommand = "rg --files --hidden --ignore-file ${config.home.homeDirectory}/.gitignore";
     };
+    gh.enable = true;
+    gh-dash.enable = true;
     # enable ripgrep
     ripgrep.enable = true; # rg command
     script-directory = {
@@ -161,8 +162,10 @@ in {
             };
           };
           nix = {
-            command = "rnix-lsp";
+            command = "nil";
             filetypes = ["nix"];
+            rootPatterns = ["flake.nix"];
+            settings.nil.formatting.command = ["${pkgs.alejandra}/bin/alejandra"];
           };
         };
       };
@@ -197,7 +200,7 @@ in {
 
     '';
 
-    extraLuaConfig = import ./neovim-config.lua.nix { inherit config; };
+    extraLuaConfig = import ./neovim-config.lua.nix {inherit config;};
     plugins = with pkgs.vimPlugins; [
       vim-perforce
       vim-codeium
@@ -297,11 +300,6 @@ in {
       push = {default = "simple";};
       pull = {ff = "only";};
       init = {defaultBranch = "main";};
-      credential = {
-        "https://github.com" = {
-          helper = "!${pkgs.gh}/bin/gh auth git-credential";
-        };
-      };
     };
     ignores = [
       ".DS_Store"
