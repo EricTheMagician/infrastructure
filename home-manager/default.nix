@@ -126,17 +126,17 @@ in {
           analysis.autoImportCompletions = false;
         };
         pyright = {
-          disableCompletion = true;
-          disableDiagnostics = true;
-          disableDocumentation = true;
-          disableProgressNotifications = true;
+          disableCompletion = false;
+          disableDiagnostics = false;
+          disableDocumentation = false;
+          disableProgressNotifications = false;
           completion = {
-            importSupport = false;
-            snippetSupport = false;
+            importSupport = true;
+            snippetSupport = true;
           };
           inlayHints = {
-            functionReturnTypes = false;
-            variableTypes = false;
+            functionReturnTypes = true;
+            variableTypes = true;
           };
         };
         languageserver = {
