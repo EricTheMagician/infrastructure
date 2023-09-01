@@ -40,6 +40,12 @@
       hash = "sha256-SO0H0cXg0Pcmx4tvzRhtSQBgCvV11EUtYZ9vh+ZASAA=";
     };
   };
+  # vimspector debuggers
+  python-debugpy = pkgs.python310.withPackages (ps: with ps; [debugpy]);
+  debugpy_path = python-debugpy + "/lib/python3.10/site-packages/debugpy";
+
+  codelldb = pkgs.vscode-extensions.vadimcn.vscode-lldb;
+  codelldb_path = "${codelldb}/share/vscode/extensions/vadimcn.vscode-lldb/${codelldb.vscodeExtPublisher}.${codelldb.vscodeExtName}";
 in {
   # This value determines the Home Manager release that your configuration is
   # compatible with. This helps avoid breakage when a new Home Manager release
@@ -76,6 +82,7 @@ in {
     byobu
     tmux
     nil # nix lsp
+    python310Packages.debugpy
   ];
 
   programs = {
@@ -116,7 +123,7 @@ in {
     coc = {
       enable = true;
       settings = {
-        coc.preferences.formatOnSaveFiletypes = ["python"];
+        coc.preferences.formatOnSaveFiletypes = ["python" "nix" "json"];
         pyright.enable = true;
         python = {
           formatting = {
@@ -170,42 +177,57 @@ in {
         };
       };
     };
+
     extraConfig = ''
-           " set the maplearder to the spacebar
-           " vim.g.mapleader = "<Space>"
-           let mapleader = " "
-           " open file on perforce on save
-           let g:perforce_open_on_save = 1
-           " saving on change is preferred, at least in neovim.
-           " writing a buffer to disk is a change.
-           " editing a buffer is not a change.
-           let g:perforce_open_on_change = 1
-           " don't prompt on every save
-           let g:perforce_prompt_on_open = 0
+      " disbles mouse in neovim in general
+      " set mouse=
+      " set the maplearder to the spacebar
+      " vim.g.mapleader = "<Space>"
+      let mapleader = " "
 
-           " codeium
-           let g:codeium_server_config = {
-           	\'portal_url': 'https://codeium.lan.theobjects.com',
-      \'api_url': 'https://codeium.lan.theobjects.com/_route/api_server' }
+      noremap  <leader>ti :tabprevious<CR>
+      noremap <leader>to :tabnext<CR>
+      noremap <leader>tn :tabnew<CR>
+      noremap <leader>vr :ViminspectorReset<CR>
+      set number relativenumber expandtab shiftwidth=4 softtabstop=4 smarttab
+      nnoremap <C-t> :NERDTreeFind<CR>
 
+      let g:vimspector_enable_mappings = 'HUMAN'
+      let g:vimspector_base_dir=expand( '$HOME/.config/vimspector' )
 
-	   noremap  <leader>ti :tabprevious<CR>
-	   noremap <leader>to :tabnext<CR>
-	   noremap <leader>tn :tabnew<CR>
-           set number relativenumber
-           nnoremap <C-t> :NERDTreeFind<CR>
-           nnoremap <C-p> :FZF<CR>
-           " disbles mouse in neovim in general
-           " set mouse=
+      " open file on perforce on save
+      let g:perforce_open_on_save = 1
+      " saving on change is preferred, at least in neovim.
+      " writing a buffer to disk is a change.
+      " editing a buffer is not a change.
+      let g:perforce_open_on_change = 1
+      " don't prompt on every save
+      let g:perforce_prompt_on_open = 0
 
-           " for nerd commentary
-           filetype plugin on
+      " Vim inspector
+      " mnemonic 'di' = 'debug inspect' (pick your own, if you prefer!)
+      " for normal mode - the word under the cursor
+      nmap <Leader>di <Plug>VimspectorBalloonEval
+      " nmap for visual mode, the visually selected text
+      xmap <Leader>di <Plug>VimspectorBalloonEval
 
+      " codeium
+      let g:codeium_server_config = {
+        \'portal_url': 'https://codeium.lan.theobjects.com',
+        \'api_url': 'https://codeium.lan.theobjects.com/_route/api_server' }
+
+      nnoremap <C-p> :FZF<CR>
+      " for nerd commentary
+      filetype plugin on
     '';
 
-    extraLuaConfig = import ./neovim-config.lua.nix {inherit config;};
+    extraLuaConfig = import ./neovim-config.lua.nix {
+      inherit config;
+      debugpy_env = python-debugpy;
+    };
     plugins = with pkgs.vimPlugins; [
       coc-clangd
+      coc-cmake
       coc-docker
       coc-git
       coc-html
@@ -221,6 +243,9 @@ in {
       nerdcommenter
       nerdtree
       nerdtree-git-plugin
+      #nvim-dap
+      #nvim-dap-python
+      #nvim-dap-ui
       nvim-ufo
       telescope-coc-nvim
       telescope-file-browser-nvim
@@ -239,6 +264,7 @@ in {
       vim-perforce
       vim-surround
       vim-surround
+      vimspector
     ];
   };
   #  home.file.".config/fish/config.fish".text = ''
@@ -253,6 +279,9 @@ in {
   #  alias ca "python --version"
   #end
   #'';
+  home.shellAliases = {
+    ca = ''eval "$(micromamba shell hook --shell=bash)" && micromamba activate base && micromamba activate --stack $ORSROOT/dragonfly_python_environment_linux'';
+  };
 
   # Home Manager is pretty good at managing dotfiles. The primary way to manage
   # plain files is through 'home.file'.
@@ -268,6 +297,8 @@ in {
       recursive = true;
       executable = true;
     };
+    ".config/vimspector/gadgets/linux/debugpy".source = config.lib.file.mkOutOfStoreSymlink debugpy_path;
+    ".config/vimspector/codelldb".source = config.lib.file.mkOutOfStoreSymlink codelldb_path;
     # # You can also set the file content immediately.
     # ".gradle/gradle.properties".text = ''
     #   org.gradle.console=verbose

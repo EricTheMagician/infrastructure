@@ -1,9 +1,12 @@
-{config, ...}:
-''
+{
+  config,
+  debugpy_env,
+  ...
+}: ''
   -- here's some of my config. the rest were mostly taken from the internet
   vim.cmd[[colorscheme tokyonight-moon]]
 
-  -- 
+  -- require('dap-python').setup('${debugpy_env.outPath}/bin/python3');
   local builtin = require('telescope.builtin')
   local telescope = require("telescope")
   local telescopeConfig = require("telescope.config")
@@ -16,16 +19,16 @@
   table.insert(vimgrep_arguments, "--ignore-file")
   table.insert(vimgrep_arguments, "${config.home.homeDirectory}/.gitignore")
   telescope.setup({
-	defaults = {
-		-- `hidden = true` is not supported in text grep commands.
-		vimgrep_arguments = vimgrep_arguments,
-	},
-	pickers = {
-		find_files = {
-			-- `hidden = true` will still show the inside of `.git/` as it's not `.gitignore`d.
-			find_command = { "rg", "--files", "--hidden", "--ignore-file", "${config.home.homeDirectory}/.gitignore" };
-		},
-	},
+  defaults = {
+       -- `hidden = true` is not supported in text grep commands.
+       vimgrep_arguments = vimgrep_arguments,
+  },
+  pickers = {
+       find_files = {
+               -- `hidden = true` will still show the inside of `.git/` as it's not `.gitignore`d.
+               find_command = { "rg", "--files", "--hidden", "--ignore-file", "${config.home.homeDirectory}/.gitignore" };
+       },
+  },
   })
 
   vim.keymap.set('n', '<leader>ff', builtin.find_files, {})
