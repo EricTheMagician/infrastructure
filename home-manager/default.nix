@@ -189,8 +189,11 @@ in {
       \'api_url': 'https://codeium.lan.theobjects.com/_route/api_server' }
 
 
+	   noremap  <leader>ti :tabprevious<CR>
+	   noremap <leader>to :tabnext<CR>
+	   noremap <leader>tn :tabnew<CR>
            set number relativenumber
-           nnoremap <C-t> :NERDTreeToggle<CR>
+           nnoremap <C-t> :NERDTreeFind<CR>
            nnoremap <C-p> :FZF<CR>
            " disbles mouse in neovim in general
            " set mouse=
@@ -202,43 +205,40 @@ in {
 
     extraLuaConfig = import ./neovim-config.lua.nix {inherit config;};
     plugins = with pkgs.vimPlugins; [
-      vim-perforce
-      vim-codeium
-      vim-surround
-      vim-gitgutter
-      vim-fugitive
-      vim-surround
-      coc-pyright # only here to enable black format with coc-python. most of it's options are disabled in favour of pylance
-      coc-sh
+      coc-clangd
       coc-docker
       coc-git
-      coc-yaml
-      coc-json
       coc-html
-      coc-clangd
+      coc-json
       coc-nginx
+      coc-pyright # only here to enable black format with coc-python. most of it's options are disabled in favour of pylance
+      coc-sh
       coc-spell-checker
+      coc-yaml
+      fzfWrapper
+      markdown-preview-nvim
+      neorg-telescope
+      nerdcommenter
       nerdtree
       nerdtree-git-plugin
-      fzfWrapper
-      #vim-commentary
-      vim-airline
-      nerdcommenter
       nvim-ufo
-      # markdown stuff
-      markdown-preview-nvim
-      vim-markdown-toc
-
-      # telescope and plugins
-      telescope-nvim
-      telescope-vim-bookmarks-nvim
-      telescope-undo-nvim
-      telescope-media-files-nvim
-      telescope-live-grep-args-nvim
-      telescope-fzf-native-nvim
-      telescope-file-browser-nvim
       telescope-coc-nvim
-      neorg-telescope
+      telescope-file-browser-nvim
+      telescope-fzf-native-nvim
+      telescope-live-grep-args-nvim
+      telescope-media-files-nvim
+      telescope-nvim
+      telescope-undo-nvim
+      telescope-vim-bookmarks-nvim
+      tokyonight-nvim
+      vim-airline
+      vim-codeium
+      vim-fugitive
+      vim-gitgutter
+      vim-markdown-toc
+      vim-perforce
+      vim-surround
+      vim-surround
     ];
   };
   #  home.file.".config/fish/config.fish".text = ''

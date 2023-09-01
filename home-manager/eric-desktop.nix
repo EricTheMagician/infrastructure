@@ -76,6 +76,7 @@ in {
     #   }
     # )
 
+    (neovim-qt.override { neovim = config.programs.neovim.finalPackage; })
     obsidian
     nextcloud-client
   ];

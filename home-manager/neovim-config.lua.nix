@@ -1,5 +1,9 @@
 {config, ...}:
 ''
+  -- here's some of my config. the rest were mostly taken from the internet
+  vim.cmd[[colorscheme tokyonight-moon]]
+
+  -- 
   local builtin = require('telescope.builtin')
   local telescope = require("telescope")
   local telescopeConfig = require("telescope.config")
@@ -49,7 +53,7 @@
 
   -- Always show the signcolumn, otherwise it would shift the text each time
   -- diagnostics appeared/became resolved
-  vim.opt.signcolumn = "yes"
+  -- vim.opt.signcolumn = "yes"
 
   local keyset = vim.keymap.set
   -- Autocomplete
