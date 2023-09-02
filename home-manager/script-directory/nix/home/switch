@@ -1,5 +1,12 @@
 #!/usr/bin/env bash
 # switch to `--flake .#eric`
 set -euo pipefail
+# Get all command line arguments
+args="${@}" 
 
-home-manager switch --flake .
+# Check if there are any arguments
+if [ -z "$args" ]; then
+  # No arguments, so set default
+  args="."
+fi
+home-manager switch --flake $args
