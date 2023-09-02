@@ -6,6 +6,9 @@
     nixpkgs.url = "github:nixos/nixpkgs/nixos-23.05";
     nixpkgs-unstable.url = "github:nixos/nixpkgs/nixos-unstable";
 
+    mynixpkgs.url = "github:EricTheMagician/mynixpkgs";
+    mynixpkgs.inputs.nixpkgs.follows = "nixpkgs";
+
     # Home manager
     home-manager.url = "github:nix-community/home-manager";
     home-manager.inputs.nixpkgs.follows = "nixpkgs";
@@ -33,6 +36,7 @@
     deploy-rs,
     sops-nix,
     nixpkgs-unstable,
+    mynixpkgs,
     ...
   } @ inputs: let
     system = "x86_64-linux";
@@ -132,7 +136,7 @@
           {
             _module.args.sshKeys = sshKeys;
           }
-          ./modules/tailscale.nix
+          ./moodules/tailscale.nix
           {
             _module.args.tailscale_auth_path = ./secrets/tailscale/headscale.yaml;
           }
@@ -164,6 +168,8 @@
       "eric@nixos-workstation" = home-manager.lib.homeManagerConfiguration {
         pkgs = unstable; # Home-manager requires 'pkgs' instance
         extraSpecialArgs = {
+          #inherit nixpkgs;
+          mypkgs = mynixpkgs.packages.${system};
           inherit inputs;
           stable = pkgs;
         }; # Pass flake inputs to our config
@@ -183,6 +189,7 @@
         pkgs = unstable; # Home-manager requires 'pkgs' instance
         extraSpecialArgs = {
           inherit inputs;
+          mypkgs = mynixpkgs.packages.${system};
         }; # Pass flake inputs to our config
         # > Our main home-manager configuration file <
         modules = [

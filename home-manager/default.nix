@@ -1,45 +1,9 @@
 {
   config,
   pkgs,
-  lib,
+  mypkgs,
   ...
 }: let
-  updated_pylance = pkgs.vscode-utils.buildVscodeMarketplaceExtension {
-    mktplcRef = {
-      name = "vscode-pylance";
-      publisher = "MS-python";
-      version = "2023.8.50";
-      sha256 = "sha256-xJU/j5r/Idp/0VorEfciT4SFKRBpMCv9Z0LKO/++1Gk=";
-    };
-
-    buildInputs = [pkgs.nodePackages.pyright];
-
-    meta = {
-      changelog = "https://marketplace.visualstudio.com/items/ms-python.vscode-pylance/changelog";
-      description = "A performant, feature-rich language server for Python in VS Code";
-      downloadPage = "https://marketplace.visualstudio.com/items?itemName=ms-python.vscode-pylance";
-      homepage = "https://github.com/microsoft/pylance-release";
-      license = lib.licenses.unfree;
-    };
-  };
-  vim-perforce = pkgs.vimUtils.buildVimPluginFrom2Nix {
-    name = "vim-perforce";
-    src = pkgs.fetchFromGitHub {
-      owner = "nfvs";
-      repo = "vim-perforce";
-      rev = "d1dcbe8aca797976678200f42cc2994b7f6c86c2";
-      hash = "sha256-CbRZXZdGeQOSM2FH8eDWXLhsznSRtx9B8txH5Ilk+Ag=";
-    };
-  };
-  vim-codeium = pkgs.vimUtils.buildVimPluginFrom2Nix {
-    name = "codeium.vim";
-    src = pkgs.fetchFromGitHub {
-      owner = "Exafunction";
-      repo = "codeium.vim";
-      rev = "1.2.78";
-      hash = "sha256-SO0H0cXg0Pcmx4tvzRhtSQBgCvV11EUtYZ9vh+ZASAA=";
-    };
-  };
   # vimspector debuggers
   python-debugpy = pkgs.python310.withPackages (ps: with ps; [debugpy]);
   debugpy_path = python-debugpy + "/lib/python3.10/site-packages/debugpy";
@@ -156,7 +120,7 @@ in {
               VSCODE_NLS_CONFIG = "1";
             };
             #module = pkgs.vscode-extensions.ms-python.vscode-pylance + "/share/vscode/extensions/MS-python.vscode-pylance/dist/server.bundle.js";
-            module = updated_pylance + "/share/vscode/extensions/MS-python.vscode-pylance/dist/server.bundle.js";
+            module = mypkgs.vscode-pylance + "/share/vscode/extensions/MS-python.vscode-pylance/dist/server.bundle.js";
             initializationOptions = {};
             settings = {
               python.analysis.typeCheckingMode = "basic";
@@ -257,11 +221,11 @@ in {
       telescope-vim-bookmarks-nvim
       tokyonight-nvim
       vim-airline
-      vim-codeium
+      mypkgs.vim-codeium
       vim-fugitive
       vim-gitgutter
       vim-markdown-toc
-      vim-perforce
+      mypkgs.vim-perforce
       vim-surround
       vim-surround
       vimspector
