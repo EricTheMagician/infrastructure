@@ -155,7 +155,14 @@ in {
       noremap <leader>vr :ViminspectorReset<CR>
       set number relativenumber expandtab shiftwidth=4 softtabstop=4 smarttab
       nnoremap <C-t> :NERDTreeFind<CR>
-
+      nnoremap <C-Left> <C-W>h
+      nnoremap <C-Down> <C-W>j
+      nnoremap <C-Up> <C-W>k
+      nnoremap <C-Right> <C-W>l
+      nnoremap <C-h> <C-W>h
+      nnoremap <C-j> <C-W>j
+      nnoremap <C-k> <C-W>k
+      nnoremap <C-l> <C-W>l
       let g:vimspector_enable_mappings = 'HUMAN'
       let g:vimspector_base_dir=expand( '$HOME/.config/vimspector' )
 
