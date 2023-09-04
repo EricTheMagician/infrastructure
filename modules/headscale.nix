@@ -14,6 +14,7 @@
   domain = "hs.eyen.ca";
   unstable = inputs.nixpkgs-unstable.legacyPackages.x86_64-linux;
   tailscale_dns_entries = (import ../common/dns).tailscale_dns_entries;
+  build_borg_backup_job = import ../functions/borg-backup.nix;
 in {
   environment.systemPackages = [
     unstable.headscale # needed for the headscale cli utility
@@ -54,6 +55,34 @@ in {
           "eyen.ca"
         ];
       };
+    };
+  };
+
+  # manage backups of the currrent headscale data
+  sops = {
+    secrets.BORG_BACKUP_PASSWORD = {
+      mode = "0400";
+      sopsFile = ../secrets/borg-backup.yaml;
+    };
+    secrets.BORG_PRIVATE_KEY = {
+      mode = "0400";
+      sopsFile = ../secrets/borg-backup.yaml;
+    };
+  };
+
+  services.borgbackup.jobs.headscale = build_borg_backup_job {
+    inherit config;
+    paths = [(builtins.toPath (config.services.headscale.settings.db_path + "/.."))];
+    #user = "kanidm";
+    name = "kanidm-server";
+    patterns = [
+      "+ ${config.services.headscale.settings.db_path}"
+      ("- " + (builtins.toPath (config.services.headscale.settings.db_path + "/..")))
+    ];
+    keep = {
+      daily = 7;
+      weekly = 4;
+      monthly = 3;
     };
   };
 }
