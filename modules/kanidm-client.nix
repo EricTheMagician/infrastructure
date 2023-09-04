@@ -18,7 +18,18 @@
       enableClient = true;
       clientSettings = {uri = "https://login.eyen.ca";};
       enablePam = true;
-      unixSettings.pam_allowed_login_groups = config.kanidm.pam_allowed_login_groups;
+      unixSettings = {
+        pam_allowed_login_groups = config.kanidm.pam_allowed_login_groups;
+        default_shell = "${pkgs.bashInteractive}/bin/bash";
+        home_prefix = "/home/";
+        home_attr = "uuid";
+        home_alias = "spn";
+        use_etc_skel = false;
+        uid_attr_map = "spn";
+        gid_attr_map = "spn";
+        selinux = false;
+        allow_local_account_override = ["account_name"];
+      };
     };
   };
 }

@@ -1,9 +1,9 @@
 {
-  users.users.nix-admin = {
-    isSystemUser = true;
-    group = "nix-admin";
-  };
-  users.groups.nix-admin = {};
+  #users.users.nix-admin = {
+  #  isSystemUser = true;
+  #  group = "nix-admin";
+  #};
+  #users.groups.nix-admin = {};
   security.sudo.extraRules = [
     {
       groups = ["nix-admin"];

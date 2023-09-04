@@ -4,18 +4,19 @@
   inputs,
   lib,
   config,
-  pkgs,
-  sshKeys,
+  unstable,
   ...
 }: let
   build_borg_backup_job = import ../functions/borg-backup.nix;
+  sshKeys = import ../common/ssh-keys.nix;
 in {
-  # You can import other NixOS modules here
+  disabledModules = ["services/security/kanidm.nix"];
   imports = [
     # If you want to use modules from other flakes (such as nixos-hardware):
     inputs.hardware.nixosModules.common-cpu-intel
     inputs.hardware.nixosModules.common-pc-ssd
 
+    (inputs.nixpkgs-unstable + "/nixos/modules/services/security/kanidm.nix")
     # You can also split up your configuration and import pieces of it here:
     # ./users.nix
 
@@ -25,6 +26,7 @@ in {
     ../containers/adguard.nix
     ../modules/kanidm-admin.nix
     ../modules/kanidm-client.nix
+    ../modules/tailscale.nix
     #../containers/kanidm.nix
     # ../common
   ];
@@ -96,7 +98,8 @@ in {
       PermitRootLogin = "no";
 
       # use kanidm ssh to authorize some of my keys
-      authorizedKeysCommand = "${pkgs.kanidm}/bin/kanidm_ssh_authorizedkeys %u";
+      AuthorizedKeysCommand = "${unstable.kanidm}/bin/kanidm_ssh_authorizedkeys %u";
+      AuthorizedKeysCommandUser = "kanidm";
     };
   };
 
@@ -123,7 +126,7 @@ in {
   #  nginx.domain.name = "login.eyen.ca";
   #};
 
-  #users.users.kanidm.group = "kandim";
+  #users.users.kanidm.group = "kanidm";
   #users.groups.kanidm = {};
   #users.groups.borg-backup = {};
   sops = {
@@ -167,8 +170,12 @@ in {
   users.users.kanidm.extraGroups = [config.security.acme.defaults.group];
   users.users.kanidm.isSystemUser = true;
   security.acme.certs."login.eyen.ca" = {};
+  systemd.tmpfiles.rules = [
+    #  "d /var/lib/private/kanidm  0750 kanidm kanidm 10d"
+  ];
   services.kanidm = {
     enableServer = true;
+    package = unstable.kanidm;
     serverSettings = {
       origin = "https://login.eyen.ca/*";
       domain = "eyen.ca";
@@ -176,6 +183,15 @@ in {
       bindaddress = "127.0.0.1:4443";
       tls_chain = ''${config.security.acme.certs."login.eyen.ca".directory}/fullchain.pem'';
       tls_key = ''${config.security.acme.certs."login.eyen.ca".directory}/key.pem'';
+      online_backup = {
+        #   The path to the output folder for online backups
+        path = "/var/lib/kanidm/backups/";
+        #   The schedule to run online backups (see https://crontab.guru/)
+        #   every day at 22:00 UTC (default)
+        schedule = "00 22 * * *";
+        #   Number of backups to keep (default 7)
+        versions = 7;
+      };
     };
   };
   services.nginx.virtualHosts."login.eyen.ca" = {
@@ -200,7 +216,7 @@ in {
     };
   };
   environment.systemPackages = [
-    pkgs.kanidm
+    unstable.kanidm
   ];
 
   networking.nat = {

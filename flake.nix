@@ -49,7 +49,6 @@
       inherit system;
       config.allowUnfree = true;
     };
-    sops = import sops-nix {inherit system;};
     sshKeys = import ./common/ssh-keys.nix;
 
     deployPkgs = import nixpkgs {
@@ -82,31 +81,20 @@
           disko.nixosModules.disko
           sops-nix.nixosModules.sops
           ./systems/nixos-workstation-configuration.nix
-          {
-            _module.args.sshKeys = sshKeys;
-          }
-          #          ./modules/tailscale.nix
-          #{
-          #_module.args.tailscale_auth_path = ./secrets/tailscale/eric.yaml;
-          #         }
         ];
       };
 
       mini-nix = nixpkgs.lib.nixosSystem {
         inherit system;
-        specialArgs = {inherit inputs;}; # Pass flake inputs to our config
+        specialArgs = {
+          inherit inputs;
+          inherit unstable;
+        }; # Pass flake inputs to our config
         # > Our main nixos configuration file <
         modules = [
           disko.nixosModules.disko
           sops-nix.nixosModules.sops
           ./systems/mini-nix-configuration.nix
-          {
-            _module.args.sshKeys = sshKeys;
-          }
-          ./modules/tailscale.nix
-          {
-            _module.args.tailscale_auth_path = ./secrets/tailscale/infrastructure.yaml;
-          }
         ];
       };
 
@@ -116,13 +104,6 @@
         modules = [
           sops-nix.nixosModules.sops
           ./systems/adguard-lxc.nix
-          {
-            _module.args.sshKeys = sshKeys;
-          }
-          ./modules/tailscale.nix
-          {
-            _module.args.tailscale_auth_path = ./secrets/tailscale/infrastructure.yaml;
-          }
         ];
       };
 
@@ -131,15 +112,7 @@
         # > Our main nixos configuration file <
         modules = [
           sops-nix.nixosModules.sops
-          ./systems/headscale-hardware-configuration.nix
           ./systems/headscale-configuration.nix
-          {
-            _module.args.sshKeys = sshKeys;
-          }
-          ./moodules/tailscale.nix
-          {
-            _module.args.tailscale_auth_path = ./secrets/tailscale/headscale.yaml;
-          }
         ];
       };
 
@@ -251,7 +224,6 @@
         profilePath = "/nix/var/nix/profiles/per-user/eric/home-manager";
         path = deploy-rs.lib.${system}.activate.custom self.homeConfigurations."eric@nixos-workstation".activationPackage "$PROFILE/activate";
       };
-      remoteBuild = true;
     };
 
     deploy.nodes.vscode-infrastructure = {

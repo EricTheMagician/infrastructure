@@ -1,16 +1,18 @@
 {
   config,
   pkgs,
-  sshKeys,
   ...
 }: let
+  sshKeys = import ../common/ssh-keys.nix;
 in {
   imports = [
     ./headscale-hardware-configuration.nix
     ../modules/headscale.nix
     ../common
+    ../modules/tailscale.nix
   ];
 
+  tailscale.secrets_path = ../secrets/tailscale/headscale.yaml;
   boot.tmp.cleanOnBoot = true;
   system.stateVersion = "22.11";
   zramSwap.enable = false;
@@ -28,42 +30,5 @@ in {
       }
     ];
     settings.PasswordAuthentication = false;
-  };
-
-  environment.systemPackages = with pkgs; [
-    neovim
-    tmux
-    byobu
-    btop
-  ];
-  #users.mysql = {
-  #     host = "localhost";
-  #};
-  #services.mysql = {
-  #     package = pkgs.mariadb;
-  #       enable = true;
-  #       dataDir = "/var/lib/mysql";
-  #       ensureDatabases = [
-  #               "headscale"
-  #       ];
-  #       ensureUsers = [
-  #       {
-  #               name = "headscale";
-  #               ensurePermissions = {
-  #                       "headscale.*" = "ALL PRIVILEGES";
-  #               };
-  #       }
-  #       ];
-  # };
-  #  services.headscale = {
-  #       enable = false;
-  #       derp.autoUpdate = true;
-  #       port = 443;
-  #  };
-  programs.neovim = {
-    enable = true;
-    viAlias = true;
-    vimAlias = true;
-    defaultEditor = true;
   };
 }

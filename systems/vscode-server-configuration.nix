@@ -6,9 +6,9 @@
   config,
   pkgs,
   lib,
-  sshKeys,
   ...
 }: let
+  sshKeys = import ../common/ssh-keys.nix;
 in {
   # enable nix flakes
   nix.settings.experimental-features = ["nix-command" "flakes"];
