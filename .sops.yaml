@@ -1,6 +1,7 @@
 keys:
   - &admin_infrastructure age1jxa6adhk5azfsefvtw84gk5ge3hxkfygf3sljm3v00s6n8pcdqrq3u92md
   - &admin_workstation age1z9fxldccff0xtmudz4gc44srmf4865vp3r77t3srv5jwmrp8jdcsjdafmt
+  - &admin_mini-nix age19n69hfj97hd3w778rg06t2a3dn37qf4ntyut6ufhxxzxn6476ems2kuhxm
   - &server_adguard_lxc age1ew6eh5z96z67jqx5anvaylmz9srhnhlehrgacysrh7tvqvqedp0qgrx3k3
   - &server_mini-nix age1awrvevdqa2uac7es3g3fydz2zsj4zspqgmwflumhgxd7lk2x9fkq2l4qk7
   - &server_infrastructure age1vjhly9gdhewd4d8l6duqh06lvyvrczzkraj8n7r9dym86dehe9vq39uhph
@@ -10,7 +11,7 @@ creation_rules:
   - path_regex: secrets/[^/]+\.(yaml|json|env|ini)$
     key_groups:
     - age:
-      - *admin_infrastructure
+      - *admin_mini-nix
       - *admin_workstation
       - *server_mini-nix
       - *server_infrastructure
@@ -19,19 +20,19 @@ creation_rules:
   - path_regex: secrets/tailscale/eric\.yaml
     key_groups:
     - age:
-      - *admin_infrastructure
+      - *admin_mini-nix
       - *admin_workstation
       - *workstation_nixos-workstation
   - path_regex: secrets/tailscale/headscale\.yaml
     key_groups:
     - age:
-      - *admin_infrastructure
+      - *admin_mini-nix
       - *admin_workstation
       - *server_headscale
   - path_regex: secrets/tailscale/infrastructure\.yaml
     key_groups:
     - age:
-      - *admin_infrastructure
+      - *admin_mini-nix
       - *admin_workstation
       - *server_infrastructure
       - *server_mini-nix

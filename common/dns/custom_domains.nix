@@ -22,6 +22,11 @@ in
       ts = "100.64.0.9";
     }
     {
+      domain = "login.eyen.ca";
+      home = mini-nix.home;
+      ts = mini-nix.ts;
+    }
+    {
       domain = "mini-nix-adguard.eyen.ca";
       home = mini-nix.home;
       ts = mini-nix.ts;

@@ -7,7 +7,9 @@
   pkgs,
   sshKeys,
   ...
-}: {
+}: let
+  build_borg_backup_job = import ../functions/borg-backup.nix;
+in {
   # You can import other NixOS modules here
   imports = [
     # If you want to use modules from other flakes (such as nixos-hardware):
@@ -21,6 +23,9 @@
     ./mini-nix-hardware-configuration.nix
     ./mini-nix-disks.nix
     ../containers/adguard.nix
+    ../modules/kanidm-admin.nix
+    ../modules/kanidm-client.nix
+    #../containers/kanidm.nix
     # ../common
   ];
   nixpkgs = {
@@ -88,7 +93,10 @@
       PasswordAuthentication = false;
 
       # Forbid root login through SSH.
-      PermitRootLogin = "yes";
+      PermitRootLogin = "no";
+
+      # use kanidm ssh to authorize some of my keys
+      authorizedKeysCommand = "${pkgs.kanidm}/bin/kanidm_ssh_authorizedkeys %u";
     };
   };
 
@@ -105,8 +113,107 @@
     nginx.domain.name = "mini-nix-adguard.eyen.ca";
   };
 
+  # configure my containers
+  #container.kanidm = {
+  #  bridge = {
+  #    name = "br-kanidm";
+  #    address = "10.100.1.1";
+  #    prefixLength = 24;
+  #  };
+  #  nginx.domain.name = "login.eyen.ca";
+  #};
+
+  #users.users.kanidm.group = "kandim";
+  #users.groups.kanidm = {};
+  #users.groups.borg-backup = {};
+  sops = {
+    secrets.BORG_BACKUP_PASSWORD = {
+      mode = "0400";
+      sopsFile = ../secrets/borg-backup.yaml;
+    };
+    secrets.BORG_PRIVATE_KEY = {
+      mode = "0400";
+      sopsFile = ../secrets/borg-backup.yaml;
+    };
+  };
+
+  services.borgbackup.jobs.kanidm-server = build_borg_backup_job {
+    inherit config;
+    paths = [(builtins.toPath (config.services.kanidm.serverSettings.db_path + "/.."))];
+    #user = "kanidm";
+    name = "kanidm-server";
+    patterns = [
+      "+ ${config.services.kanidm.serverSettings.db_path}"
+      ("- " + (builtins.toPath (config.services.kanidm.serverSettings.db_path + "/..")))
+    ];
+    keep = {
+      weekly = 4;
+      monthly = 3;
+    };
+  };
+
+  #{
+  #  paths = [config.services.kanidm.serverSettings.db_path];
+  #  startAt = "weekly";
+  #  doInit = false;
+  #  repo = "u322294.your-storagebox.de";
+  #  compression = "auto,lzma";
+  #  encryption = {
+  #    mode = "repokey-blake2";
+  #    passCommand = "cat ${config.sops.secrets.BORG_BACKUP_PASSWORD.path}";
+  #  };
+  #  environment = {BORG_RSH = "ssh -i /path/to/ssh_key";};
+  #};
+  users.users.kanidm.extraGroups = [config.security.acme.defaults.group];
+  users.users.kanidm.isSystemUser = true;
+  security.acme.certs."login.eyen.ca" = {};
+  services.kanidm = {
+    enableServer = true;
+    serverSettings = {
+      origin = "https://login.eyen.ca/*";
+      domain = "eyen.ca";
+      ldapbindaddress = "0.0.0.0:636";
+      bindaddress = "127.0.0.1:4443";
+      tls_chain = ''${config.security.acme.certs."login.eyen.ca".directory}/fullchain.pem'';
+      tls_key = ''${config.security.acme.certs."login.eyen.ca".directory}/key.pem'';
+    };
+  };
+  services.nginx.virtualHosts."login.eyen.ca" = {
+    useACMEHost = "login.eyen.ca";
+    #listen = [
+    #  {
+    #    addr = "0.0.0.0";
+    #    port = 443;
+    #  }
+    #];
+    forceSSL = true;
+    locations."/" = {
+      proxyPass = "https://127.0.0.1:4443";
+      extraConfig = ''
+        #proxy_ssl_server_name on;
+        proxy_ssl_verify_depth 2;
+        proxy_ssl_name $host;
+        proxy_ssl_server_name on;
+        proxy_ssl_protocols  TLSv1 TLSv1.1 TLSv1.2;
+        proxy_ssl_session_reuse off;
+      '';
+    };
+  };
+  environment.systemPackages = [
+    pkgs.kanidm
+  ];
+
   networking.nat = {
     enable = true;
-    internalInterfaces = [config.container.adguard.bridge.name];
+    internalInterfaces = lib.mapAttrsToList (name: value: value.bridge.name) config.container;
   };
+
+  # ensures that the bridges are automatically started by systemd when the container starts
+  # this is needed when just doing a `rebuild switcch`. Otherwise, a reboot is fine.
+  systemd.services =
+    lib.mapAttrs' (name: value: {
+      name = "${value.bridge.name}-netdev";
+      value = {wantedBy = ["container@${name}.service"];};
+    })
+    config.container;
 }

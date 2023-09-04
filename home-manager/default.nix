@@ -222,6 +222,7 @@ in {
       tokyonight-nvim
       vim-airline
       mypkgs.vim-codeium
+      vim-bufkill
       vim-fugitive
       vim-gitgutter
       vim-markdown-toc
