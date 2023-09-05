@@ -22,6 +22,11 @@ in
       ts = "100.64.0.9";
     }
     {
+      domain = "healthchecks.eyen.ca";
+      home = mini-nix.home;
+      ts = mini-nix.ts;
+    }
+    {
       domain = "login.eyen.ca";
       home = mini-nix.home;
       ts = mini-nix.ts;

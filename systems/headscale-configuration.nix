@@ -6,10 +6,11 @@
   sshKeys = import ../common/ssh-keys.nix;
 in {
   imports = [
-    ./headscale-hardware-configuration.nix
-    ../modules/headscale.nix
     ../common
+    ../modules/borg.nix
+    ../modules/headscale.nix
     ../modules/tailscale.nix
+    ./headscale-hardware-configuration.nix
   ];
 
   tailscale.secrets_path = ../secrets/tailscale/headscale.yaml;

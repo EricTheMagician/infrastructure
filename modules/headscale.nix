@@ -73,18 +73,25 @@ in {
     };
   };
 
-  services.borgbackup.jobs.headscale-config = build_borg_backup_job {
-    inherit config;
-    paths = [(builtins.toPath (config.services.headscale.settings.db_path + "/.."))];
-    name = "headscale-config";
-    patterns = [
-      "+ ${config.services.headscale.settings.db_path}"
-      ("- " + (builtins.toPath (config.services.headscale.settings.db_path + "/..")))
-    ];
-    keep = {
-      daily = 7;
-      weekly = 4;
-      monthly = 3;
+  services.borgbackup.jobs.headscale-config =
+    build_borg_backup_job {
+      inherit config;
+      paths = [(builtins.toPath (config.services.headscale.settings.db_path + "/.."))];
+      name = "headscale-config";
+      patterns = [
+        "+ ${config.services.headscale.settings.db_path}"
+        ("- " + (builtins.toPath (config.services.headscale.settings.db_path + "/..")))
+      ];
+      keep = {
+        daily = 7;
+        weekly = 4;
+        monthly = 3;
+      };
+    }
+    // {
+      postHook = ''
+        PING_KEY=`cat ${config.sops.secrets.ping_key.path}`
+                  ${pkgs.curl}/bin/curl "https://healthchecks.eyen.ca/ping/$PING_KEY/headscale/$exitStatus" --silent
+      '';
     };
-  };
 }

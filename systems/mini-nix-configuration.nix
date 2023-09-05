@@ -26,6 +26,7 @@ in {
     ../containers/adguard.nix
     ../modules/kanidm-admin.nix
     ../modules/kanidm-client.nix
+    ../modules/borg.nix
     ../modules/tailscale.nix
     ../modules/knownHosts.nix
     ../services/healthchecks.nix
@@ -132,17 +133,6 @@ in {
   #users.users.kanidm.group = "kanidm";
   #users.groups.kanidm = {};
   #users.groups.borg-backup = {};
-  sops = {
-    secrets.BORG_BACKUP_PASSWORD = {
-      mode = "0400";
-      sopsFile = ../secrets/borg-backup.yaml;
-    };
-    secrets.BORG_PRIVATE_KEY = {
-      mode = "0400";
-      sopsFile = ../secrets/borg-backup.yaml;
-    };
-  };
-
   services.borgbackup.jobs.kanidm-server = build_borg_backup_job {
     inherit config;
     paths = [(builtins.toPath (config.services.kanidm.serverSettings.db_path + "/.."))];

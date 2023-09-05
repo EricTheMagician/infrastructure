@@ -65,7 +65,7 @@ in {
       ALLOWED_HOSTS = [domain];
       SECRET_KEY_FILE = config.sops.secrets.healthchecks.path;
       ADMINS = "eric@ericyen.com";
-      SITE_ROOT = domain;
+      SITE_ROOT = "https://${domain}";
     };
   };
 
@@ -80,13 +80,20 @@ in {
   };
 
   # create a backup for healthchecks
-  services.borgbackup.jobs.healthchecks = build_borg_backup_job {
-    inherit config;
-    paths = [(builtins.toPath (config.services.healthchecks.dataDir))];
-    name = "healthchecks";
-    keep = {
-      daily = 7;
-      weekly = 4;
+  services.borgbackup.jobs.healthchecks =
+    build_borg_backup_job {
+      inherit config;
+      paths = [(builtins.toPath (config.services.healthchecks.dataDir))];
+      name = "healthchecks";
+      keep = {
+        daily = 7;
+        weekly = 4;
+      };
+    }
+    // {
+      postHook = ''
+        PING_KEY=`cat ${config.sops.secrets.ping_key.path}`
+                  ${pkgs.curl}/bin/curl "https://healthchecks.eyen.ca/ping/$PING_KEY/healthchecks/$exitStatus"
+      '';
     };
-  };
 }
