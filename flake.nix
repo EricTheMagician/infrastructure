@@ -115,24 +115,6 @@
           ./systems/headscale-configuration.nix
         ];
       };
-
-      vscode-infrastructure = nixpkgs.lib.nixosSystem {
-        specialArgs = {
-          inherit inputs;
-          inherit unstable;
-        };
-        modules = [
-          sops-nix.nixosModules.sops
-          ./systems/vscode-server-configuration.nix
-          {
-            _module.args.sshKeys = sshKeys;
-          }
-          ./modules/tailscale.nix
-          {
-            _module.args.tailscale_auth_path = ./secrets/tailscale/infrastructure.yaml;
-          }
-        ];
-      };
     };
 
     # Standalone home-manager configuration entrypoint
@@ -223,20 +205,6 @@
         user = "eric";
         profilePath = "/nix/var/nix/profiles/per-user/eric/home-manager";
         path = deploy-rs.lib.${system}.activate.custom self.homeConfigurations."eric@nixos-workstation".activationPackage "$PROFILE/activate";
-      };
-    };
-
-    deploy.nodes.vscode-infrastructure = {
-      hostname = "vscode-server-unraid";
-      profiles.system = {
-        sshUser = "root";
-        user = "root";
-        path = deployPkgs.deploy-rs.lib.activate.nixos self.nixosConfigurations.vscode-infrastructure;
-      };
-      profiles.eric = {
-        user = "eric";
-        profilePath = "/nix/var/nix/profiles/per-user/eric/home-manager";
-        path = deploy-rs.lib.${system}.activate.custom self.homeConfigurations.eric.activationPackage "$PROFILE/activate";
       };
     };
 
