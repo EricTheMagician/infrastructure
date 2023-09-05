@@ -14,8 +14,11 @@
   domain = "hs.eyen.ca";
   unstable = inputs.nixpkgs-unstable.legacyPackages.x86_64-linux;
   tailscale_dns_entries = (import ../common/dns).tailscale_dns_entries;
-  build_borg_backup_job = import ../functions/borg-backup.nix;
+  build_borg_backup_job = import ../functions/borg-job.nix;
 in {
+  imports = [
+    ../modules/knownHosts.nix
+  ];
   environment.systemPackages = [
     unstable.headscale # needed for the headscale cli utility
   ];
@@ -70,11 +73,11 @@ in {
     };
   };
 
-  services.borgbackup.jobs.headscale = build_borg_backup_job {
+  services.borgbackup.jobs.headscale-config = build_borg_backup_job {
     inherit config;
     paths = [(builtins.toPath (config.services.headscale.settings.db_path + "/.."))];
     #user = "kanidm";
-    name = "kanidm-server";
+    name = "headscale-config";
     patterns = [
       "+ ${config.services.headscale.settings.db_path}"
       ("- " + (builtins.toPath (config.services.headscale.settings.db_path + "/..")))

@@ -7,8 +7,8 @@
   unstable,
   ...
 }: let
-  build_borg_backup_job = import ../functions/borg-backup.nix;
   sshKeys = import ../common/ssh-keys.nix;
+  build_borg_backup_job = import ../functions/borg-job.nix;
 in {
   disabledModules = ["services/security/kanidm.nix"];
   imports = [
@@ -27,6 +27,7 @@ in {
     ../modules/kanidm-admin.nix
     ../modules/kanidm-client.nix
     ../modules/tailscale.nix
+    ../modules/knownHosts.nix
     #../containers/kanidm.nix
     # ../common
   ];
