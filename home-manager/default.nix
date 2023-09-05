@@ -252,7 +252,7 @@ in {
   #end
   #'';
   home.shellAliases = {
-    ca = ''eval "$(micromamba shell hook --shell=bash)" && micromamba activate base && micromamba activate --stack $ORSROOT/dragonfly_python_environment_linux'';
+    ca = ''eval "$(micromamba shell hook --shell=bash)" && micromamba activate --stack $ORSROOT/dragonfly_python_environment_linux'';
   };
 
   # Home Manager is pretty good at managing dotfiles. The primary way to manage
