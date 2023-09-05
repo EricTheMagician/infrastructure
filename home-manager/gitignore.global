@@ -1,3 +1,5 @@
+# ignore our dragonfly python environment from the search
+dragonfly_python_environment*/
 # for fzf
 .git/
 # dragonfly installer folder

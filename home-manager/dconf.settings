@@ -1,0 +1,236 @@
+[ca/desrt/dconf-editor]
+saved-pathbar-path='/org/gnome/mutter/keybindings/switch-monitor'
+saved-view='/org/gnome/mutter/keybindings/switch-monitor'
+show-warning=false
+window-height=500
+window-is-maximized=false
+window-width=540
+
+[org/gnome/Console]
+last-window-size=(652, 481)
+
+[org/gnome/Geary]
+compose-as-html=true
+formatting-toolbar-visible=false
+images-trusted-domains=['*']
+migrated-config=true
+optional-plugins=['email-templates']
+single-key-shortcuts=true
+
+[org/gnome/Totem]
+active-plugins=['vimeo', 'variable-rate', 'skipto', 'screenshot', 'screensaver', 'save-file', 'rotation', 'recent', 'movie-properties', 'open-directory', 'mpris', 'autoload-subtitles', 'apple-trailers']
+subtitle-encoding='UTF-8'
+
+[org/gnome/calendar]
+active-view='month'
+window-maximized=true
+window-size=(768, 600)
+
+[org/gnome/control-center]
+last-panel='display'
+window-state=(980, 580, false)
+
+[org/gnome/desktop/app-folders]
+folder-children=['Utilities', 'YaST']
+
+[org/gnome/desktop/app-folders/folders/Utilities]
+apps=['gnome-abrt.desktop', 'gnome-system-log.desktop', 'nm-connection-editor.desktop', 'org.gnome.baobab.desktop', 'org.gnome.Connections.desktop', 'org.gnome.DejaDup.desktop', 'org.gnome.Dictionary.desktop', 'org.gnome.DiskUtility.desktop', 'org.gnome.eog.desktop', 'org.gnome.Evince.desktop', 'org.gnome.FileRoller.desktop', 'org.gnome.fonts.desktop', 'org.gnome.seahorse.Application.desktop', 'org.gnome.tweaks.desktop', 'org.gnome.Usage.desktop', 'vinagre.desktop']
+categories=['X-GNOME-Utilities']
+name='X-GNOME-Utilities.directory'
+translate=true
+
+[org/gnome/desktop/app-folders/folders/YaST]
+categories=['X-SuSE-YaST']
+name='suse-yast.directory'
+translate=true
+
+[org/gnome/desktop/input-sources]
+sources=[('xkb', 'us')]
+xkb-options=['terminate:ctrl_alt_bksp']
+
+[org/gnome/desktop/interface]
+color-scheme='default'
+font-antialiasing='grayscale'
+font-hinting='slight'
+
+[org/gnome/desktop/notifications]
+application-children=['gnome-power-panel', 'org-gnome-epiphany', 'org-gnome-console', 'vivaldi-stable', 'org-gnome-baobab', 'slack', 'thunderbird', 'com-nextcloud-desktopclient-nextcloud', 'nomachine-player-base', 'code', 'zoom', 'element-desktop', 'clion', 'ferdium', 'obsidian', 'org-wezfurlong-wezterm', 'pycharm-professional', 'org-gnome-characters', 'org-gnome-calendar']
+show-banners=true
+
+[org/gnome/desktop/notifications/application/clion]
+application-id='clion.desktop'
+
+[org/gnome/desktop/notifications/application/code]
+application-id='code.desktop'
+
+[org/gnome/desktop/notifications/application/com-nextcloud-desktopclient-nextcloud]
+application-id='com.nextcloud.desktopclient.nextcloud.desktop'
+
+[org/gnome/desktop/notifications/application/element-desktop]
+application-id='element-desktop.desktop'
+
+[org/gnome/desktop/notifications/application/ferdium]
+application-id='ferdium.desktop'
+
+[org/gnome/desktop/notifications/application/gnome-power-panel]
+application-id='gnome-power-panel.desktop'
+
+[org/gnome/desktop/notifications/application/nomachine-player-base]
+application-id='NoMachine-player-base.desktop'
+
+[org/gnome/desktop/notifications/application/obsidian]
+application-id='obsidian.desktop'
+
+[org/gnome/desktop/notifications/application/org-gnome-baobab]
+application-id='org.gnome.baobab.desktop'
+
+[org/gnome/desktop/notifications/application/org-gnome-calendar]
+application-id='org.gnome.Calendar.desktop'
+
+[org/gnome/desktop/notifications/application/org-gnome-characters]
+application-id='org.gnome.Characters.desktop'
+
+[org/gnome/desktop/notifications/application/org-gnome-console]
+application-id='org.gnome.Console.desktop'
+
+[org/gnome/desktop/notifications/application/org-gnome-epiphany]
+application-id='org.gnome.Epiphany.desktop'
+
+[org/gnome/desktop/notifications/application/org-wezfurlong-wezterm]
+application-id='org.wezfurlong.wezterm.desktop'
+
+[org/gnome/desktop/notifications/application/pycharm-professional]
+application-id='pycharm-professional.desktop'
+
+[org/gnome/desktop/notifications/application/slack]
+application-id='slack.desktop'
+
+[org/gnome/desktop/notifications/application/thunderbird]
+application-id='thunderbird.desktop'
+
+[org/gnome/desktop/notifications/application/vivaldi-stable]
+application-id='vivaldi-stable.desktop'
+
+[org/gnome/desktop/notifications/application/zoom]
+application-id='Zoom.desktop'
+
+[org/gnome/desktop/session]
+idle-delay=uint32 600
+
+[org/gnome/desktop/wm/preferences]
+button-layout=':minimize,maximize,close'
+
+[org/gnome/epiphany]
+ask-for-default=false
+
+[org/gnome/epiphany/state]
+is-maximized=false
+window-size=(1024, 768)
+
+[org/gnome/evolution-data-server]
+migrated=true
+
+[org/gnome/file-roller/listing]
+list-mode='as-folder'
+name-column-width=250
+show-path=false
+sort-method='name'
+sort-type='ascending'
+
+[org/gnome/file-roller/ui]
+sidebar-width=200
+window-height=480
+window-width=600
+
+[org/gnome/gnome-system-monitor]
+cpu-colors=[(uint32 0, '#e6194B'), (1, '#f58231'), (2, '#ffe119'), (3, '#bfef45'), (4, '#3cb44b'), (5, '#42d4f4'), (6, '#4363d8'), (7, '#911eb4'), (8, '#f032e6'), (9, '#fabebe'), (10, '#ffd8b1'), (11, '#fffac8'), (12, '#aaffc3'), (13, '#469990'), (14, '#000075'), (15, '#e6beff'), (16, '#f3329a077999'), (17, '#79997ca6f332'), (18, '#a021f3327999'), (19, '#f3327999c39d'), (20, '#7999e718f332'), (21, '#f332dbd07999'), (22, '#b8557999f332'), (23, '#7999f33294da'), (24, '#f332799981d3'), (25, '#7999a54ef332'), (26, '#c8caf3327999'), (27, '#f3327999ec45'), (28, '#7999f332d6a3'), (29, '#f332b3287999'), (30, '#8fac7999f332'), (31, '#8700f3327999')]
+current-tab='resources'
+network-total-in-bits=false
+show-dependencies=false
+show-whose-processes='user'
+
+[org/gnome/gnome-system-monitor/disktreenew]
+col-6-visible=true
+col-6-width=0
+
+[org/gnome/mutter]
+edge-tiling=true
+
+[org/gnome/mutter/keybindings]
+switch-monitor=@as []
+toggle-tiled-right=['<Super>Right']
+
+[org/gnome/nautilus/preferences]
+default-folder-viewer='list-view'
+migrated-gtk-settings=true
+search-filter-time-type='last_modified'
+search-view='list-view'
+
+[org/gnome/nautilus/window-state]
+initial-size=(890, 550)
+
+[org/gnome/nm-applet/eap/344cae61-d43e-43e5-8227-7abc10764d03]
+ignore-ca-cert=false
+ignore-phase2-ca-cert=false
+
+[org/gnome/nm-applet/eap/76311c72-3c0f-47b0-b2e0-2c70bb290059]
+ignore-ca-cert=false
+ignore-phase2-ca-cert=false
+
+[org/gnome/photos]
+window-maximized=false
+window-position=[800, 667]
+window-size=[960, 600]
+
+[org/gnome/portal/filechooser/org.wezfurlong.wezterm]
+last-folder-path='/home/eric/Downloads/temp'
+
+[org/gnome/settings-daemon/plugins/color]
+night-light-enabled=true
+
+[org/gnome/settings-daemon/plugins/power]
+sleep-inactive-ac-type='nothing'
+
+[org/gnome/shell]
+command-history=['gnome-session-properties']
+disabled-extensions=['window-list@gnome-shell-extensions.gcampax.github.com', 'user-theme@gnome-shell-extensions.gcampax.github.com', 'windowsNavigator@gnome-shell-extensions.gcampax.github.com', 'drive-menu@gnome-shell-extensions.gcampax.github.com']
+enabled-extensions=['workspace-indicator@gnome-shell-extensions.gcampax.github.com', 'screenshot-window-sizer@gnome-shell-extensions.gcampax.github.com', 'pop-shell@system76.com']
+favorite-apps=['org.gnome.Calendar.desktop', 'org.gnome.Nautilus.desktop']
+last-selected-power-profile='power-saver'
+welcome-dialog-last-shown-version='44.2'
+
+[org/gnome/shell/extensions/pop-shell]
+smart-gaps=true
+snap-to-grid=false
+tile-by-default=false
+
+[org/gnome/shell/world-clocks]
+locations=@av []
+
+[org/gtk/gtk4/settings/file-chooser]
+date-format='regular'
+location-mode='path-bar'
+show-hidden=false
+show-size-column=true
+show-type-column=true
+sidebar-width=140
+sort-column='name'
+sort-directories-first=false
+sort-order='ascending'
+type-format='category'
+view-type='list'
+window-size=(859, 374)
+
+[org/gtk/settings/file-chooser]
+date-format='regular'
+location-mode='path-bar'
+show-hidden=false
+show-size-column=true
+show-type-column=true
+sidebar-width=157
+sort-column='name'
+sort-directories-first=false
+sort-order='ascending'
+type-format='category'
+window-position=(678, 81)
+window-size=(1203, 902)
