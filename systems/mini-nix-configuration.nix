@@ -28,6 +28,8 @@ in {
     ../modules/kanidm-client.nix
     ../modules/tailscale.nix
     ../modules/knownHosts.nix
+    ../services/healthchecks.nix
+    ../services/locate.nix
     #../containers/kanidm.nix
     # ../common
   ];
@@ -182,6 +184,7 @@ in {
       domain = "eyen.ca";
       ldapbindaddress = "0.0.0.0:636";
       bindaddress = "127.0.0.1:4443";
+
       tls_chain = ''${config.security.acme.certs."login.eyen.ca".directory}/fullchain.pem'';
       tls_key = ''${config.security.acme.certs."login.eyen.ca".directory}/key.pem'';
       online_backup = {

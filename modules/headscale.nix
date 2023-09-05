@@ -76,7 +76,6 @@ in {
   services.borgbackup.jobs.headscale-config = build_borg_backup_job {
     inherit config;
     paths = [(builtins.toPath (config.services.headscale.settings.db_path + "/.."))];
-    #user = "kanidm";
     name = "headscale-config";
     patterns = [
       "+ ${config.services.headscale.settings.db_path}"
