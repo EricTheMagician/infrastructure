@@ -149,9 +149,14 @@ in {
       " vim.g.mapleader = "<Space>"
       let mapleader = " "
 
-      noremap  <leader>ti :tabprevious<CR>
-      noremap <leader>to :tabnext<CR>
-      noremap <leader>tn :tabnew<CR>
+      try
+        nmap <silent> [c :call CocAction('diagnosticNext')<cr>
+        nmap <silent> ]c :call CocAction('diagnosticPrevious')<cr>
+      endtry
+
+      noremap <silent>to :tabprevious<CR>
+      noremap <silent>ti :tabnext<CR>
+      noremap <silent>tn :tabnew<CR>
       noremap <leader>vr :ViminspectorReset<CR>
       set number relativenumber expandtab shiftwidth=4 softtabstop=4 smarttab
       nnoremap <C-t> :NERDTreeFind<CR>
