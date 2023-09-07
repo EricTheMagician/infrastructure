@@ -9,6 +9,7 @@ in {
   imports = [
     "${inputs.nixpkgs}/nixos/modules/virtualisation/lxc-container.nix"
     ../containers/adguard.nix
+    ../modules/tailscale.nix 
   ];
   system.stateVersion = "23.05";
   users.users.root.openssh.authorizedKeys.keys = sshKeys;

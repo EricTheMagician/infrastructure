@@ -2,12 +2,12 @@
   # add the hetzner storage box as a known host so that we don't have to manually add it all the time.
   services.openssh.knownHosts = {
     adguard-lxc = {
-      hostnames = ["100.64.0.9"];
+      hostNames = ["100.64.0.9"];
       publicKey = "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIIPYEz7rugtLO1sLivXg/lBFEprcD6/qJI9cuhwtvscD";
     };
 
     headscale = {
-      extraHostnames = ["100.64.0.1"];
+      extraHostNames = ["100.64.0.1"];
       publicKey = "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIBlI3pYLW1+d7ulkVl3HLc0Fd00AFEm2SZjIEhkxcAIO";
     };
 
