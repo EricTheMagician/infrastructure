@@ -1,0 +1,9 @@
+#!/usr/bin/env bash
+# runs borg list with my default environment
+
+STORAGE_URL=u322294.your-storagebox.de
+export BORG_REPO="ssh://u322294@$STORAGE_URL:23/./borg_repo"
+export BORG_RSH="ssh -i /run/secrets/BORG_PRIVATE_KEY"
+export BORG_PASSPHRASE="`cat /run/secrets/BORG_BACKUP_PASSWORD`"
+
+borg list
