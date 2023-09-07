@@ -11,6 +11,7 @@
   containerIp = net.ip.add 1 cfg.bridge.address;
 in {
   imports = [
+    ../services/acme-default.nix
     ../common/net.nix
     ../modules/nginx.nix
   ];
@@ -45,9 +46,8 @@ in {
     };
 
     # create the nginx virtual host and security certificates
-    security.acme.certs.${cfg.nginx.domain.name} = {};
     services.nginx.virtualHosts.${cfg.nginx.domain.name} = {
-      useACMEHost = cfg.nginx.domain.name;
+      useACMEHost = "eyen.ca";
       forceSSL = true;
       locations."/" = {
         proxyPass = "http://${containerIp}:3000";

@@ -6,8 +6,10 @@
 }: let
   build_borg_backup_job = import ../functions/borg-job.nix;
   domain = "healthchecks.eyen.ca";
+  acme_host = "eyen.ca";
 in {
   imports = [
+    ../services/acme-default.nix
     ../modules/nginx.nix
     ../modules/knownHosts.nix
   ];
@@ -70,9 +72,8 @@ in {
   };
 
   # reverse proxy to healthchecks
-  security.acme.certs.${domain} = {};
   services.nginx.virtualHosts.${domain} = {
-    useACMEHost = domain;
+    useACMEHost = acme_host;
     forceSSL = true;
     locations."/" = {
       proxyPass = "http://localhost:${builtins.toString config.services.healthchecks.port}";
