@@ -1,6 +1,6 @@
 let
   mini-nix.home = "192.168.88.23";
-  mini-nix.ts = "100.64.0.17";
+  mini-nix.ts = "100.64.0.14";
 
   nixos-workstation.home = "192.168.88.14";
 

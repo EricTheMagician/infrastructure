@@ -3,7 +3,7 @@ keys:
   - &admin_workstation age1z9fxldccff0xtmudz4gc44srmf4865vp3r77t3srv5jwmrp8jdcsjdafmt
   - &admin_mini-nix age19n69hfj97hd3w778rg06t2a3dn37qf4ntyut6ufhxxzxn6476ems2kuhxm
   - &server_adguard_lxc age1ew6eh5z96z67jqx5anvaylmz9srhnhlehrgacysrh7tvqvqedp0qgrx3k3
-  - &server_mini-nix age1awrvevdqa2uac7es3g3fydz2zsj4zspqgmwflumhgxd7lk2x9fkq2l4qk7
+  - &server_mini-nix age1yk7ve29tg0amjud953r86nrefhumsn9xsznz4n53l0je6zzt0uhsta27ea
   - &server_infrastructure age1vjhly9gdhewd4d8l6duqh06lvyvrczzkraj8n7r9dym86dehe9vq39uhph
   - &server_headscale age1ddc9huyw7vfwpu9zj5g0qkmavyxppqlsn6kkynnygaly4f0tjg4splm092
   - &workstation_nixos-workstation age1f3mwf2jsdd4ngrnvhxgq97xg3rk5y4p68dysvrmd860s6dncxggsym6njt
