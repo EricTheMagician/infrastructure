@@ -190,7 +190,7 @@ in {
     };
   };
   services.nginx.virtualHosts."login.eyen.ca" = {
-    useACMEHost = "login.eyen.ca";
+    useACMEHost = "eyen.ca";
     #listen = [
     #  {
     #    addr = "0.0.0.0";
