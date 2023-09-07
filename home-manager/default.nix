@@ -154,6 +154,7 @@ in {
         nmap <silent> ]c :call CocAction('diagnosticPrevious')<cr>
       endtry
 
+      nmap <silent> gt ::CocCommand clangd.switchSourceHeader<cr>
       noremap <silent>to :tabprevious<CR>
       noremap <silent>ti :tabnext<CR>
       noremap <silent>tn :tabnew<CR>
