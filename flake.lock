@@ -137,11 +137,11 @@
         ]
       },
       "locked": {
-        "lastModified": 1694046941,
-        "narHash": "sha256-qL+BjYb5sNycdjKWX4fcQHL98nzc7X6ilKK/OgsYAJk=",
+        "lastModified": 1694106455,
+        "narHash": "sha256-eMK4Sk6UVIZvqP+mQ33zFe0RLSoTj/ZWpE9nNW9qHWA=",
         "owner": "EricTheMagician",
         "repo": "mynixpkgs",
-        "rev": "f30d16f8bede6e373f95fbc63e0ae99e33d96c34",
+        "rev": "31d2fd3eb6493ec4115287139f2768af0b5d0406",
         "type": "github"
       },
       "original": {
