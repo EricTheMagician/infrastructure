@@ -168,6 +168,7 @@
         path = deployPkgs.deploy-rs.lib.activate.nixos self.nixosConfigurations.mini-nix;
       };
       profiles.eric = {
+        sshUser = "root";
         user = "eric";
         profilePath = "/nix/var/nix/profiles/per-user/eric/home-manager";
         path = deploy-rs.lib.${system}.activate.custom self.homeConfigurations.eric.activationPackage "$PROFILE/activate";

@@ -49,6 +49,32 @@
           };
         };
       };
+      external-usb = {
+        type = "disk";
+        device = "/dev/disk/by-id/ata-WDC_WD120EDBZ-11B1HA0_5QJ1XG5B";
+        content = {
+          type = "gpt";
+          partitions = {
+            root = {
+              size = "100%";
+              content = {
+                type = "btrfs";
+                extraArgs = ["-f"]; # Override existing partition
+                # Subvolumes must set a mountpoint in order to be mounted,
+                # unless their parent is mounted
+                subvolumes = {
+                  # Subvolume name is different from mountpoint
+                  "/data" = {
+                    mountpoint = "/data";
+                    mountOptions = ["compress=zstd"];
+                  };
+                  "/data/attic" = {};
+                };
+              };
+            };
+          };
+        };
+      };
     };
   };
 }

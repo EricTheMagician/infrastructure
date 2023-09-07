@@ -99,7 +99,7 @@ in {
       PasswordAuthentication = false;
 
       # Forbid root login through SSH.
-      PermitRootLogin = "no";
+      PermitRootLogin = "yes";
 
       # use kanidm ssh to authorize some of my keys
       AuthorizedKeysCommand = "${unstable.kanidm}/bin/kanidm_ssh_authorizedkeys %u";
