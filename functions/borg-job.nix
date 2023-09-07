@@ -4,6 +4,7 @@
   user ? "root",
   name,
   patterns ? [],
+  startAt ? "weekly",
   keep ? {
     within = "1d"; # Keep all archives from the last day
     daily = 7;
@@ -14,8 +15,8 @@
   inherit paths;
   inherit user;
   inherit patterns;
+  inherit startAt;
   # group = "borg-backup";
-  startAt = "weekly";
   doInit = false;
   repo = "ssh://u322294@u322294.your-storagebox.de:23/./borg_repo";
   compression = "auto,zstd";

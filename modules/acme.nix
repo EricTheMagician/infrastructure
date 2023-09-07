@@ -1,9 +1,24 @@
-{config, ...}: {
+{config, ...}: let
+  build_borg_backup_job = import ../functions/borg-job.nix;
+in {
   imports = [
+    ./borg.nix
     ./sops.nix
   ];
   # ensure that default acme group is created and nginx is part of me
   # the group has permission to read the cloudflare private key
+
+  services.borgbackup.jobs.acme = build_borg_backup_job {
+    inherit config;
+    paths = ["${config.sops.secrets.BORG_BACKUP_PASSWORD.path}"];
+    name = "acme";
+    startAt = "daily";
+    keep = {
+      daily = 7;
+      weekly = 4;
+    };
+  };
+
   users.groups.${config.security.acme.defaults.group} = {};
 
   security.acme = {
