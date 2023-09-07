@@ -37,10 +37,10 @@
                     mountpoint = "/home";
                   };
                   # Parent is not mounted so the mountpoint must be set
-                  "/nix" = {
-                    mountOptions = ["compress=zstd" "noatime"];
-                    mountpoint = "/nix";
-                  };
+                  #"/nix" = {
+                  #  mountOptions = ["compress=zstd" "noatime"];
+                  #  mountpoint = "/nix";
+                  #};
                   # This subvolume will be created but not mounted
                   "/test" = {};
                 };
@@ -69,6 +69,10 @@
                     mountOptions = ["compress=zstd"];
                   };
                   "/data/attic" = {};
+                  "/nix" = {
+                    mountOptions = ["compress=zstd" "noatime"];
+                    mountpoint = "/nix";
+                  };
                 };
               };
             };
