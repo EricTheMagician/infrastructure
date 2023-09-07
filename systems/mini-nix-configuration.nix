@@ -31,7 +31,8 @@ in {
     ../modules/knownHosts.nix
     ../services/healthchecks.nix
     ../services/locate.nix
-    ../services/hercules-ci-agent.nix
+    ../services/cache.nix
+    #../services/hercules-ci-agent.nix
     #../containers/kanidm.nix
     # ../common
   ];

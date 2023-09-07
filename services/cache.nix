@@ -15,12 +15,14 @@ in {
     };
   };
 
+  services.nginx.clientMaxBodySize = "2048m";
+
   services.nix-serve = {
     enable = true;
     secretKeyFile = config.sops.secrets."nix-serve.private".path;
   };
 
-  nginx.virtualHosts.${nix-cache-domain} = {
+  services.nginx.virtualHosts.${nix-cache-domain} = {
     useACMEHost = "eyen.ca";
     forceSSL = true;
     locations."/" = {
