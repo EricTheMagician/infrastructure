@@ -18,8 +18,13 @@ in
     }
     {
       domain = "adguard-unraid.eyen.ca";
-      home = "192.168.88.23";
-      ts = "100.64.0.9";
+      home = unraid.home;
+      ts = unraid.ts;
+    }
+    {
+      domain = "nix-cache.eyen.ca";
+      home = mini-nix.home;
+      ts = mini-nix.ts;
     }
     {
       domain = "healthchecks.eyen.ca";

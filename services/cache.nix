@@ -20,12 +20,11 @@ in {
   services.nix-serve = {
     enable = true;
     secretKeyFile = config.sops.secrets.nix-serve.private.path;
-    package = unstable.nix-serve-ng;
-    bindAddress = "localhost";
+    #package = unstable.nix-serve-ng;
   };
 
   nginx.virtualHosts.${nix-cache-domain} = {
-    useACMEHost = nix-cache-domain;
+    useACMEHost = "eyen.ca";
     locations."/" = {
       proxyPass = "http://${config.services.nix-serve.bindAddress}:${toString config.services.nix-serve.port}";
     };
