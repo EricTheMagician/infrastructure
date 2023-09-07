@@ -14,6 +14,7 @@ in {
     # Include the results of the hardware scan.
     ./nixos-workstation-hardware-configuration.nix
     ../modules/tailscale.nix
+    ../services/hercules-ci-agent.nix
   ];
   tailscale.secrets_path = ../secrets/tailscale/eric.yaml;
   nix = {

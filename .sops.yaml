@@ -17,6 +17,7 @@ creation_rules:
       - *server_infrastructure
       - *server_headscale
       - *server_adguard_lxc
+      - *workstation_nixos-workstation
   - path_regex: secrets/tailscale/eric\.yaml
     key_groups:
     - age:
