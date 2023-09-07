@@ -87,7 +87,7 @@ in {
     coc = {
       enable = true;
       settings = {
-        coc.preferences.formatOnSaveFiletypes = ["python" "nix" "json" "cmake"];
+        coc.preferences.formatOnSaveFiletypes = ["python" "nix" "json" "cmake" "cpp"];
         pyright.enable = true;
         python = {
           formatting = {
