@@ -9,7 +9,47 @@
   debugpy_path = python-debugpy + "/lib/python3.10/site-packages/debugpy";
 
   codelldb = pkgs.vscode-extensions.vadimcn.vscode-lldb.overrideAttrs (finalAttrs: previousAttrs: {lldb = pkgs.lldb_16;});
-  codelldb_path = "${codelldb}/share/vscode/extensions/vadimcn.vscode-lldb/${codelldb.vscodeExtPublisher}.${codelldb.vscodeExtName}";
+  codelldb_path = "${codelldb}/share/vscode/extensions/${codelldb.vscodeExtPublisher}.${codelldb.vscodeExtName}";
+
+  vimspector_configuration = {
+    adapters = {
+      CodeLLDB = {
+        command = [
+          "${codelldb_path}/adapter/codelldb"
+          "--port"
+          "\${unusedLocalPort}"
+        ];
+        configuration = {
+          args = [];
+          cargo = {};
+          cwd = "\${workspaceRoot}";
+          env = {};
+          name = "lldb";
+          terminal = "integrated";
+          type = "lldb";
+        };
+        name = "CodeLLDB";
+        port = "\${unusedLocalPort}";
+        type = "CodeLLDB";
+      };
+      debugpy = {
+        command = [
+          "${python-debugpy}/bin/python3"
+          "${debugpy_path}/adapter"
+        ];
+        configuration = {
+          python = "${python-debugpy}/bin/python3";
+        };
+        custom_handler = "vimspector.custom.python.Debugpy";
+        name = "debugpy";
+      };
+    };
+
+    multi-session = {
+      host = "\${host}";
+      port = "\${port}";
+    };
+  };
 in {
   # This value determines the Home Manager release that your configuration is
   # compatible with. This helps avoid breakage when a new Home Manager release
@@ -153,12 +193,13 @@ in {
         nmap <silent> [c :call CocAction('diagnosticNext')<cr>
         nmap <silent> ]c :call CocAction('diagnosticPrevious')<cr>
       endtry
+      noremap <silent>tt :TagbarToggle<CR>
 
       nmap <silent> gt ::CocCommand clangd.switchSourceHeader<cr>
       noremap <silent>to :tabprevious<CR>
       noremap <silent>ti :tabnext<CR>
       noremap <silent>tn :tabnew<CR>
-      noremap <leader>vr :ViminspectorReset<CR>
+      noremap <leader>vr :VimspectorReset<CR>
       set number relativenumber expandtab shiftwidth=4 softtabstop=4 smarttab
       nnoremap <C-t> :NERDTreeFind<CR>
       nnoremap <C-Left> <C-W>h
@@ -170,7 +211,7 @@ in {
       nnoremap <C-k> <C-W>k
       nnoremap <C-l> <C-W>l
       let g:vimspector_enable_mappings = 'HUMAN'
-      let g:vimspector_base_dir=expand( '$HOME/.config/vimspector' )
+      let g:vimspector_base_dir=expand( '$HOME/.config/vimspector-test' )
 
       " open file on perforce on save
       let g:perforce_open_on_save = 1
@@ -241,8 +282,8 @@ in {
       vim-markdown-toc
       mypkgs.vim-perforce
       vim-surround
-      vim-surround
       vimspector
+      tagbar
     ];
   };
   #  home.file.".config/fish/config.fish".text = ''
@@ -275,8 +316,9 @@ in {
       recursive = true;
       executable = true;
     };
-    ".config/vimspector/gadgets/linux/debugpy".source = config.lib.file.mkOutOfStoreSymlink debugpy_path;
-    ".config/vimspector/codelldb".source = config.lib.file.mkOutOfStoreSymlink codelldb_path;
+    #    ".config/vimspector/gadgets/linux/debugpy".source = config.lib.file.mkOutOfStoreSymlink debugpy_path;
+    #    ".config/vimspector/gadgets/linux/codelldb".source = config.lib.file.mkOutOfStoreSymlink codelldb_path;
+    ".config/vimspector/gadgets/linux/.gadgets.json".source = pkgs.writeText ".gadgets.json" (builtins.toJSON vimspector_configuration);
     # # You can also set the file content immediately.
     # ".gradle/gradle.properties".text = ''
     #   org.gradle.console=verbose
