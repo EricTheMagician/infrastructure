@@ -26,6 +26,10 @@
 
     # for multi architecture systems
     flake-utils.url = "github:numtide/flake-utils";
+
+    #nixos-seaweedfs.url = "github:xanderio/nixos-seaweedfs";
+    #nixos-seaweedfs.url = "/home/eric/git/nixos-seaweedfs";
+    #nixos-seaweedfs.inputs.nixpkgs.follows = "nixpkgs-unstable";
   };
 
   outputs = {
@@ -49,7 +53,6 @@
       inherit system;
       config.allowUnfree = true;
     };
-    sshKeys = import ./common/ssh-keys.nix;
 
     deployPkgs = import nixpkgs {
       inherit system;
@@ -65,7 +68,7 @@
     };
   in {
     formatter.x86_64-linux = nixpkgs.legacyPackages.x86_64-linux.alejandra;
-    # overlays = import ./overlays.nix { inherit inputs; };
+    overlays = import ./overlays.nix {inherit inputs;};
 
     # NixOS configuration entrypoint
     # Available through 'nixos-rebuild --flake .#your-hostname'
@@ -94,6 +97,7 @@
         modules = [
           disko.nixosModules.disko
           sops-nix.nixosModules.sops
+          #nixos-seaweedfs.nixosModules.seaweedfs
           ./systems/mini-nix-configuration.nix
         ];
       };

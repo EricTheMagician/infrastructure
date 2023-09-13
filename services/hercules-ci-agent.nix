@@ -14,13 +14,18 @@
       mode = "0400";
       owner = "hercules-ci-agent";
       group = "hercules-ci-agent";
-      sopsFile = ../secrets/nix-serve.yaml;
+      sopsFile = ../secrets/hercules.yaml;
       restartUnits = ["nix-serve.service" "hercules-ci-agent.service"];
     };
     secrets."cluster-join-token.key" = {
       mode = "0400";
       owner = "hercules-ci-agent";
       group = "hercules-ci-agent";
+      sopsFile = ../secrets/hercules.yaml;
+      restartUnits = ["hercules-ci-agent.service"];
+    };
+    secrets.aws_credentials = {
+      path = "${config.users.users.root.home}/.aws/credentials";
       sopsFile = ../secrets/hercules.yaml;
       restartUnits = ["hercules-ci-agent.service"];
     };

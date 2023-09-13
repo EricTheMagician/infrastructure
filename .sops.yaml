@@ -1,5 +1,4 @@
 keys:
-  - &admin_infrastructure age1jxa6adhk5azfsefvtw84gk5ge3hxkfygf3sljm3v00s6n8pcdqrq3u92md
   - &admin_workstation age1z9fxldccff0xtmudz4gc44srmf4865vp3r77t3srv5jwmrp8jdcsjdafmt
   - &admin_mini-nix age1xzjwd38z08yra4h6vttp0duqhl3fy65nlcrd000jrcr8hjmzk3qsxgs5fk
   - &server_adguard_lxc age1ew6eh5z96z67jqx5anvaylmz9srhnhlehrgacysrh7tvqvqedp0qgrx3k3
@@ -18,6 +17,13 @@ creation_rules:
       - *server_headscale
       - *server_adguard_lxc
       - *workstation_nixos-workstation
+  - path_regex: secrets/mini-nix/[^/]+\.(yaml|json|env|ini)$
+    key_groups:
+      - age:
+        - *admin_mini-nix
+        - *admin_workstation
+        - *admin_workstation
+        - *server_mini-nix
   - path_regex: secrets/tailscale/eric\.yaml
     key_groups:
     - age:

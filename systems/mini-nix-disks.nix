@@ -69,6 +69,12 @@
                     mountOptions = ["compress=zstd"];
                   };
                   "/data/attic" = {};
+                  "/data/minio" = {
+                    mountOptions = ["compress=zstd"];
+                  };
+                  "/data/seaweedfs" = {
+                    mountOptions = ["compress=zstd"];
+                  };
                   "/nix" = {
                     mountOptions = ["compress=zstd" "noatime"];
                     mountpoint = "/nix";

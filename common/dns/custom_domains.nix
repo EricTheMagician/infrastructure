@@ -22,6 +22,16 @@ in
       ts = unraid.ts;
     }
     {
+      domain = "minio-api.eyen.ca";
+      home = mini-nix.home;
+      ts = mini-nix.ts;
+    }
+    {
+      domain = "minio-web.eyen.ca";
+      home = mini-nix.home;
+      ts = mini-nix.ts;
+    }
+    {
       domain = "nix-cache.eyen.ca";
       home = mini-nix.home;
       ts = mini-nix.ts;
