@@ -19,7 +19,7 @@ in {
   ];
   tailscale.secrets_path = ../secrets/tailscale/eric.yaml;
   tailscale.extraUpFlags = [];
-  networking.useNetworkd = true;
+  # networking.useNetworkd = true;
 
   nix = {
     # This will add each flake input as a registry
