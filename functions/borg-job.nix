@@ -11,14 +11,15 @@
     weekly = 4;
     monthly = 12; # Keep at least one archive for each month
   },
+  repo_name ? config.networking.hostName,
 }: {
   inherit paths;
   inherit user;
   inherit patterns;
   inherit startAt;
   # group = "borg-backup";
-  doInit = false;
-  repo = "ssh://u322294@u322294.your-storagebox.de:23/./borg_repo";
+  doInit = true;
+  repo = "ssh://u322294@u322294.your-storagebox.de:23/./${repo_name}";
   compression = "auto,zstd";
   archiveBaseName = "${config.networking.hostName}-${name}";
   encryption = {

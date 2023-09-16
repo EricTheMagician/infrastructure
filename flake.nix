@@ -75,7 +75,7 @@
         "s3://nix-cache?region=mini-nix&profile=hercules-ci&scheme=https&endpoint=minio-api.eyen.ca"
       ];
       extra-trusted-public-keys = [
-        "minio-api.eyen.ca:YDI5WEPr5UGe9HjhU8y1iR07XTacpoBDQHiLcm/t2QY="
+        "mini-nix.eyen.ca:YDI5WEPr5UGe9HjhU8y1iR07XTacpoBDQHiLcm/t2QY="
       ];
     };
 

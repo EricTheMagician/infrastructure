@@ -18,6 +18,8 @@ in {
   ];
   tailscale.secrets_path = ../secrets/tailscale/eric.yaml;
   tailscale.extraUpFlags = [];
+  networking.useNetworkd = true;
+
   nix = {
     # This will add each flake input as a registry
     # To make nix3 commands consistent with your flake
@@ -34,7 +36,7 @@ in {
       auto-optimise-store = true;
 
       substituters = [
-        "s3://nix-cache?region=mini-nix&scheme=https&endpoint=minio-api.eyen.ca"
+        "http://minio-api.eyen.ca/nix-cache"
         "https://nix-community.cachix.org"
         "https://cache.nixos.org/"
       ];
