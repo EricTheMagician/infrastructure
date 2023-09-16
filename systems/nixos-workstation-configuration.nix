@@ -14,6 +14,7 @@ in {
     # Include the results of the hardware scan.
     ./nixos-workstation-hardware-configuration.nix
     ../modules/tailscale.nix
+    ../modules/builder.nix
     #../services/hercules-ci-agent.nix
   ];
   tailscale.secrets_path = ../secrets/tailscale/eric.yaml;
@@ -36,7 +37,7 @@ in {
       auto-optimise-store = true;
 
       substituters = [
-        "http://minio-api.eyen.ca/nix-cache"
+        "https://minio-api.eyen.ca/nix-cache"
         "https://nix-community.cachix.org"
         "https://cache.nixos.org/"
       ];
@@ -48,9 +49,9 @@ in {
 
       # download in parallel from nix-cache
       #max-substitution-jobs = 32;
-      max-jobs = 8;
-      cores = 8;
       trusted-users = ["eric"];
+      max-jobs = 16;
+      cores = 8;
     };
   };
 
