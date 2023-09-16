@@ -5,9 +5,21 @@
   lib,
   config,
   unstable,
+  pkgs,
   ...
 }: let
   sshKeys = import ../common/ssh-keys.nix;
+  nix-server-secret = config.sops.secrets."nix-serve.private".path;
+  upload-cache-script =
+    pkgs.writeShellScriptBin "upload-cache-script.sh"
+    ''
+      set -eu
+      set -f # disable globbing
+      export IFS=' '
+
+      echo "Uploading paths" $OUT_PATHS
+      exec nix copy --to "s3://nix-cache?region=mini-nix&endpoint=minio-api.eyen.ca&profile=hercules&parallel-compression=true&secret-key=${nix-server-secret}" $OUT_PATHS
+    '';
 in {
   disabledModules = ["services/security/kanidm.nix"];
   imports = [
@@ -23,6 +35,7 @@ in {
     ./mini-nix-hardware-configuration.nix
     ./mini-nix-disks.nix
     ../containers/adguard.nix
+    #../containers/builder.nix
     ../modules/kanidm-admin.nix
     ../modules/kanidm-client.nix
     ../modules/borg.nix
@@ -105,6 +118,9 @@ in {
     };
   };
 
+  environment.systemPackages = [
+    upload-cache-script
+  ];
   nix = {
     # This will add each flake input as a registry
     # To make nix3 commands consistent with your flake
@@ -120,15 +136,17 @@ in {
       # Deduplicate and optimize nix store
       auto-optimise-store = true;
       substituters = [
-        #  "https://nix-cache.eyen.ca"
+        "s3://nix-cache?region=mini-nix&scheme=https&endpoint=minio-api.eyen.ca"
         "https://nix-community.cachix.org"
         "https://cache.nixos.org/"
       ];
       trusted-public-keys = [
-        #"mini-nix.eyen.ca:YDI5WEPr5UGe9HjhU8y1iR07XTacpoBDQHiLcm/t2QY="
+        "mini-nix.eyen.ca:YDI5WEPr5UGe9HjhU8y1iR07XTacpoBDQHiLcm/t2QY="
         "nix-community.cachix.org-1:mB9FSh9qf2dCimDSUo8Zy7bkq5CX+/rkCWyvRCYg3Fs="
         "cache.nixos.org-1:6NCHdD59X431o0gWypbMrAURkbJ16ZPMQFGspcDShjY="
       ];
+      max-jobs = 8;
+      cores = 2;
     };
   };
 
@@ -180,6 +198,14 @@ in {
     };
     nginx.domain.name = "mini-nix-adguard.eyen.ca";
   };
+
+  #container.builder = {
+  #  bridge = {
+  #    name = "br-builder";
+  #    address = "10.100.1.1";
+  #    prefixLength = 24;
+  #  };
+  #};
 
   # configure my containers
 

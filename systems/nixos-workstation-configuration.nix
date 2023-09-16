@@ -17,6 +17,7 @@ in {
     #../services/hercules-ci-agent.nix
   ];
   tailscale.secrets_path = ../secrets/tailscale/eric.yaml;
+  tailscale.extraUpFlags = [];
   nix = {
     # This will add each flake input as a registry
     # To make nix3 commands consistent with your flake
@@ -33,7 +34,7 @@ in {
       auto-optimise-store = true;
 
       substituters = [
-        "https://nix-cache.eyen.ca"
+        "s3://nix-cache?region=mini-nix&scheme=https&endpoint=minio-api.eyen.ca"
         "https://nix-community.cachix.org"
         "https://cache.nixos.org/"
       ];
@@ -44,7 +45,10 @@ in {
       ];
 
       # download in parallel from nix-cache
-      max-substitution-jobs = 32;
+      #max-substitution-jobs = 32;
+      max-jobs = 8;
+      cores = 8;
+      trusted-users = ["eric"];
     };
   };
 

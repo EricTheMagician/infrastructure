@@ -68,6 +68,17 @@
     };
   in {
     formatter.x86_64-linux = nixpkgs.legacyPackages.x86_64-linux.alejandra;
+
+    # add my personal cache
+    nixConfig = {
+      extra-substituters = [
+        "s3://nix-cache?region=mini-nix&profile=hercules-ci&scheme=https&endpoint=minio-api.eyen.ca"
+      ];
+      extra-trusted-public-keys = [
+        "minio-api.eyen.ca:YDI5WEPr5UGe9HjhU8y1iR07XTacpoBDQHiLcm/t2QY="
+      ];
+    };
+
     overlays = import ./overlays.nix {inherit inputs;};
 
     # NixOS configuration entrypoint

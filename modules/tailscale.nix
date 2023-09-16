@@ -11,11 +11,15 @@
     type = lib.types.path;
     default = ../secrets/tailscale/infrastructure.yaml;
   };
+  options.tailscale.extraUpFlags = lib.mkOption {
+    type = lib.types.listOf lib.types.str;
+    default = ["--login-server" "https://hs.eyen.ca"];
+  };
   config = {
     services.tailscale = {
       enable = true;
       authKeyFile = "/run/secrets/tailscale_auth";
-      extraUpFlags = ["--login-server" "https://hs.eyen.ca"];
+      extraUpFlags = config.tailscale.extraUpFlags;
     };
     networking.firewall = {
       checkReversePath = "loose";
