@@ -38,6 +38,8 @@ in {
   ];
 
   services.minio.region = "mini-nix";
+  environment.pathsToLink = ["/share/zsh"];
+
   nix = {
     # This will add each flake input as a registry
     # To make nix3 commands consistent with your flake
@@ -83,6 +85,7 @@ in {
       isNormalUser = true;
       extraGroups = ["wheel"];
       home = "/home/eric";
+      shell = unstable.zsh;
       openssh.authorizedKeys.keys = sshKeys;
     };
   };
