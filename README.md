@@ -17,5 +17,15 @@ nixos-rebuild switch --flake .#
 
 To install nix locally
 ```bash
-sh <(curl -L https://nixos.org/nix/install) --daemon
+curl --proto '=https' --tlsv1.2 -sSf -L https://install.determinate.systems/nix | sh -s -- install
 ```
+
+To just install my home-manager.
+This assumes your username is `eric`
+```bash
+#build the package
+nix build github:EricTheMagician/infrastructure#homeConfigurations.eric.activationPackage
+# and activate
+./result/activate
+```
+
