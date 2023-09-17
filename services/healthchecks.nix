@@ -81,6 +81,7 @@ in {
   };
 
   # create a backup for healthchecks
+  systemd.timers.borgbackup-job-healthchecks.timerConfig.RandomizedDelaySecs = 3600 * 3;
   services.borgbackup.jobs.healthchecks =
     build_borg_backup_job {
       inherit config;
