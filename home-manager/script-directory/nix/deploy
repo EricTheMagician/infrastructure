@@ -1,4 +1,3 @@
 #!/usr/bin/env bash
-
-echo "$WORLD"
-nix run github:serokell/deploy-rs '.#'
+# runs the deploy-rs script in the current directory
+nix run github:serokell/deploy-rs -- -s  $*
