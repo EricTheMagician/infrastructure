@@ -73,6 +73,7 @@ in {
     };
   };
 
+  systemd.timers.borgbackup-job-headscale-config.timerConfig.RandomizedDelaySecs = 3600;
   services.borgbackup.jobs.headscale-config =
     build_borg_backup_job {
       inherit config;
