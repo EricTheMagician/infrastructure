@@ -12,6 +12,7 @@ in {
   # ensure that default acme group is created and nginx is part of me
   # the group has permission to read the cloudflare private key
 
+  systemd.timers.borgbackup-job-acme.timerConfig.RandomizedDelaySecs = 3600 * 3;
   services.borgbackup.jobs.acme =
     build_borg_backup_job {
       inherit config;
