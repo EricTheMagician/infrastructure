@@ -208,7 +208,9 @@
         "mynixpkgs": "mynixpkgs",
         "nixpkgs": "nixpkgs",
         "nixpkgs-unstable": "nixpkgs-unstable",
-        "sops-nix": "sops-nix"
+        "sops-nix": "sops-nix",
+        "vim-codeium": "vim-codeium",
+        "vim-perforce": "vim-perforce"
       }
     },
     "sops-nix": {
@@ -274,6 +276,38 @@
       "original": {
         "owner": "numtide",
         "repo": "flake-utils",
+        "type": "github"
+      }
+    },
+    "vim-codeium": {
+      "flake": false,
+      "locked": {
+        "lastModified": 1694820299,
+        "narHash": "sha256-vV/2CycKrqvSewli00E5ED5sQgjrNJsYfFTmrqiBShA=",
+        "owner": "exafunction",
+        "repo": "codeium.vim",
+        "rev": "45dd945883c2ff87553d78710797ad7a2602b269",
+        "type": "github"
+      },
+      "original": {
+        "owner": "exafunction",
+        "repo": "codeium.vim",
+        "type": "github"
+      }
+    },
+    "vim-perforce": {
+      "flake": false,
+      "locked": {
+        "lastModified": 1580891113,
+        "narHash": "sha256-CbRZXZdGeQOSM2FH8eDWXLhsznSRtx9B8txH5Ilk+Ag=",
+        "owner": "nfvs",
+        "repo": "vim-perforce",
+        "rev": "d1dcbe8aca797976678200f42cc2994b7f6c86c2",
+        "type": "github"
+      },
+      "original": {
+        "owner": "nfvs",
+        "repo": "vim-perforce",
         "type": "github"
       }
     }

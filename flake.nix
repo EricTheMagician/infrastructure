@@ -27,6 +27,11 @@
     # for multi architecture systems
     flake-utils.url = "github:numtide/flake-utils";
 
+    # vim plugins
+    vim-perforce.url = "github:nfvs/vim-perforce";
+    vim-perforce.flake = false;
+    vim-codeium.url = "github:exafunction/codeium.vim";
+    vim-codeium.flake = false;
     #nixos-seaweedfs.url = "github:xanderio/nixos-seaweedfs";
     #nixos-seaweedfs.url = "/home/eric/git/nixos-seaweedfs";
     #nixos-seaweedfs.inputs.nixpkgs.follows = "nixpkgs-unstable";
@@ -44,14 +49,17 @@
     ...
   } @ inputs: let
     system = "x86_64-linux";
+    overlays = import ./overlays.nix {inherit inputs;};
     # Unmodified nixpkgs
     pkgs = import nixpkgs {
       inherit system;
       config.allowUnfree = true;
+      overlays = [overlays.my_vim_plugins overlays.unstable-packages];
     };
     unstable = import nixpkgs-unstable {
       inherit system;
       config.allowUnfree = true;
+      overlays = [overlays.my_vim_plugins overlays.unstable-packages];
     };
 
     deployPkgs = import nixpkgs {
@@ -67,6 +75,7 @@
       ];
     };
   in {
+    inherit overlays;
     formatter.x86_64-linux = nixpkgs.legacyPackages.x86_64-linux.alejandra;
 
     # add my personal cache
@@ -78,8 +87,6 @@
         "mini-nix.eyen.ca:YDI5WEPr5UGe9HjhU8y1iR07XTacpoBDQHiLcm/t2QY="
       ];
     };
-
-    overlays = import ./overlays.nix {inherit inputs;};
 
     # NixOS configuration entrypoint
     # Available through 'nixos-rebuild --flake .#your-hostname'

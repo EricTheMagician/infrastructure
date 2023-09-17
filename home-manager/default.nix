@@ -279,12 +279,12 @@ in {
       telescope-vim-bookmarks-nvim
       tokyonight-nvim
       vim-airline
-      mypkgs.vim-codeium
+      vim-codeium
       vim-bufkill
       vim-fugitive
       vim-gitgutter
       vim-markdown-toc
-      mypkgs.vim-perforce
+      vim-perforce
       vim-surround
       vimspector
       tagbar
