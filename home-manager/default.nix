@@ -200,6 +200,9 @@ in {
       noremap <silent>ti :tabnext<CR>
       noremap <silent>tn :tabnew<CR>
       noremap <leader>vr :VimspectorReset<CR>
+      noremap <leader>fws :Telescope coc workspace_symbols<CR>
+      noremap <leader>fs :Telescope coc document_symbols<CR>
+      noremap <leader>la :Telescope coc file_code_actions<CR>
       set number relativenumber expandtab shiftwidth=4 softtabstop=4 smarttab
       nnoremap <C-t> :NERDTreeFind<CR>
       nnoremap <C-Left> <C-W>h
@@ -210,7 +213,8 @@ in {
       nnoremap <C-j> <C-W>j
       nnoremap <C-k> <C-W>k
       nnoremap <C-l> <C-W>l
-      let g:vimspector_enable_mappings = 'HUMAN'
+      " let g:vimspector_enable_mappings = 'HUMAN'
+      let g:vimspector_enable_mappings = 'VISUAL_STUDIO'
       let g:vimspector_base_dir=expand( '$HOME/.config/vimspector-test' )
 
       " open file on perforce on save
