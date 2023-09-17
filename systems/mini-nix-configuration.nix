@@ -9,25 +9,12 @@
   ...
 }: let
   sshKeys = import ../common/ssh-keys.nix;
-  nix-server-secret = config.sops.secrets."nix-serve.private".path;
-  upload-cache-script =
-    pkgs.writeShellScriptBin "upload-cache-script.sh"
-    ''
-      set -eu
-      set -f # disable globbing
-      export IFS=' '
-
-      echo "Uploading paths" $OUT_PATHS
-      exec nix copy --to "s3://nix-cache?region=mini-nix&endpoint=minio-api.eyen.ca&profile=hercules&parallel-compression=true&secret-key=${nix-server-secret}" $OUT_PATHS
-    '';
 in {
-  disabledModules = ["services/security/kanidm.nix"];
   imports = [
     # If you want to use modules from other flakes (such as nixos-hardware):
     inputs.hardware.nixosModules.common-cpu-intel
     inputs.hardware.nixosModules.common-pc-ssd
 
-    (inputs.nixpkgs-unstable + "/nixos/modules/services/security/kanidm.nix")
     # You can also split up your configuration and import pieces of it here:
     # ./users.nix
 
@@ -36,11 +23,10 @@ in {
     ./mini-nix-disks.nix
     ../containers/adguard.nix
     #../containers/builder.nix
-    ../modules/kanidm-admin.nix
-    ../modules/kanidm-client.nix
     ../modules/borg.nix
     ../modules/tailscale.nix
     ../modules/knownHosts.nix
+    ../modules/builder.nix
     ../services/healthchecks.nix
     ../services/locate.nix
     ../services/cache.nix
@@ -50,77 +36,8 @@ in {
     #../containers/kanidm.nix
     # ../common
   ];
-  #services.seaweedfs = {
-  #  #default.package = unstable.seaweedfs;
-  #  master = {
-  #    enable = true;
-  #    #mdir = "/var/lib/seaweedfs/master/metadata-dir";
-  #    # mdir = "/var/lib/seaweedfs-master";
-  #    ip = "100.64.0.14";
-  #    #datacenter = "home";
-  #  };
-  #  volume = {
-  #    enable = true;
-  #    stores = {
-  #      "data.weedfs" = {
-  #        dir = "/data/seaweedfs/volume";
-  #      };
-  #    };
-  #    ip = "100.64.0.14";
-  #    dataCenter = "home";
-  #  };
-  #  filer = {
-  #    enable = true;
-  #    #settings = {rocksdb.enable = true;};
-  #    master = "100.64.0.14:9333";
-  #    settings = {
-  #      # sqlite.enabled = true;
 
-  #      dataCenter = "home";
-  #      ip = "100.64.0.14";
-  #    };
-
-  #    s3 = {
-  #      enable = true;
-  #      settings = {
-  #        dataCenter = "home";
-  #        domainName = "s3.eyen.ca";
-  #      };
-  #    };
-
-  #    #ip = "100.64.0.14";
-  #    #datacenter = "home";
-  #  };
-  #};
-  #networking.firewall.interfaces.tailscale0.allowedTCPPorts = [
-  #  9333 # master
-  #  8888 # filer
-  #  8333 # s3
-  #];
   services.minio.region = "mini-nix";
-  nixpkgs = {
-    # You can add overlays here
-    overlays = [
-      # If you want to use overlays exported from other flakes:
-      # neovim-nightly-overlay.overlays.default
-
-      # Or define it inline, for example:
-      # (final: prev: {
-      #   hi = final.hello.overrideAttrs (oldAttrs: {
-      #     patches = [ ./change-hello-to-hi.patch ];
-      #   });
-      # })
-    ];
-    # Configure your nixpkgs instance
-    config = {
-      # Disable if you don't want unfree packages
-      allowUnfree = true;
-    };
-  };
-
-  environment.systemPackages = [
-    upload-cache-script
-  ];
   nix = {
     # This will add each flake input as a registry
     # To make nix3 commands consistent with your flake

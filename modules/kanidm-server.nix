@@ -9,6 +9,11 @@ in {
   #users.users.kanidm.group = "kanidm";
   #users.groups.kanidm = {};
   #users.groups.borg-backup = {};
+  disabledModules = ["services/security/kanidm.nix"];
+  imports = [
+    (inputs.nixpkgs-unstable + "/nixos/modules/services/security/kanidm.nix")
+  ];
+
   services.borgbackup.jobs.kanidm-server = build_borg_backup_job {
     inherit config;
     paths = [(builtins.toPath (config.services.kanidm.serverSettings.db_path + "/.."))];
