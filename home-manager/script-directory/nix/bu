@@ -1,0 +1,3 @@
+#!/usr/bin/env bash
+# Runs the build and update script on the ~/git/infrastructure/ci.nix file
+sudo build-and-upload-to-cache.sh ~/git/infrastructure/ci.nix
