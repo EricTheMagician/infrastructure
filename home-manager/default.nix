@@ -2,6 +2,7 @@
   config,
   pkgs,
   mypkgs,
+  lib,
   ...
 }: let
   # vimspector debuggers
@@ -10,7 +11,6 @@
 
   codelldb = pkgs.vscode-extensions.vadimcn.vscode-lldb.overrideAttrs (finalAttrs: previousAttrs: {lldb = pkgs.lldb_16;});
   codelldb_path = "${codelldb}/share/vscode/extensions/${codelldb.vscodeExtPublisher}.${codelldb.vscodeExtName}";
-
   vimspector_configuration = {
     adapters = {
       CodeLLDB = {
@@ -49,6 +49,9 @@
       host = "\${host}";
       port = "\${port}";
     };
+  };
+  neovim-extraLuaConfig = import ./neovim-config.lua.nix {
+    inherit config;
   };
 in {
   # This value determines the Home Manager release that your configuration is
@@ -222,26 +225,14 @@ in {
     extraConfig = ''
       " disbles mouse in neovim in general
       " set mouse=
-      " set the maplearder to the spacebar
+      " set the mapleader to the spacebar
       " vim.g.mapleader = "<Space>"
       let mapleader = " "
 
-      try
-        nmap <silent> [c :call CocAction('diagnosticNext')<cr>
-        nmap <silent> ]c :call CocAction('diagnosticPrevious')<cr>
-      endtry
-      noremap <silent>tt :TagbarToggle<CR>
-
-      nmap <silent> gt ::CocCommand clangd.switchSourceHeader<cr>
       noremap <silent>to :tabprevious<CR>
       noremap <silent>ti :tabnext<CR>
       noremap <silent>tn :tabnew<CR>
-      noremap <leader>vr :VimspectorReset<CR>
-      noremap <leader>fws :Telescope coc workspace_symbols<CR>
-      noremap <leader>fs :Telescope coc document_symbols<CR>
-      noremap <leader>la :Telescope coc file_code_actions<CR>
       set number relativenumber expandtab shiftwidth=4 softtabstop=4 smarttab
-      nnoremap <C-t> :NERDTreeFind<CR>
       nnoremap <C-Left> <C-W>h
       nnoremap <C-Down> <C-W>j
       nnoremap <C-Up> <C-W>k
@@ -250,42 +241,17 @@ in {
       nnoremap <C-j> <C-W>j
       nnoremap <C-k> <C-W>k
       nnoremap <C-l> <C-W>l
-      " let g:vimspector_enable_mappings = 'HUMAN'
-      let g:vimspector_enable_mappings = 'VISUAL_STUDIO'
-      let g:vimspector_base_dir=expand( '$HOME/.config/vimspector-test' )
-
-      " open file on perforce on save
-      let g:perforce_open_on_save = 1
-      " saving on change is preferred, at least in neovim.
-      " writing a buffer to disk is a change.
-      " editing a buffer is not a change.
-      let g:perforce_open_on_change = 1
-      " don't prompt on every save
-      let g:perforce_prompt_on_open = 0
-
-      " Vim inspector
-      " mnemonic 'di' = 'debug inspect' (pick your own, if you prefer!)
-      " for normal mode - the word under the cursor
-      nmap <Leader>di <Plug>VimspectorBalloonEval
-      " nmap for visual mode, the visually selected text
-      xmap <Leader>di <Plug>VimspectorBalloonEval
-
-      " codeium
-      let g:codeium_server_config = {
-        \'portal_url': 'https://codeium.lan.theobjects.com',
-        \'api_url': 'https://codeium.lan.theobjects.com/_route/api_server' }
-
-      nnoremap <C-p> :FZF<CR>
-      " for nerd commentary
-      filetype plugin on
     '';
 
-    extraLuaConfig = import ./neovim-config.lua.nix {
-      inherit config;
-      debugpy_env = python-debugpy;
-    };
+    extraLuaConfig = neovim-extraLuaConfig.extra_lua_config + (lib.optionalString config.programs.neovim.coc.enable neovim-extraLuaConfig.coc_config);
     plugins = with pkgs.vimPlugins; [
-      coc-clangd
+      {
+        plugin = coc-clangd;
+        config = ''
+          vim.api.nvim_set_keymap('n', 'gt', ':CocCommand clangd.switchSourceHeader<CR>', {silent = true})
+        '';
+        type = "lua";
+      }
       coc-cmake
       coc-docker
       coc-git
@@ -296,35 +262,150 @@ in {
       coc-sh
       coc-spell-checker
       coc-yaml
-      fzfWrapper
+      {
+        plugin = fzfWrapper;
+        config = ''nnoremap <C-p> :FZF<CR>'';
+      }
       markdown-preview-nvim
       neorg-telescope
-      nerdcommenter
-      nerdtree
+
+      {
+        plugin = nerdcommenter;
+        config = ''filetype plugin on'';
+      }
+
+      {
+        plugin = nerdtree;
+        config = ''nnoremap <C-t> :NERDTreeFind<CR>'';
+      }
       nerdtree-git-plugin
       #nvim-dap
       #nvim-dap-python
       #nvim-dap-ui
-      nvim-ufo
-      telescope-coc-nvim
+      {
+        plugin = nvim-ufo;
+        config = ''
+          vim.o.foldcolumn = '1' -- '0' is not bad
+          vim.o.foldlevel = 99 -- Using ufo provider need a large value, feel free to decrease the value
+          vim.o.foldlevelstart = 99
+          vim.o.foldenable = true
+
+          -- Using ufo provider need remap `zR` and `zM`. If Neovim is 0.6.1, remap yourself
+          vim.keymap.set('n', 'zR', require('ufo').openAllFolds)
+          vim.keymap.set('n', 'zM', require('ufo').closeAllFolds)
+        '';
+        type = "lua";
+      }
+
+      {
+        plugin = telescope-coc-nvim;
+        config = ''
+          noremap <leader>fws :Telescope coc workspace_symbols<CR>
+          noremap <leader>fs :Telescope coc document_symbols<CR>
+          noremap <leader>la :Telescope coc file_code_actions<CR>
+        '';
+      }
       telescope-file-browser-nvim
       telescope-fzf-native-nvim
       telescope-live-grep-args-nvim
       telescope-media-files-nvim
-      telescope-nvim
+      {
+        plugin = telescope-nvim;
+        config = ''
+          -- require('dap-python').setup('${python-debugpy.outPath}/bin/python3');
+          local builtin = require('telescope.builtin')
+          local telescope = require("telescope")
+          local telescopeConfig = require("telescope.config")
+          -- Clone the default Telescope configuration
+          local vimgrep_arguments = { unpack(telescopeConfig.values.vimgrep_arguments) }
+
+          -- I want to search in hidden/dot files.
+          table.insert(vimgrep_arguments, "--hidden")
+          -- I don't want to search in the `.git` directory.
+          table.insert(vimgrep_arguments, "--ignore-file")
+          table.insert(vimgrep_arguments, "${config.home.homeDirectory}/.gitignore")
+          telescope.setup({
+          defaults = {
+               -- `hidden = true` is not supported in text grep commands.
+               vimgrep_arguments = vimgrep_arguments,
+          },
+          pickers = {
+               find_files = {
+                       -- `hidden = true` will still show the inside of `.git/` as it's not `.gitignore`d.
+                       find_command = { "rg", "--files", "--hidden", "--ignore-file", "${config.home.homeDirectory}/.gitignore" };
+               },
+          },
+          })
+
+          vim.keymap.set('n', '<leader>ff', builtin.find_files, {})
+          vim.keymap.set('n', '<leader>fg', builtin.live_grep, {})
+          vim.keymap.set('n', '<leader>fb', builtin.buffers, {})
+          vim.keymap.set('n', '<leader>fh', builtin.help_tags, {})
+        '';
+        type = "lua";
+      }
+
       telescope-undo-nvim
       telescope-vim-bookmarks-nvim
-      tokyonight-nvim
+
+      {
+        plugin = tokyonight-nvim;
+        config = ''
+          colorscheme tokyonight-moon
+        '';
+      }
       vim-airline
-      vim-codeium
+
+      {
+        plugin = vim-codeium;
+        config = ''
+          let g:codeium_server_config = {'portal_url': 'https://codeium.lan.theobjects.com', 'api_url': 'https://codeium.lan.theobjects.com/_route/api_server' }
+        '';
+      }
+
       vim-bufkill
       vim-fugitive
       vim-gitgutter
       vim-markdown-toc
-      vim-perforce
+
+      {
+        plugin = vim-perforce;
+        config = ''
+          " open file on perforce on save
+          let g:perforce_open_on_save = 1
+          " saving on change is preferred, at least in neovim.
+          " writing a buffer to disk is a change.
+          " editing a buffer is not a change.
+          let g:perforce_open_on_change = 1
+          " don't prompt on every save
+          let g:perforce_prompt_on_open = 0
+        '';
+      }
       vim-surround
-      vimspector
-      tagbar
+
+      {
+        plugin = vimspector;
+        config = ''
+          " vim.g.vimspector_enable_mappings = 'HUMAN'
+          let g:vimspector_enable_mappings = 'VISUAL_STUDIO'
+          let g:vimspector_base_dir = expand('$HOME/.config/vimspector-test')
+
+          " Vim inspector
+          " mnemonic 'di' = 'debug inspect' (pick your own, if you prefer!)
+          " for normal mode - the word under the cursor
+          nmap <Leader>di <Plug>VimspectorBalloonEval
+
+          " nmap for visual mode, the visually selected text
+          xmap <Leader>di <Plug>VimspectorBalloonEval
+
+          " Reset
+          nmap <Leader>vr <Plug>VimspectorReset<CR>
+        '';
+      }
+      {
+        plugin = tagbar;
+        config = ''noremap <silent>tt :TagbarToggle<CR>'';
+      }
     ];
   };
   #  home.file.".config/fish/config.fish".text = ''
