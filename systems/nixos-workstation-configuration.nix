@@ -141,11 +141,12 @@ in {
   programs.fish.enable = true;
 
   # Define a user account. Don't forget to set a password with ‘passwd’.
+  environment.pathsToLink = ["/share/zsh"];
   users.users.eric = {
     isNormalUser = true;
     description = "Eric";
     extraGroups = ["networkmanager" "wheel" "plocate" "libvirtd"];
-    shell = pkgs.bash;
+    shell = unstable.zsh;
     packages = with pkgs; [
       unstable.ferdium
       unstable.zoom-us
@@ -191,7 +192,6 @@ in {
     curl
     wezterm
     unstable.tailscale
-    unstable.networkmanager-openvpn
     nvtop
     btop
     direnv
@@ -213,8 +213,8 @@ in {
 
   programs.nix-index = {
     enable = true;
-    enableBashIntegration = false;
-    enableZshIntegration = false;
+    enableBashIntegration = true;
+    enableZshIntegration = true;
   };
 
   # enable rootless docker
