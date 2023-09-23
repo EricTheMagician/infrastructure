@@ -81,7 +81,7 @@ in {
     nextcloud-client
   ];
 
-  home.aliases = {
+  home.shellAliases = {
     ca = ''eval "$(micromamba shell hook --shell=bash)" && micromamba activate --stack $ORSROOT/dragonfly_python_environment_linux'';
     nqt = "neovim-qt";
   };
