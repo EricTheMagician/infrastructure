@@ -81,6 +81,7 @@ in {
     # (pkgs.writeShellScriptBin "my-hello" ''
     #   echo "Hello, ${config.home.username}!"
     # '')
+    nerdfonts
     rclone
     # viber
     btop
@@ -166,12 +167,15 @@ in {
       efm-langserver # for efm lang server
       nil # for nix language server
       clang-tools_16 # clang-format
-      cmake-format 
+      cmake-format
       neocmakelsp
       ruff-lsp
       nodePackages.pyright
+      nodePackages.cspell
       pylyzer
       jsonfmt
+      alejandra # nix formatter
+      black # python formatter
     ];
 
     extraConfig = ''
@@ -287,6 +291,7 @@ in {
       nvim-treesitter-parsers.meson
       nvim-treesitter-parsers.ninja
       nvim-treesitter-parsers.nix
+      nvim-treesitter-parsers.norg
       nvim-treesitter-parsers.rust
       nvim-treesitter-parsers.php
       nvim-treesitter-parsers.perl
@@ -301,6 +306,7 @@ in {
       nvim-treesitter-parsers.vim
       nvim-treesitter-parsers.xml
       nvim-treesitter-parsers.yaml
+      nvim-treesitter-textobjects
       {
         plugin = nvim-treesitter;
         config = ''
@@ -369,76 +375,152 @@ in {
         '';
         type = "lua";
       }
-      efmls-configs-nvim
-      neorg
+      {
+        plugin = vim-LanguageTool;
+        config = ''
+          let g:languagetool_jar = '${pkgs.languagetool}/share/languagetool-commandline.jar'
+          let g:languagetool_cmd = '${pkgs.languagetool}/bin/languagetool-commandline'
+        '';
+      }
+      {plugin = spelunker-vim;}
+      {
+        plugin = efmls-configs-nvim;
+        type = "lua";
+        config = ''
+
+          -- Register linters and formatters per language
+          local black = require('efmls-configs.formatters.black')
+          local clang_format = require('efmls-configs.formatters.clang_format')
+          local alejandra = require('efmls-configs.formatters.alejandra')
+          local cspell = require('efmls-configs.linters.cspell')
+          local languages = {
+            ['='] = {cspell,},
+            python = { black,  },
+            cpp = { clang_format,  },
+            nix = { alejandra,  },
+          }
+
+          local efmls_config = {
+            filetypes = vim.tbl_keys(languages),
+            settings = {
+              rootMarkers = { '.git/' },
+              languages = languages,
+            },
+            init_options = {
+              documentFormatting = true,
+              documentRangeFormatting = true,
+            },
+          }
+
+          require('lspconfig').efm.setup(vim.tbl_extend('force', efmls_config, {
+            -- Pass your custom lsp config below like on_attach and capabilities
+            --
+            -- on_attach = on_attach,
+            capabilities = require("cmp_nvim_lsp").default_capabilities(),
+          }))
+          local lsp_fmt_group = vim.api.nvim_create_augroup('LspFormattingGroup', {})
+          vim.api.nvim_create_autocmd('BufWritePost', {
+            group = lsp_fmt_group,
+            callback = function()
+              local efm = vim.lsp.get_active_clients({ name = 'efm' })
+
+              if vim.tbl_isempty(efm) then
+                return
+              end
+
+            vim.lsp.buf.format({ name = 'efm' })
+              end,
+          })
+        '';
+      }
+      {
+        plugin = neorg;
+        config = ''
+          require("neorg").setup {
+              load = {
+                  ["core.defaults"] = {},
+                  ["core.concealer"] = {},
+                  ["core.dirman"] = {
+                    config = {
+                      workspaces = {
+                        notes = "~/git/notes",
+                      },
+                      default_workspace = "notes",
+                    },
+                  },
+              },
+          }
+        '';
+        type = "lua";
+      }
       neorg-telescope
       luasnip
       friendly-snippets
-      cmp_luasnip
       cmp-nvim-lsp
       cmp-nvim-lsp-document-symbol
       cmp-nvim-lsp-signature-help
       which-key-nvim
-      { plugin = nvim-lspconfig;
-      type = "lua";
-      config = ''
-        -- Diagnostic keymaps
-        vim.keymap.set('n', '[d', vim.diagnostic.goto_prev, { desc = 'Go to previous diagnostic message' })
-        vim.keymap.set('n', ']d', vim.diagnostic.goto_next, { desc = 'Go to next diagnostic message' })
-        vim.keymap.set('n', '<leader>e', vim.diagnostic.open_float, { desc = 'Open floating diagnostic message' })
-        vim.keymap.set('n', '<leader>q', vim.diagnostic.setloclist, { desc = 'Open diagnostics list' })
+      {
+        plugin = nvim-lspconfig;
+        type = "lua";
+        config = ''
+          -- Diagnostic keymaps
+          vim.keymap.set('n', '[d', vim.diagnostic.goto_prev, { desc = 'Go to previous diagnostic message' })
+          vim.keymap.set('n', ']d', vim.diagnostic.goto_next, { desc = 'Go to next diagnostic message' })
+          vim.keymap.set('n', '<leader>e', vim.diagnostic.open_float, { desc = 'Open floating diagnostic message' })
+          vim.keymap.set('n', '<leader>q', vim.diagnostic.setloclist, { desc = 'Open diagnostics list' })
 
-        local lspconfig = require('lspconfig')
-        local capabilities = require("cmp_nvim_lsp").default_capabilities()
-        lspconfig.pyright.setup {capabilities = capabilities}
-        lspconfig.nil_ls.setup {capabilities = capabilities}
-        lspconfig.clangd.setup {capabilities = capabilities}
-        lspconfig.cmake.setup {capabilities = capabilities}
-        lspconfig.ruff_lsp.setup {
-            cmd = { "${pkgs.ruff-lsp}/bin/ruff-lsp" },
-            capabilities = capabilities
-        }
+          local lspconfig = require('lspconfig')
+          local capabilities = require("cmp_nvim_lsp").default_capabilities()
+          lspconfig.pyright.setup {capabilities = capabilities}
+          lspconfig.nil_ls.setup {capabilities = capabilities}
+          lspconfig.clangd.setup {capabilities = capabilities}
+          lspconfig.cmake.setup {capabilities = capabilities}
+          lspconfig.ruff_lsp.setup {
+              cmd = { "${pkgs.ruff-lsp}/bin/ruff-lsp" },
+              capabilities = capabilities
+          }
 
 
-            -- Global mappings.
-            -- See `:help vim.diagnostic.*` for documentation on any of the below functions
-            vim.keymap.set('n', '<space>e', vim.diagnostic.open_float)
-            vim.keymap.set('n', '[d', vim.diagnostic.goto_prev)
-            vim.keymap.set('n', ']d', vim.diagnostic.goto_next)
-            vim.keymap.set('n', '<space>q', vim.diagnostic.setloclist)
+          -- Global mappings.
+          -- See `:help vim.diagnostic.*` for documentation on any of the below functions
+          vim.keymap.set('n', '<space>e', vim.diagnostic.open_float)
+          vim.keymap.set('n', '[d', vim.diagnostic.goto_prev)
+          vim.keymap.set('n', ']d', vim.diagnostic.goto_next)
+          vim.keymap.set('n', '<space>q', vim.diagnostic.setloclist)
 
-            -- Use LspAttach autocommand to only map the following keys
-            -- after the language server attaches to the current buffer
-            vim.api.nvim_create_autocmd('LspAttach', {
-              group = vim.api.nvim_create_augroup('UserLspConfig', {}),
-              callback = function(ev)
-                -- Enable completion triggered by <c-x><c-o>
-                vim.bo[ev.buf].omnifunc = 'v:lua.vim.lsp.omnifunc'
+          -- Use LspAttach autocommand to only map the following keys
+          -- after the language server attaches to the current buffer
+          vim.api.nvim_create_autocmd('LspAttach', {
+          group = vim.api.nvim_create_augroup('UserLspConfig', {}),
+          callback = function(ev)
+          -- Enable completion triggered by <c-x><c-o>
+          vim.bo[ev.buf].omnifunc = 'v:lua.vim.lsp.omnifunc'
 
-                -- Buffer local mappings.
-                -- See `:help vim.lsp.*` for documentation on any of the below functions
-                local opts = { buffer = ev.buf }
-                vim.keymap.set('n', 'gD', vim.lsp.buf.declaration, opts)
-                vim.keymap.set('n', 'gd', vim.lsp.buf.definition, opts)
-                vim.keymap.set('n', 'K', vim.lsp.buf.hover, opts)
-                vim.keymap.set('n', 'gi', vim.lsp.buf.implementation, opts)
-                vim.keymap.set('n', '<C-k>', vim.lsp.buf.signature_help, opts)
-                vim.keymap.set('n', '<space>wa', vim.lsp.buf.add_workspace_folder, opts)
-                vim.keymap.set('n', '<space>wr', vim.lsp.buf.remove_workspace_folder, opts)
-                vim.keymap.set('n', '<space>wl', function()
-                  print(vim.inspect(vim.lsp.buf.list_workspace_folders()))
-                end, opts)
-                vim.keymap.set('n', '<space>D', vim.lsp.buf.type_definition, opts)
-                vim.keymap.set('n', '<space>rn', vim.lsp.buf.rename, opts)
-                vim.keymap.set({ 'n', 'v' }, '<space>ca', vim.lsp.buf.code_action, opts)
-                vim.keymap.set('n', 'gr', vim.lsp.buf.references, opts)
-                vim.keymap.set('n', '<space>f', function()
-                  vim.lsp.buf.format { async = true }
-                end, opts)
-              end,
-            })
+          -- Buffer local mappings.
+          -- See `:help vim.lsp.*` for documentation on any of the below functions
+          local opts = { buffer = ev.buf }
+          vim.keymap.set('n', 'gD', vim.lsp.buf.declaration, opts)
+          vim.keymap.set('n', 'gd', vim.lsp.buf.definition, opts)
+          vim.keymap.set('n', 'K', vim.lsp.buf.hover, opts)
+          vim.keymap.set('n', 'gi', vim.lsp.buf.implementation, opts)
+          vim.keymap.set('n', '<C-k>', vim.lsp.buf.signature_help, opts)
+          vim.keymap.set('n', '<space>wa', vim.lsp.buf.add_workspace_folder, opts)
+          vim.keymap.set('n', '<space>wr', vim.lsp.buf.remove_workspace_folder, opts)
+          vim.keymap.set('n', '<space>wl', function()
+          print(vim.inspect(vim.lsp.buf.list_workspace_folders()))
+          end, opts)
+          vim.keymap.set('n', '<space>D', vim.lsp.buf.type_definition, opts)
+          vim.keymap.set('n', '<space>rn', vim.lsp.buf.rename, opts)
+          vim.keymap.set({ 'n', 'v' }, '<space>ca', vim.lsp.buf.code_action, opts)
+          vim.keymap.set('n', 'gr', vim.lsp.buf.references, opts)
+          vim.keymap.set('n', '<space>f', function()
+          vim.lsp.buf.format { async = true }
+          end, opts)
+          end,
+          })
 
-      '';
+        '';
       }
       indent-blankline-nvim
       fidget-nvim
@@ -590,6 +672,7 @@ in {
             sources = {
               { name = 'nvim_lsp' },
               -- { name = 'luasnip' },
+
             },
           }
           -- end configure cmp
@@ -611,7 +694,6 @@ in {
   #end
   #'';
   home.shellAliases = {
-    ca = ''eval "$(micromamba shell hook --shell=bash)" && micromamba activate --stack $ORSROOT/dragonfly_python_environment_linux'';
   };
 
   # Home Manager is pretty good at managing dotfiles. The primary way to manage

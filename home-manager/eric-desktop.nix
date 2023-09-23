@@ -81,6 +81,10 @@ in {
     nextcloud-client
   ];
 
+  home.aliases = {
+    ca = ''eval "$(micromamba shell hook --shell=bash)" && micromamba activate --stack $ORSROOT/dragonfly_python_environment_linux'';
+  };
+
   services.syncthing = {
     enable = true;
     tray.enable = false;
