@@ -213,8 +213,8 @@ in {
 
   programs.nix-index = {
     enable = true;
-    enableBashIntegration = true;
-    enableZshIntegration = true;
+    enableBashIntegration = false;
+    enableZshIntegration = false;
   };
 
   # enable rootless docker
