@@ -83,6 +83,7 @@ in {
     # '')
     nerdfonts
     rclone
+    unzip
     # viber
     btop
     dua
@@ -248,12 +249,12 @@ in {
           end, { desc = '[/] Fuzzily search in current buffer' })
 
           vim.keymap.set('n', '<leader>gf', require('telescope.builtin').git_files, { desc = 'Search [G]it [F]iles' })
-          vim.keymap.set('n', '<leader>sf', require('telescope.builtin').find_files, { desc = '[S]earch [F]iles' })
-          vim.keymap.set('n', '<leader>sh', require('telescope.builtin').help_tags, { desc = '[S]earch [H]elp' })
-          vim.keymap.set('n', '<leader>sw', require('telescope.builtin').grep_string, { desc = '[S]earch current [W]ord' })
-          vim.keymap.set('n', '<leader>sg', require('telescope.builtin').live_grep, { desc = '[S]earch by [G]rep' })
-          vim.keymap.set('n', '<leader>sd', require('telescope.builtin').diagnostics, { desc = '[S]earch [D]iagnostics' })
-          vim.keymap.set('n', '<leader>sr', require('telescope.builtin').resume, { desc = '[S]earch [R]resume' })
+          vim.keymap.set('n', '<leader>ff', require('telescope.builtin').find_files, { desc = '[F]ind [F]iles' })
+          vim.keymap.set('n', '<leader>fh', require('telescope.builtin').help_tags, { desc = '[F]ind [H]elp' })
+          vim.keymap.set('n', '<leader>fw', require('telescope.builtin').grep_string, { desc = '[F]ind current [W]ord' })
+          vim.keymap.set('n', '<leader>fg', require('telescope.builtin').live_grep, { desc = '[F]ind by [G]rep' })
+          vim.keymap.set('n', '<leader>fd', require('telescope.builtin').diagnostics, { desc = '[F]ind [D]iagnostics' })
+          vim.keymap.set('n', '<leader>fr', require('telescope.builtin').resume, { desc = '[F]ind [R]resume' })
           -- vim.keymap.set('n', '<leader>ff', builtin.find_files, {})
           -- vim.keymap.set('n', '<leader>fg', builtin.live_grep, {})
           -- vim.keymap.set('n', '<leader>fb', builtin.buffers, {})
@@ -492,6 +493,7 @@ in {
           -- Use LspAttach autocommand to only map the following keys
           -- after the language server attaches to the current buffer
           vim.api.nvim_create_autocmd('LspAttach', {
+
           group = vim.api.nvim_create_augroup('UserLspConfig', {}),
           callback = function(ev)
           -- Enable completion triggered by <c-x><c-o>
@@ -508,8 +510,8 @@ in {
           vim.keymap.set('n', '<space>wa', vim.lsp.buf.add_workspace_folder, opts)
           vim.keymap.set('n', '<space>wr', vim.lsp.buf.remove_workspace_folder, opts)
           vim.keymap.set('n', '<space>wl', function()
-          print(vim.inspect(vim.lsp.buf.list_workspace_folders()))
-          end, opts)
+                vim.print(vim.inspect(vim.lsp.buf.list_workspace_folders()))
+            end, opts)
           vim.keymap.set('n', '<space>D', vim.lsp.buf.type_definition, opts)
           vim.keymap.set('n', '<space>rn', vim.lsp.buf.rename, opts)
           vim.keymap.set({ 'n', 'v' }, '<space>ca', vim.lsp.buf.code_action, opts)
@@ -518,7 +520,7 @@ in {
           vim.lsp.buf.format { async = true }
           end, opts)
           end,
-          })
+        })
 
         '';
       }
