@@ -136,7 +136,7 @@ in {
   };
 
   # ensures that the bridges are automatically started by systemd when the container starts
-  # this is needed when just doing a `rebuild switcch`. Otherwise, a reboot is fine.
+  # this is needed when just doing a `rebuild switch`. Otherwise, a reboot is fine.
   systemd.services =
     lib.mapAttrs' (name: value: {
       name = "${value.bridge.name}-netdev";
