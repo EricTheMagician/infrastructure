@@ -32,6 +32,8 @@
     vim-perforce.flake = false;
     vim-codeium.url = "github:exafunction/codeium.vim";
     vim-codeium.flake = false;
+    vim-spelunker.url = "github:kamykn/spelunker.vim";
+    vim-spelunker.flake = false;
     #nixos-seaweedfs.url = "github:xanderio/nixos-seaweedfs";
     #nixos-seaweedfs.url = "/home/eric/git/nixos-seaweedfs";
     #nixos-seaweedfs.inputs.nixpkgs.follows = "nixpkgs-unstable";

@@ -18,6 +18,11 @@
           name = "vim-perforce";
           src = inputs.vim-perforce;
         };
+
+        spelunker-vim = prev.vimUtils.buildVimPlugin {
+          name = "spelunker.vim";
+          src = inputs.vim-spelunker;
+        };
       };
   };
 
