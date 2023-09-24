@@ -21,6 +21,12 @@ in {
   # networking.wireless.enable = true;  # Enables wireless support via wpa_supplicant.
   # networking.networkmanager.enable = true;  # Easiest to use and most distros use this by default.
 
+  fileSystems."/mnt/unraid" = {
+    device = "shares";
+    fsType = "9p";
+    options = ["trans=virtio"];
+  };
+
   # Set your time zone.
   time.timeZone = "America/Vancouver";
 
