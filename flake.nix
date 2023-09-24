@@ -83,7 +83,7 @@
     # add my personal cache
     nixConfig = {
       extra-substituters = [
-        "s3://nix-cache?region=mini-nix&profile=hercules-ci&scheme=https&endpoint=minio-api.eyen.ca"
+        "https://minio-api.eyen.ca/nix-cache"
       ];
       extra-trusted-public-keys = [
         "mini-nix.eyen.ca:YDI5WEPr5UGe9HjhU8y1iR07XTacpoBDQHiLcm/t2QY="

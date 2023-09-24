@@ -55,7 +55,7 @@ in {
       # Deduplicate and optimize nix store
       auto-optimise-store = true;
       substituters = [
-        "s3://nix-cache?region=mini-nix&scheme=https&endpoint=minio-api.eyen.ca"
+        "https://minio-api.eyen.ca/nix-cache"
         "https://nix-community.cachix.org"
         "https://cache.nixos.org/"
       ];
