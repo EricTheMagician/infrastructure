@@ -632,6 +632,11 @@ in {
         config = ''noremap <silent>tt :TagbarToggle<CR>'';
       }
 
+      cmp-async-path
+      cmp-fuzzy-path
+      cmp-nvim-lsp
+      cmp-nvim-lsp-document-symbol
+      cmp-nvim-lsp-signature-help
       {
         plugin = nvim-cmp;
         type = "lua";
