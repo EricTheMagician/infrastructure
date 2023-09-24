@@ -1,13 +1,16 @@
 {
   config,
-  pkgs,
+  lib,
   ...
-}: let
-in {
+}: {
   imports = [
     ./acme.nix
   ];
-  config = {
+  options.nginx.enable = lib.mkOption {
+    type = lib.types.bool;
+    default = true;
+  };
+  config = lib.mkIf config.nginx.enable {
     services.nginx = {
       enable = true;
       recommendedProxySettings = true;
