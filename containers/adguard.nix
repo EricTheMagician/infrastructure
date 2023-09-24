@@ -4,7 +4,7 @@
   ...
 }: let
   net = (import ../common/net.nix {inherit lib;}).lib.net;
-  inherit (lib) mkOption mkIf types;
+  inherit (lib) mkOption mkEnableOption types;
   adguard_settings = import ./settings/adguard.nix;
   cfg = config.container.adguard;
   # this is the ip we need to expose
@@ -26,6 +26,7 @@ in {
     nginx.domain.name = mkOption {
       type = types.str;
     };
+    openFirewall = mkEnableOption "if enabled, opens port 53 on all ports";
   };
 
   config = {
@@ -40,8 +41,8 @@ in {
       ];
       firewall = {
         # ports needed for dns
-        allowedTCPPorts = [53];
-        allowedUDPPorts = [53];
+        allowedTCPPorts = lib.optional cfg.openFirewall 53;
+        allowedUDPPorts = lib.optional cfg.openFirewall 53;
       };
     };
 

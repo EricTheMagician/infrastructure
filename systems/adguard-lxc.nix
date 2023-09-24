@@ -51,6 +51,7 @@ in {
       prefixLength = 24;
     };
     nginx.domain.name = "adguard-unraid.eyen.ca";
+    openFirewall = true;
   };
 
   networking.nat = {

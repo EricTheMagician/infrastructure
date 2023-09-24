@@ -117,6 +117,7 @@ in {
       prefixLength = 24;
     };
     nginx.domain.name = "mini-nix-adguard.eyen.ca";
+    openFirewall = true;
   };
 
   #container.builder = {
