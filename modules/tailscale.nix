@@ -7,14 +7,17 @@
 }: {
   disabledModules = ["services/networking/tailscale.nix"];
   imports = [(inputs.nixpkgs-unstable + "/nixos/modules/services/networking/tailscale.nix")];
-  options.tailscale.secrets_path = lib.mkOption {
-    type = lib.types.path;
-    default = ../secrets/tailscale/infrastructure.yaml;
+  options.tailscale = {
+    secrets_path = lib.mkOption {
+      type = lib.types.path;
+      default = ../secrets/tailscale/infrastructure.yaml;
+    };
+    extraUpFlags = lib.mkOption {
+      type = lib.types.listOf lib.types.str;
+      default = ["--login-server" "https://hs.eyen.ca"];
+    };
   };
-  options.tailscale.extraUpFlags = lib.mkOption {
-    type = lib.types.listOf lib.types.str;
-    default = ["--login-server" "https://hs.eyen.ca"];
-  };
+
   config = {
     services.tailscale = {
       enable = true;
