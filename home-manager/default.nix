@@ -94,6 +94,7 @@ in {
     xsel
     pigz # fast extraction for gz files
     pixz # fast extraction for xz files
+    fd
   ];
   programs = {
     bash.enable = true;
@@ -685,6 +686,8 @@ in {
             },
             sources = {
               { name = 'nvim_lsp' },
+              { name = 'async_path' },
+              { name = 'fuzzy_path'},
               -- { name = 'luasnip' },
 
             },
