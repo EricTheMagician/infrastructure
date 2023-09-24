@@ -224,7 +224,7 @@
     # This is highly advised, and will prevent many possible mistakes
     checks = builtins.mapAttrs (system: deployLib: deployLib.deployChecks self.deploy) deploy-rs.lib;
     devShells.x86_64-linux.default = pkgs.mkShell {
-      buildInputs = [unstable.deploy-rs unstable.sops unstable.ssh-to-age];
+      buildInputs = [unstable.deploy-rs unstable.sops unstable.ssh-to-age unstable.nix-build-uncached];
     };
   };
 }
