@@ -9,56 +9,42 @@ let
   unraid.ts = "100.64.0.2";
 
   headscale.ts = "100.64.0.1";
-in
-  [
-    {
-      domain = "mini-nix";
+
+  mini-nix-domains =
+    map (domain: {
+      inherit domain;
       home = mini-nix.home;
       ts = mini-nix.ts;
-    }
+    }) [
+      "mini-nix"
+      "minio-api.eyen.ca"
+      "minio-web.eyen.ca"
+      "healthchecks.eyen.ca"
+      "login.eyen.ca"
+      "mini-nix-adguard.eyen.ca"
+    ];
+
+  headscale-domains =
+    map (domain: {
+      inherit domain;
+      ts = headscale.ts;
+    })
+    [
+      "headscale-adguard.eyen.ca"
+      "headscale.eyen.ca"
+    ];
+in
+  [
     {
       domain = "adguard-unraid.eyen.ca";
       home = unraid.home;
       ts = unraid.ts;
     }
     {
-      domain = "minio-api.eyen.ca";
-      home = mini-nix.home;
-      ts = mini-nix.ts;
-    }
-    {
-      domain = "minio-web.eyen.ca";
-      home = mini-nix.home;
-      ts = mini-nix.ts;
-    }
-    {
-      domain = "nix-cache.eyen.ca";
-      home = mini-nix.home;
-      ts = mini-nix.ts;
-    }
-    {
-      domain = "healthchecks.eyen.ca";
-      home = mini-nix.home;
-      ts = mini-nix.ts;
-    }
-    {
-      domain = "login.eyen.ca";
-      home = mini-nix.home;
-      ts = mini-nix.ts;
-    }
-    {
-      domain = "mini-nix-adguard.eyen.ca";
-      home = mini-nix.home;
-      ts = mini-nix.ts;
-    }
-    {
       domain = "nixos-workstation";
       home = nixos-workstation.home;
     }
-    {
-      domain = "headscale.eyen.ca";
-      ts = headscale.ts;
-    }
+
     {
       domain = "unraid.eyen.ca";
       home = "192.168.88.19";
@@ -81,3 +67,5 @@ in
       ts = unraid.ts;
     })
     unraid_apps)
+  ++ mini-nix-domains
+  ++ headscale-domains
