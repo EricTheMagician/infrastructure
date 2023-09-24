@@ -10,6 +10,9 @@ let
 
   headscale.ts = "100.64.0.1";
 
+  thepodfather.ts = "100.64.0.18";
+  thepodfather.home = "192.168.88.17";
+
   mini-nix-domains =
     map (domain: {
       inherit domain;
@@ -30,9 +33,13 @@ let
       ts = headscale.ts;
     })
     [
-      "headscale-adguard.eyen.ca"
       "headscale.eyen.ca"
     ];
+  thepodfather-domains = map (domain: {
+    inherit domain;
+    ts = thepodfather.ts;
+    home = thepodfather.home;
+  }) [];
 in
   [
     {
@@ -69,3 +76,4 @@ in
     unraid_apps)
   ++ mini-nix-domains
   ++ headscale-domains
+  ++ thepodfather-domains

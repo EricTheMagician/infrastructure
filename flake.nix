@@ -6,8 +6,8 @@
     nixpkgs.url = "github:nixos/nixpkgs/nixos-23.05";
     nixpkgs-unstable.url = "github:nixos/nixpkgs/nixos-unstable";
 
-    mynixpkgs.url = "github:EricTheMagician/mynixpkgs";
-    mynixpkgs.inputs.nixpkgs.follows = "nixpkgs";
+    #mynixpkgs.url = "github:EricTheMagician/mynixpkgs";
+    #mynixpkgs.inputs.nixpkgs.follows = "nixpkgs";
 
     # Home manager
     home-manager.url = "github:nix-community/home-manager";
@@ -34,9 +34,6 @@
     vim-codeium.flake = false;
     vim-spelunker.url = "github:kamykn/spelunker.vim";
     vim-spelunker.flake = false;
-    #nixos-seaweedfs.url = "github:xanderio/nixos-seaweedfs";
-    #nixos-seaweedfs.url = "/home/eric/git/nixos-seaweedfs";
-    #nixos-seaweedfs.inputs.nixpkgs.follows = "nixpkgs-unstable";
   };
 
   outputs = {
@@ -117,7 +114,6 @@
         modules = [
           disko.nixosModules.disko
           sops-nix.nixosModules.sops
-          #nixos-seaweedfs.nixosModules.seaweedfs
           ./systems/mini-nix-configuration.nix
         ];
       };
@@ -139,6 +135,21 @@
           ./systems/headscale-configuration.nix
         ];
       };
+
+      thepodfather = nixpkgs.lib.nixosSystem {
+        inherit system;
+        specialArgs = {
+          inherit inputs;
+          inherit pkgs;
+        }; # Pass flake inputs to our config
+
+        #specialArgs = {inherit pkgs;};
+        modules = [
+          disko.nixosModules.disko
+          sops-nix.nixosModules.sops
+          ./systems/docker.machine-configuration.nix
+        ];
+      };
     };
 
     # Standalone home-manager configuration entrypoint
@@ -148,7 +159,6 @@
         pkgs = unstable; # Home-manager requires 'pkgs' instance
         extraSpecialArgs = {
           #inherit nixpkgs;
-          mypkgs = mynixpkgs.packages.${system};
           inherit inputs;
           stable = pkgs;
         }; # Pass flake inputs to our config
@@ -211,13 +221,23 @@
       };
     };
 
-    deploy.nodes.nixos-workstation = {
-      hostname = "nixos-workstation";
-      fastConnection = true;
+    #deploy.nodes.nixos-workstation = {
+    #  hostname = "nixos-workstation";
+    #  fastConnection = true;
+    #  profiles.system = {
+    #    sshUser = "root";
+    #    user = "root";
+    #    path = deployPkgs.deploy-rs.lib.activate.nixos self.nixosConfigurations.nixos-workstation;
+    #  };
+    #};
+
+    deploy.nodes.thepodfather = {
+      #hostname = "thepodfather";
+      hostname = "192.168.88.17";
       profiles.system = {
         sshUser = "root";
         user = "root";
-        path = deployPkgs.deploy-rs.lib.activate.nixos self.nixosConfigurations.nixos-workstation;
+        path = deployPkgs.deploy-rs.lib.activate.nixos self.nixosConfigurations.thepodfather;
       };
     };
 

@@ -132,36 +132,32 @@
     "mynixpkgs": {
       "inputs": {
         "flake-utils": "flake-utils_2",
-        "nixpkgs": [
-          "nixpkgs"
-        ]
+        "nixpkgs": "nixpkgs"
       },
       "locked": {
         "lastModified": 1694106455,
         "narHash": "sha256-eMK4Sk6UVIZvqP+mQ33zFe0RLSoTj/ZWpE9nNW9qHWA=",
-        "owner": "EricTheMagician",
-        "repo": "mynixpkgs",
+        "path": "/nix/store/bfijqjwzln6j144v5gplncxn2vhhzhis-source",
         "rev": "31d2fd3eb6493ec4115287139f2768af0b5d0406",
-        "type": "github"
+        "type": "path"
       },
       "original": {
-        "owner": "EricTheMagician",
-        "repo": "mynixpkgs",
-        "type": "github"
+        "id": "mynixpkgs",
+        "type": "indirect"
       }
     },
     "nixpkgs": {
       "locked": {
-        "lastModified": 1695346609,
-        "narHash": "sha256-jur+AjgRvablLA2oBvC4FD89zCXttVQDwi6OXk5x/14=",
+        "lastModified": 1695360818,
+        "narHash": "sha256-JlkN3R/SSoMTa+CasbxS1gq+GpGxXQlNZRUh9+LIy/0=",
         "owner": "nixos",
         "repo": "nixpkgs",
-        "rev": "e9b4b56e5a20ac322c0c01ccab7ec697ab076ea0",
+        "rev": "e35dcc04a3853da485a396bdd332217d0ac9054f",
         "type": "github"
       },
       "original": {
         "owner": "nixos",
-        "ref": "nixos-23.05",
+        "ref": "nixos-unstable",
         "repo": "nixpkgs",
         "type": "github"
       }
@@ -198,6 +194,22 @@
         "type": "github"
       }
     },
+    "nixpkgs_2": {
+      "locked": {
+        "lastModified": 1695346609,
+        "narHash": "sha256-jur+AjgRvablLA2oBvC4FD89zCXttVQDwi6OXk5x/14=",
+        "owner": "nixos",
+        "repo": "nixpkgs",
+        "rev": "e9b4b56e5a20ac322c0c01ccab7ec697ab076ea0",
+        "type": "github"
+      },
+      "original": {
+        "owner": "nixos",
+        "ref": "nixos-23.05",
+        "repo": "nixpkgs",
+        "type": "github"
+      }
+    },
     "root": {
       "inputs": {
         "deploy-rs": "deploy-rs",
@@ -206,7 +218,7 @@
         "hardware": "hardware",
         "home-manager": "home-manager",
         "mynixpkgs": "mynixpkgs",
-        "nixpkgs": "nixpkgs",
+        "nixpkgs": "nixpkgs_2",
         "nixpkgs-unstable": "nixpkgs-unstable",
         "sops-nix": "sops-nix",
         "vim-codeium": "vim-codeium",

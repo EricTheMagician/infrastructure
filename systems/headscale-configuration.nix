@@ -11,7 +11,7 @@ in {
     ../modules/headscale.nix
     ../modules/tailscale.nix
     ./headscale-hardware-configuration.nix
-    ../containers/adguard.nix
+    #../containers/adguard.nix
   ];
 
   tailscale.secrets_path = ../secrets/tailscale/headscale.yaml;
