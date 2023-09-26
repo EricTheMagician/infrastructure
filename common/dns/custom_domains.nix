@@ -23,7 +23,6 @@ let
       "minio-api.eyen.ca"
       "minio-web.eyen.ca"
       "healthchecks.eyen.ca"
-      "login.eyen.ca"
       "mini-nix-adguard.eyen.ca"
     ];
 
@@ -34,12 +33,17 @@ let
     })
     [
       "headscale.eyen.ca"
+      "headscale"
     ];
-  thepodfather-domains = map (domain: {
-    inherit domain;
-    ts = thepodfather.ts;
-    home = thepodfather.home;
-  }) [];
+  thepodfather-domains =
+    map (domain: {
+      inherit domain;
+      ts = thepodfather.ts;
+      home = thepodfather.home;
+    }) [
+      "login.eyen.ca"
+      "thepodfather"
+    ];
 in
   [
     {

@@ -49,15 +49,11 @@ in {
       };
       dns_config = {
         #nameservers = ["100.64.0.1" "100.64.0.14"];
-        nameservers = ["100.64.0.9" "100.64.0.14"];
-        baseDomain = "ts.lan";
+        #nameservers = ["100.64.0.9" "100.64.0.14"];
+        nameservers = ["45.90.28.207" "45.90.30.207"];  # nextdns
+        magic_dns = false;
         override_local_dns = true;
         extra_records = tailscale_dns_entries;
-
-        # Search domains to inject.
-        domains = [
-          "eyen.ca"
-        ];
       };
     };
   };

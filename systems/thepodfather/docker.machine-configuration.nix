@@ -3,13 +3,15 @@
   config,
   ...
 }: let
-  sshKeys = import ../common/ssh-keys.nix;
+  sshKeys = import ../../common/ssh-keys.nix;
 in {
   imports = [
     # Include the results of the hardware scan.
     ./docker.machine-hardware.nix
     ./docker.machine-disks.nix
-    ../modules/tailscale.nix
+    ../../modules/tailscale.nix
+    ../../services/acme-default.nix
+    ./keycloak.nix
   ];
 
   # Use the systemd-boot EFI boot loader.
@@ -43,17 +45,14 @@ in {
     #isNormalUser = false;
     isSystemUser = true;
     extraGroups = ["podman"];
+    group = "users";
   };
-  users.users.thepodfather.group = "thepodfather";
-  users.groups.thepodfather = {};
+  users.groups.users = {
+    gid = 100; # this is unraid users group
+  };
   users.users.root.openssh.authorizedKeys.keys = sshKeys;
-  # Some programs need SUID wrappers, can be configured further or are
-  # started in user sessions.
-  # programs.mtr.enable = true;
-  # programs.gnupg.agent = {
-  #   enable = true;
-  #   enableSSHSupport = true;
-  # };
+
+sops.defaultSopsFile = ../../secrets/thepodfather/default.yaml;
 
   # List services that you want to enable:
 

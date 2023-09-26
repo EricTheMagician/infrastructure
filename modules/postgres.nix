@@ -1,8 +1,8 @@
 {pkgs, ...}: {
-  serivces.postgresql = {
+  services.postgresql = {
     # https://nixos.wiki/wiki/PostgreSQL
     enable = true;
-    package = pkgs.unstable.postgresql_15;
+    package = pkgs.unstable.postgresql_16;
     identMap = ''
       # ArbitraryMapName systemUser DBUser
          superuser_map      root      postgres
@@ -14,5 +14,9 @@
       #type database  DBuser  auth-method optional_ident_map
       local sameuser  all     peer        map=superuser_map
     '';
+  };
+
+  services.postgresqlBackup ={
+  enable=true;
   };
 }

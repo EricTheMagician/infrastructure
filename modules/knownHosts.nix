@@ -7,12 +7,17 @@
     };
 
     headscale = {
-      extraHostNames = ["100.64.0.1"];
+      extraHostNames = ["100.64.0.1" "headscale.eyen.ca"];
       publicKey = "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIBlI3pYLW1+d7ulkVl3HLc0Fd00AFEm2SZjIEhkxcAIO";
     };
 
     nixos-workstation = {
       publicKey = "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIN1hcCW0VOR4Ph92EED+JId6vQs5uoyfVDexS/yVK4MF";
+    };
+
+    thepodfather = {
+      extraHostNames = ["thepodfather.eyen.ca" "100.64.0.18"];
+      publicKey = "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIC35qotLgb1j50CodY0nE+N8Uqm8a1/Fo8zL9eSRZ+c9";
     };
 
     hetzner-backup = {
