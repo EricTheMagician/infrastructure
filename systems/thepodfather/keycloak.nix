@@ -7,6 +7,7 @@
   cfg = config.keycloak;
 in {
   imports = [
+    ../../modules/postgres.nix
     ../../modules/nginx.nix
   ];
   options.keycloak = {
@@ -20,9 +21,15 @@ in {
     };
   };
   config = {
-    sops.secrets.keycloak_database_password = {
-      #owner = "keycloak";
-    };
+    sops.secrets.keycloak_database_password = {};
+    services.postgresql.ensureUsers = [
+      {
+        name = "keycloak";
+        ensurePermissions = {
+          "DATABASE keycloak" = "ALL PRIVILEGES";
+        };
+      }
+    ];
     services.keycloak = {
       enable = true;
       package = pkgs.keycloak;
@@ -45,5 +52,6 @@ in {
         proxyPass = "http://localhost:${toString cfg.port}";
       };
     };
+    services.postgresqlBackup.databases = [ config.services.keycloak.database.name ];
   };
 }
