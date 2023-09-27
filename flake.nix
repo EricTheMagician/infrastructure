@@ -179,6 +179,7 @@
         extraSpecialArgs = {
           inherit inputs;
           mypkgs = mynixpkgs.packages.${system};
+          stable = pkgs;
         }; # Pass flake inputs to our config
         # > Our main home-manager configuration file <
         modules = [
