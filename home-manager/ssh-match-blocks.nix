@@ -4,11 +4,6 @@
     user = "root";
   };
 
-  "vscode-server-unraid" = {
-    hostname = "vscode-server-unraid";
-    user = "eric";
-  };
-
   "office" = {
     hostname = "192.168.0.37";
     user = "eric";
@@ -52,5 +47,13 @@
     hostname = "10.99.99.8";
     user = "user";
     proxyJump = "vm-server2";
+  };
+
+  "unraid" = {
+    user = "root";
+  };
+
+  "thepodfather" = {
+    user = "root";
   };
 }
