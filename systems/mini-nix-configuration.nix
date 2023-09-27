@@ -143,4 +143,6 @@ in {
       value = {wantedBy = ["container@${name}.service"];};
     })
     config.container;
+
+    environment.systemPackages = with pkgs; [ nmap dig ];
 }
