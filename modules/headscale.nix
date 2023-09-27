@@ -50,9 +50,10 @@ in {
       dns_config = {
         #nameservers = ["100.64.0.1" "100.64.0.14"];
         #nameservers = ["100.64.0.9" "100.64.0.14"];
-        nameservers = ["45.90.28.207" "45.90.30.207"];  # nextdns
+        nameservers = ["45.90.28.207" "45.90.30.207"]; # nextdns
         magic_dns = false;
         override_local_dns = true;
+        domains = ["eyen.ca"];
         extra_records = tailscale_dns_entries;
       };
     };
