@@ -39,8 +39,8 @@ in {
     ohMyZsh = zsh.oh-my-zsh;
   };
   programs.fzf = {
-fuzzyCompletion = true;
-keybindings = true;
+    fuzzyCompletion = true;
+    keybindings = true;
   };
 
   environment.systemPackages = [
@@ -49,5 +49,8 @@ keybindings = true;
     pkgs.unstable.zoxide
     pkgs.pigz
     pkgs.pixz
+    pkgs.unstable.ripgrep
+    pkgs.unstable.fd
+    pkgs.unstable.dua
   ];
 }
