@@ -81,7 +81,7 @@ in {
   };
 
   # create a backup for healthchecks
-  systemd.timers.borgbackup-job-healthchecks.timerConfig.RandomizedDelaySecs = 3600 * 3;
+  systemd.timers.borgbackup-job-healthchecks.timerConfig.RandomizedDelaySec = 3600 * 3;
   services.borgbackup.jobs.healthchecks =
     build_borg_backup_job {
       inherit config;
@@ -98,7 +98,7 @@ in {
     // {
       postHook = ''
         PING_KEY=`cat ${config.sops.secrets.ping_key.path}`
-                  ${pkgs.curl}/bin/curl "https://healthchecks.eyen.ca/ping/$PING_KEY/healthchecks/$exitStatus" --silent
+        ${pkgs.curl}/bin/curl "https://healthchecks.eyen.ca/ping/$PING_KEY/healthchecks/$exitStatus" --silent
       '';
     };
 }

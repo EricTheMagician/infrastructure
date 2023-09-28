@@ -12,7 +12,7 @@ in {
   # ensure that default acme group is created and nginx is part of me
   # the group has permission to read the cloudflare private key
 
-  systemd.timers.borgbackup-job-acme.timerConfig.RandomizedDelaySecs = 3600 * 3;
+  systemd.timers.borgbackup-job-acme.timerConfig.RandomizedDelaySec = 3600 * 3;
   services.borgbackup.jobs.acme =
     build_borg_backup_job {
       inherit config;
@@ -27,7 +27,7 @@ in {
     // {
       postHook = ''
         PING_KEY=`cat ${config.sops.secrets.ping_key.path}`
-                  ${pkgs.curl}/bin/curl "https://healthchecks.eyen.ca/ping/$PING_KEY/${config.networking.hostName}-acme/$exitStatus" --silent
+        ${pkgs.curl}/bin/curl "https://healthchecks.eyen.ca/ping/$PING_KEY/${config.networking.hostName}-acme/$exitStatus" --silent
       '';
     };
 

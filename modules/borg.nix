@@ -45,7 +45,7 @@ in {
       };
     };
     systemd.timers = lib.mkIf ((builtins.length config.system_borg_backup_paths) > 0) {
-      borgbackup-job-system-backup.timerConfig.RandomizedDelaySecs = 3600 * 3;
+      borgbackup-job-system-backup.timerConfig.RandomizedDelaySec = 3600 * 3;
     };
   };
 }
