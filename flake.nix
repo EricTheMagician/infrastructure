@@ -147,6 +147,7 @@
         modules = [
           disko.nixosModules.disko
           sops-nix.nixosModules.sops
+          ./systems/defaults.nix
           ./systems/thepodfather/docker.machine-configuration.nix
         ];
       };
