@@ -10,7 +10,6 @@
   "it-tools"
   "ferdium"
   "keycloak"
-  "lldap"
   "metabase" # n8n automation
   "n8n" # n8n automation
   "nocodb" # n8n automation

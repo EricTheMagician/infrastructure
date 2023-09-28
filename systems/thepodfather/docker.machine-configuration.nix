@@ -12,6 +12,7 @@ in {
     ../../modules/tailscale.nix
     ../../services/acme-default.nix
     ./keycloak.nix
+    ./lldap.nix
   ];
 
   # Use the systemd-boot EFI boot loader.
@@ -52,7 +53,7 @@ in {
   };
   users.users.root.openssh.authorizedKeys.keys = sshKeys;
 
-sops.defaultSopsFile = ../../secrets/thepodfather/default.yaml;
+  sops.defaultSopsFile = ../../secrets/thepodfather/default.yaml;
 
   # List services that you want to enable:
 

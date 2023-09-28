@@ -41,6 +41,7 @@ let
       ts = thepodfather.ts;
       home = thepodfather.home;
     }) [
+      "lldap.eyen.ca"
       "login.eyen.ca"
       "thepodfather"
     ];
