@@ -1,4 +1,5 @@
 {
+  pkgs,
   lib,
   config,
   ...
@@ -38,11 +39,17 @@ in {
     };
 
     services.borgbackup.jobs = lib.mkIf ((builtins.length config.system_borg_backup_paths) > 0) {
-      system-backup = create_borg_backup_job {
-        name = "${config.networking.hostName}-system";
-        paths = config.system_borg_backup_paths;
-        inherit config;
-      };
+      system-backup =
+        create_borg_backup_job {
+          name = "${config.networking.hostName}-system";
+          paths = config.system_borg_backup_paths;
+          inherit config;
+        }// {
+          postHook = ''
+            PING_KEY=`cat ${config.sops.secrets.ping_key.path}`
+            ${pkgs.curl}/bin/curl "https://healthchecks.eyen.ca/ping/$PING_KEY/${config.networking.hostName}-system/$exitStatus" --silent
+          '';
+        };
     };
     systemd.timers = lib.mkIf ((builtins.length config.system_borg_backup_paths) > 0) {
       borgbackup-job-system-backup.timerConfig.RandomizedDelaySec = 3600 * 3;
