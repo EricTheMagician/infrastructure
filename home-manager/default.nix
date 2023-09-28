@@ -200,6 +200,16 @@ in {
       recursive = true;
       executable = true;
     };
+    ".sd/nix/flake/update".source = pkgs.writeShellScript "update-input" ''
+      # little script to select which nix flake input to update
+      # courtesy of @vimjoyer
+      input=$(                                           \
+        nix flake metadata --json                        \
+        | ${pkgs.jq}/bin/jq ".locks.nodes.root.inputs[]" \
+        | sed "s/\"//g"                                  \
+        | ${pkgs.fzf}/bin/fzf)
+      nix flake lock --update-input $input
+    '';
     #    ".config/vimspector/gadgets/linux/debugpy".source = config.lib.file.mkOutOfStoreSymlink debugpy_path;
     #    ".config/vimspector/gadgets/linux/codelldb".source = config.lib.file.mkOutOfStoreSymlink codelldb_path;
     ".config/vimspector/gadgets/linux/.gadgets.json".source = pkgs.writeText ".gadgets.json" (builtins.toJSON vimspector_configuration);
