@@ -199,6 +199,7 @@
     deploy.nodes.mini-nix = {
       hostname = "mini-nix";
       profiles.system = {
+      fastConnection = true;
         sshUser = "root";
         user = "root";
         path = deployPkgs.deploy-rs.lib.activate.nixos self.nixosConfigurations.mini-nix;
@@ -213,6 +214,7 @@
 
     deploy.nodes.adguard-lxc = {
       hostname = "100.64.0.9";
+      fastConnection = true;
       profiles.system = {
         sshUser = "root";
         user = "root";
@@ -241,6 +243,7 @@
 
     deploy.nodes.thepodfather = {
       hostname = "thepodfather";
+      fastConnection = true;
       profiles.system = {
         sshUser = "root";
         user = "root";
