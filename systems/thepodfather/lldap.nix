@@ -32,6 +32,7 @@ in {
       http_host = "localhost";
       http_url = "https://${domain}";
       ldap_base_dn = "dc=eyen,dc=ca";
+      verbose = false;
       #ldaps_enabled = true;
       #ldaps_port = 6360;
       #ldaps_cert_file = "${ldaps_cert.directory}/cert.pem";
