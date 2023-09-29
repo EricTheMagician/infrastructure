@@ -240,8 +240,7 @@
     #};
 
     deploy.nodes.thepodfather = {
-      #hostname = "thepodfather";
-      hostname = "192.168.88.17";
+      hostname = "thepodfather";
       profiles.system = {
         sshUser = "root";
         user = "root";
