@@ -52,5 +52,6 @@ in {
     pkgs.unstable.ripgrep
     pkgs.unstable.fd
     pkgs.unstable.dua
+    pkgs.unstable.bat
   ];
 }
