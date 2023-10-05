@@ -161,6 +161,7 @@
       unstable.jetbrains.clion
       unstable.vscode.fhs # without managing extensions
       unstable.git
+      unstable.devbox
       ansible
       # apache-directory-studio
       #  thunderbird
