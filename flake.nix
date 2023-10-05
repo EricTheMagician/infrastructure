@@ -1,5 +1,5 @@
 {
-  description = "Your new nix config";
+  description = "Nix Infrastructure";
 
   inputs = {
     # Nixpkgs
@@ -27,6 +27,10 @@
     # for multi architecture systems
     flake-utils.url = "github:numtide/flake-utils";
 
+    # for pre-commit-hooks
+    nix-pre-commit-hooks.url = "github:cachix/pre-commit-hooks.nix";
+    nix-pre-commit-hooks.inputs.nixpkgs.follows = "nixpkgs";
+
     # vim plugins
     vim-perforce.url = "github:nfvs/vim-perforce";
     vim-perforce.flake = false;
@@ -44,7 +48,7 @@
     deploy-rs,
     sops-nix,
     nixpkgs-unstable,
-    mynixpkgs,
+    nix-pre-commit-hooks,
     ...
   } @ inputs: let
     system = "x86_64-linux";
@@ -179,7 +183,6 @@
         pkgs = unstable; # Home-manager requires 'pkgs' instance
         extraSpecialArgs = {
           inherit inputs;
-          mypkgs = mynixpkgs.packages.${system};
           stable = pkgs;
         }; # Pass flake inputs to our config
         # > Our main home-manager configuration file <
@@ -251,10 +254,23 @@
       };
     };
 
-    # This is highly advised, and will prevent many possible mistakes
-    checks = builtins.mapAttrs (system: deployLib: deployLib.deployChecks self.deploy) deploy-rs.lib;
+    checks =
+      # This is highly advised, and will prevent many possible mistakes
+      builtins.mapAttrs (system: deployLib: deployLib.deployChecks self.deploy) deploy-rs.lib;
+
     devShells.x86_64-linux.default = pkgs.mkShell {
       buildInputs = [unstable.deploy-rs unstable.sops unstable.ssh-to-age unstable.nix-build-uncached];
+      shellHook = let
+        pre-commit-check = nix-pre-commit-hooks.lib.${system}.run {
+          src = ./.;
+          hooks = {
+            alejandra.enable = true;
+            nil.enable = true;
+            #statix.enable = true;
+          };
+        };
+      in
+        pre-commit-check.shellHook;
     };
   };
 }
