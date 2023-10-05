@@ -44,4 +44,9 @@ in {
       proxyPass = "http://localhost:9000";
     };
   };
+
+  systemd.services.minio.environment = {
+    MINIO_BROWSER_REDIRECT_URL = "https://minio-web.eyen.ca";
+    MINIO_SERVER_URL = "https://minio-api.eyen.ca";
+  };
 }
