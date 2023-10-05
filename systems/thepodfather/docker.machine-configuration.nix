@@ -13,6 +13,7 @@ in {
     ../../services/acme-default.nix
     ./keycloak.nix
     ./lldap.nix
+    ./forgejo.nix
   ];
 
   # Use the systemd-boot EFI boot loader.

@@ -44,6 +44,7 @@ let
       "lldap.eyen.ca"
       "login.eyen.ca"
       "thepodfather"
+      "git.eyen.ca"
     ];
 in
   [

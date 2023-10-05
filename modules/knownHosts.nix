@@ -16,7 +16,7 @@
     };
 
     thepodfather = {
-      extraHostNames = ["thepodfather.eyen.ca" "100.64.0.18"];
+      extraHostNames = ["thepodfather.eyen.ca" "100.64.0.18" "git.eyen.ca"];
       publicKey = "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIC35qotLgb1j50CodY0nE+N8Uqm8a1/Fo8zL9eSRZ+c9";
     };
 
