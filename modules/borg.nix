@@ -41,10 +41,12 @@ in {
     services.borgbackup.jobs = lib.mkIf ((builtins.length config.system_borg_backup_paths) > 0) {
       system-backup =
         create_borg_backup_job {
+          inherit config;
           name = "${config.networking.hostName}-system";
           paths = config.system_borg_backup_paths;
-          inherit config;
-        }// {
+          startAt = "daily";
+        }
+        // {
           postHook = ''
             PING_KEY=`cat ${config.sops.secrets.ping_key.path}`
             ${pkgs.curl}/bin/curl "https://healthchecks.eyen.ca/ping/$PING_KEY/${config.networking.hostName}-system/$exitStatus" --silent
