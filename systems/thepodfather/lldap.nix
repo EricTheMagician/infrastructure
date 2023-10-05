@@ -17,6 +17,7 @@ in {
     group = "lldap";
     isSystemUser = true;
   };
+
   users.groups.lldap = {};
   # setup the secrets
   sops.secrets = {
