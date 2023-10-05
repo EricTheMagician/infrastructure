@@ -58,6 +58,7 @@ in {
   # want to update the value, then make sure to first check the Home Manager
   # release notes.
   home.stateVersion = "23.05"; # Please read the comment before changing.
+  home.enableNixpkgsReleaseCheck = false;
 
   # The home.packages option allows you to install Nix packages into your
   # environment.
