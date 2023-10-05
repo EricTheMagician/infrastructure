@@ -43,16 +43,20 @@ in {
   # };
 
   # Define a user account. Don't forget to set a password with ‘passwd’.
-  users.users.thepodfather = {
-    #isNormalUser = false;
-    isSystemUser = true;
-    extraGroups = ["podman"];
-    group = "users";
+  users = {
+    users = {
+      root.openssh.authorizedKeys.keys = sshKeys;
+      thepodfather = {
+        #isNormalUser = false;
+        isSystemUser = true;
+        extraGroups = ["podman"];
+        group = "users";
+      };
+    };
+    groups.users = {
+      gid = 100; # this is unraid users group
+    };
   };
-  users.groups.users = {
-    gid = 100; # this is unraid users group
-  };
-  users.users.root.openssh.authorizedKeys.keys = sshKeys;
 
   sops.defaultSopsFile = ../../secrets/thepodfather/default.yaml;
 
@@ -78,8 +82,10 @@ in {
     pkgs.unstable.docker-client
   ];
   virtualisation.docker.enable = false;
-  virtualisation.podman.enable = true;
-  virtualisation.podman.dockerSocket.enable = true;
+  virtualisation.podman = {
+    enable = true;
+    dockerSocket.enable = true;
+  };
 
   # This value determines the NixOS release from which the default
   # settings for stateful data, like file locations and database versions

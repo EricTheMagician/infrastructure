@@ -16,8 +16,8 @@ let
   mini-nix-domains =
     map (domain: {
       inherit domain;
-      home = mini-nix.home;
-      ts = mini-nix.ts;
+      inherit (mini-nix) home;
+      inherit (mini-nix) ts;
     }) [
       "mini-nix"
       "minio-api.eyen.ca"
@@ -29,7 +29,7 @@ let
   headscale-domains =
     map (domain: {
       inherit domain;
-      ts = headscale.ts;
+      inherit (headscale) ts;
     })
     [
       "headscale.eyen.ca"
@@ -38,8 +38,8 @@ let
   thepodfather-domains =
     map (domain: {
       inherit domain;
-      ts = thepodfather.ts;
-      home = thepodfather.home;
+      inherit (thepodfather) ts;
+      inherit (thepodfather) home;
     }) [
       "lldap.eyen.ca"
       "login.eyen.ca"
@@ -50,12 +50,12 @@ in
   [
     {
       domain = "adguard-unraid.eyen.ca";
-      home = unraid.home;
-      ts = unraid.ts;
+      inherit (unraid) home;
+      inherit (unraid) ts;
     }
     {
       domain = "nixos-workstation";
-      home = nixos-workstation.home;
+      inherit (nixos-workstation) home;
     }
 
     {
@@ -76,8 +76,8 @@ in
   ]
   ++ (map (app: {
       domain = "${app}.eyen.ca";
-      home = unraid.home;
-      ts = unraid.ts;
+      inherit (unraid) home;
+      inherit (unraid) ts;
     })
     unraid_apps)
   ++ mini-nix-domains

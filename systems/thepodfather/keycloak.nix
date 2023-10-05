@@ -30,28 +30,30 @@ in {
         };
       }
     ];
-    services.keycloak = {
-      enable = true;
-      package = pkgs.keycloak;
-      database = {
-        type = "postgresql"; # this is already the default.
-        createLocally = true;
-        passwordFile = config.sops.secrets.keycloak_database_password.path;
+    services = {
+      keycloak = {
+        enable = true;
+        package = pkgs.keycloak;
+        database = {
+          type = "postgresql"; # this is already the default.
+          createLocally = true;
+          passwordFile = config.sops.secrets.keycloak_database_password.path;
+        };
+        settings = {
+          http-host = "localhost"; # let the proxy decide
+          http-port = cfg.port;
+          proxy = "edge"; # allow to communicate over http.
+          hostname = cfg.domain;
+        };
       };
-      settings = {
-        http-host = "localhost"; # let the proxy decide
-        http-port = cfg.port;
-        proxy = "edge"; # allow to communicate over http.
-        hostname = cfg.domain;
+      nginx.virtualHosts."${cfg.domain}" = {
+        useACMEHost = "eyen.ca";
+        forceSSL = true;
+        locations."/" = {
+          proxyPass = "http://localhost:${toString cfg.port}";
+        };
       };
+      postgresqlBackup.databases = [config.services.keycloak.database.name];
     };
-    services.nginx.virtualHosts."${cfg.domain}" = {
-      useACMEHost = "eyen.ca";
-      forceSSL = true;
-      locations."/" = {
-        proxyPass = "http://localhost:${toString cfg.port}";
-      };
-    };
-    services.postgresqlBackup.databases = [ config.services.keycloak.database.name ];
   };
 }

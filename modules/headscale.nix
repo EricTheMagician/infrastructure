@@ -13,7 +13,7 @@
 }: let
   domain = "hs.eyen.ca";
   unstable = inputs.nixpkgs-unstable.legacyPackages.x86_64-linux;
-  tailscale_dns_entries = (import ../common/dns).tailscale_dns_entries;
+  inherit ((import ../common/dns)) tailscale_dns_entries;
   build_borg_backup_job = import ../functions/borg-job.nix;
 in {
   imports = [
@@ -75,11 +75,11 @@ in {
   services.borgbackup.jobs.headscale-config =
     build_borg_backup_job {
       inherit config;
-      paths = [(builtins.toPath (config.services.headscale.settings.db_path + "/.."))];
+      paths = [(config.services.headscale.settings.db_path + "/..")];
       name = "headscale-config";
       patterns = [
         "+ ${config.services.headscale.settings.db_path}"
-        ("- " + (builtins.toPath (config.services.headscale.settings.db_path + "/..")))
+        ("- " + (config.services.headscale.settings.db_path + "/.."))
       ];
       keep = {
         daily = 7;

@@ -6,7 +6,7 @@
   ...
 }
 : let
-  net = (import ../common/net.nix {inherit lib;}).lib.net;
+  inherit ((import ../common/net.nix {inherit lib;}).lib) net;
   inherit (lib) mkOption types;
   cfg = config.container.kanidm;
   containerIp = net.ip.add 1 cfg.bridge.address;
@@ -30,8 +30,8 @@ in {
       bridges.${cfg.bridge.name}.interfaces = [];
       interfaces.${cfg.bridge.name}.ipv4.addresses = [
         {
-          address = cfg.bridge.address;
-          prefixLength = cfg.bridge.prefixLength;
+          inherit (cfg.bridge) address;
+          inherit (cfg.bridge) prefixLength;
         }
       ];
       firewall = {
@@ -88,7 +88,7 @@ in {
       config = {config, ...}: {
         disabledModules = ["services/security/kanidm.nix"];
         imports = [
-          (inputs.sops-nix.nixosModules.sops)
+          inputs.sops-nix.nixosModules.sops
           (inputs.nixpkgs-unstable + "/nixos/modules/services/security/kanidm.nix")
           ../modules/acme.nix
         ];
@@ -100,12 +100,14 @@ in {
             {
               # Configure a prefix address.
               address = containerIp;
-              prefixLength = cfg.bridge.prefixLength;
+              inherit (cfg.bridge) prefixLength;
             }
           ];
-          defaultGateway.address = cfg.bridge.address;
-          defaultGateway.interface = "eth0";
-          defaultGateway.metric = 0;
+          defaultGateway = {
+            inherit (cfg.bridge) address;
+            interface = "eth0";
+            metric = 0;
+          };
         };
         networking.firewall = {
           # ports needed for ssh and ldaps

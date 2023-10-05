@@ -5,7 +5,7 @@
   config,
   ...
 }: let
-  optionalAttrs = pkgs.lib.optionalAttrs;
+  inherit (pkgs.lib) optionalAttrs;
 in {
   disabledModules = ["services/continuous-integration/hercules-ci-agent/common.nix"];
   imports = [(inputs.nixpkgs-unstable + "/nixos/modules/services/continuous-integration/hercules-ci-agent/common.nix")];

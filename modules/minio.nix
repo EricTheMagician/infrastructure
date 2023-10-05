@@ -20,31 +20,34 @@ in {
     };
   };
 
-  services.minio = {
-    enable = true;
-    package = unstable.minio;
-    rootCredentialsFile = config.sops.secrets.minio_credentials.path;
-    dataDir = ["/data/minio"];
-    region = "mini-nix";
-  };
+  services = {
+    minio = {
+      enable = true;
+      package = unstable.minio;
+      rootCredentialsFile = config.sops.secrets.minio_credentials.path;
+      dataDir = ["/data/minio"];
+      region = "mini-nix";
+    };
 
-  services.nginx.virtualHosts.${console_address} = {
-    useACMEHost = "eyen.ca";
-    forceSSL = true;
-    locations."/" = {
-      proxyPass = "http://localhost:9001";
-      proxyWebsockets = true;
+    nginx.virtualHosts = {
+      ${console_address} = {
+        useACMEHost = "eyen.ca";
+        forceSSL = true;
+        locations."/" = {
+          proxyPass = "http://localhost:9001";
+          proxyWebsockets = true;
+        };
+      };
+
+      ${api_address} = {
+        useACMEHost = "eyen.ca";
+        forceSSL = true;
+        locations."/" = {
+          proxyPass = "http://localhost:9000";
+        };
+      };
     };
   };
-
-  services.nginx.virtualHosts.${api_address} = {
-    useACMEHost = "eyen.ca";
-    forceSSL = true;
-    locations."/" = {
-      proxyPass = "http://localhost:9000";
-    };
-  };
-
   systemd.services.minio.environment = {
     MINIO_BROWSER_REDIRECT_URL = "https://minio-web.eyen.ca";
     MINIO_SERVER_URL = "https://minio-api.eyen.ca";

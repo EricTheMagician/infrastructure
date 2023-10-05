@@ -29,7 +29,6 @@
 
     # for pre-commit-hooks
     nix-pre-commit-hooks.url = "github:cachix/pre-commit-hooks.nix";
-    nix-pre-commit-hooks.inputs.nixpkgs.follows = "nixpkgs";
 
     # vim plugins
     vim-perforce.url = "github:nfvs/vim-perforce";
@@ -72,7 +71,7 @@
         (self: super: {
           deploy-rs = {
             inherit (pkgs) deploy-rs;
-            lib = super.deploy-rs.lib;
+            inherit (super.deploy-rs) lib;
           };
         })
       ];
@@ -199,38 +198,40 @@
     };
 
     # deploy-rs section
-    deploy.nodes.mini-nix = {
-      hostname = "mini-nix";
-      profiles.system = {
+    deploy.nodes = {
+      mini-nix = {
+        hostname = "mini-nix";
+        profiles.system = {
+          fastConnection = true;
+          sshUser = "root";
+          user = "root";
+          path = deployPkgs.deploy-rs.lib.activate.nixos self.nixosConfigurations.mini-nix;
+        };
+        profiles.eric = {
+          sshUser = "root";
+          user = "eric";
+          profilePath = "/nix/var/nix/profiles/per-user/eric/home-manager";
+          path = deploy-rs.lib.${system}.activate.custom self.homeConfigurations.eric.activationPackage "$PROFILE/activate";
+        };
+      };
+
+      adguard-lxc = {
+        hostname = "100.64.0.9";
         fastConnection = true;
-        sshUser = "root";
-        user = "root";
-        path = deployPkgs.deploy-rs.lib.activate.nixos self.nixosConfigurations.mini-nix;
+        profiles.system = {
+          sshUser = "root";
+          user = "root";
+          path = deployPkgs.deploy-rs.lib.activate.nixos self.nixosConfigurations.adguard-lxc;
+        };
       };
-      profiles.eric = {
-        sshUser = "root";
-        user = "eric";
-        profilePath = "/nix/var/nix/profiles/per-user/eric/home-manager";
-        path = deploy-rs.lib.${system}.activate.custom self.homeConfigurations.eric.activationPackage "$PROFILE/activate";
-      };
-    };
 
-    deploy.nodes.adguard-lxc = {
-      hostname = "100.64.0.9";
-      fastConnection = true;
-      profiles.system = {
-        sshUser = "root";
-        user = "root";
-        path = deployPkgs.deploy-rs.lib.activate.nixos self.nixosConfigurations.adguard-lxc;
-      };
-    };
-
-    deploy.nodes.headscale = {
-      hostname = "headscale";
-      profiles.system = {
-        sshUser = "root";
-        user = "root";
-        path = deployPkgs.deploy-rs.lib.activate.nixos self.nixosConfigurations.headscale;
+      headscale = {
+        hostname = "headscale";
+        profiles.system = {
+          sshUser = "root";
+          user = "root";
+          path = deployPkgs.deploy-rs.lib.activate.nixos self.nixosConfigurations.headscale;
+        };
       };
     };
 
@@ -259,14 +260,14 @@
       builtins.mapAttrs (system: deployLib: deployLib.deployChecks self.deploy) deploy-rs.lib;
 
     devShells.x86_64-linux.default = pkgs.mkShell {
-      buildInputs = [unstable.deploy-rs unstable.sops unstable.ssh-to-age unstable.nix-build-uncached];
+      buildInputs = [unstable.deploy-rs unstable.sops unstable.ssh-to-age unstable.nix-build-uncached unstable.statix];
       shellHook = let
         pre-commit-check = nix-pre-commit-hooks.lib.${system}.run {
           src = ./.;
           hooks = {
             alejandra.enable = true;
             nil.enable = true;
-            #statix.enable = true;
+            statix.enable = true;
           };
         };
       in

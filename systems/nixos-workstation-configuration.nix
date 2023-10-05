@@ -8,8 +8,7 @@
   inputs,
   lib,
   ...
-}: let
-in {
+}: {
   imports = [
     # Include the results of the hardware scan.
     ./nixos-workstation-hardware-configuration.nix
@@ -56,8 +55,10 @@ in {
   };
 
   # Bootloader.
-  boot.loader.systemd-boot.enable = true;
-  boot.loader.efi.canTouchEfiVariables = true;
+  boot.loader = {
+    systemd-boot.enable = true;
+    efi.canTouchEfiVariables = true;
+  };
   # boot.loader.efi.efiSysMountPoint = "/boot";
 
   networking.hostName = "nixos-workstation"; # Define your hostname.
@@ -77,71 +78,73 @@ in {
   i18n.defaultLocale = "en_CA.UTF-8";
 
   # Enable the X11 windowing system.
-  services.xserver.enable = true;
+  services = {
+    xserver = {
+      enable = true;
 
-  # Enable the GNOME Desktop Environment.
-  services.xserver.displayManager.gdm.enable = true;
-  services.xserver.desktopManager.gnome.enable = true;
+      # Enable the GNOME Desktop Environment.
+      displayManager.gdm.enable = true;
+      desktopManager.gnome.enable = true;
 
-  # Configure keymap in X11
-  services.xserver = {
-    layout = "us";
-    xkbVariant = "";
+      # Configure keymap in X11
+      layout = "us";
+      xkbVariant = "";
+    };
+
+    # Enable CUPS to print documents.
+    printing.enable = true;
+
+    # enable sound with pipewire
+    pipewire = {
+      enable = true;
+      alsa.enable = true;
+      alsa.support32Bit = true;
+      pulse.enable = true;
+      # If you want to use JACK applications, uncomment this
+      #jack.enable = true;
+
+      # use the example session manager (no others are packaged yet so this is enabled by default,
+      # no need to redefine it in your config for now)
+      #media-session.enable = true;
+    };
   };
-
-  # Enable CUPS to print documents.
-  services.printing.enable = true;
 
   # Enable sound with pipewire.
   sound.enable = true;
   hardware.pulseaudio.enable = false;
   security.rtkit.enable = true;
-  services.pipewire = {
-    enable = true;
-    alsa.enable = true;
-    alsa.support32Bit = true;
-    pulse.enable = true;
-    # If you want to use JACK applications, uncomment this
-    #jack.enable = true;
-
-    # use the example session manager (no others are packaged yet so this is enabled by default,
-    # no need to redefine it in your config for now)
-    #media-session.enable = true;
-  };
 
   # Enable nvidia drivers
-  # Make sure opengl is enabled
-  hardware.opengl = {
-    enable = true;
-    driSupport = true;
-    # driSupport32Bit = true;
-  };
-
   # Tell Xorg to use the nvidia driver (also valid for Wayland)
   services.xserver.videoDrivers = ["nvidia"];
+  # Make sure opengl is enabled
+  hardware = {
+    opengl = {
+      enable = true;
+      driSupport = true;
+      # driSupport32Bit = true;
+    };
 
-  hardware.nvidia = {
-    # Modesetting is needed for most Wayland compositors
-    modesetting.enable = true;
+    nvidia = {
+      # Modesetting is needed for most Wayland compositors
+      modesetting.enable = true;
 
-    # Use the open source version of the kernel module
-    # Only available on driver 515.43.04+
-    open = false;
+      # Use the open source version of the kernel module
+      # Only available on driver 515.43.04+
+      open = false;
 
-    # Enable the nvidia settings menu
-    nvidiaSettings = true;
+      # Enable the nvidia settings menu
+      nvidiaSettings = true;
 
-    # Optionally, you may need to select the appropriate driver version for your specific GPU.
-    package = config.boot.kernelPackages.nvidiaPackages.stable;
+      # Optionally, you may need to select the appropriate driver version for your specific GPU.
+      package = config.boot.kernelPackages.nvidiaPackages.stable;
+    };
   };
 
   # Enable touchpad support (enabled default in most desktopManager).
   # services.xserver.libinput.enable = true;
 
-  programs.fish.enable = true;
-
   # Define a user account. Don't forget to set a password with ‘passwd’.
-  environment.pathsToLink = ["/share/zsh"];
   users.users.eric = {
     isNormalUser = true;
     description = "Eric";
@@ -165,8 +168,10 @@ in {
   };
 
   # Enable automatic login for the user.
-  services.xserver.displayManager.autoLogin.enable = true;
-  services.xserver.displayManager.autoLogin.user = "eric";
+  services.xserver.displayManager.autoLogin = {
+    enable = true;
+    user = "eric";
+  };
 
   # Workaround for GNOME autologin: https://github.com/NixOS/nixpkgs/issues/103746#issuecomment-945091229
   systemd.services."getty@tty1".enable = false;
@@ -175,47 +180,42 @@ in {
   # Allow unfree packages
   nixpkgs.config.allowUnfree = true;
 
-  environment.sessionVariables = {
-    # Hint electron apps to use wayland;
-    #NIXOS_OZONE_WL = "1";
+  environment = {
+    pathsToLink = ["/share/zsh"];
+    sessionVariables = {
+      # Hint electron apps to use wayland;
+      #NIXOS_OZONE_WL = "1";
+    };
+    # List packages installed in system profile. To search, run:
+    # $ nix search wget
+    systemPackages = with pkgs; [
+      wpsoffice
+      unstable.nomachine-client
+      # unstable.thunderbird
+      unstable.element-desktop
+      bitwarden
+      vim # Do not forget to add an editor to edit configuration.nix! The Nano editor is also installed by default.
+      curl
+      wezterm
+      unstable.tailscale
+      nvtop
+      btop
+      direnv
+      # (python3.withPackages(ps: with ps; [conda]))
+      # micromamba
+      # build environment for dragonfly
+      unstable.p4v
+      unstable.p4
+      pkg-config
+      # build dependencies for dragonfly
+      conda
+      mesa
+      libglvnd
+      rustdesk
+      virt-manager # kvm management
+      xclip # for vim clipboard
+    ];
   };
-  # List packages installed in system profile. To search, run:
-  # $ nix search wget
-  environment.systemPackages = with pkgs; [
-    wpsoffice
-    unstable.nomachine-client
-    # unstable.thunderbird
-    unstable.element-desktop
-    bitwarden
-    vim # Do not forget to add an editor to edit configuration.nix! The Nano editor is also installed by default.
-    curl
-    wezterm
-    unstable.tailscale
-    nvtop
-    btop
-    direnv
-    # (python3.withPackages(ps: with ps; [conda]))
-    # micromamba
-    # build environment for dragonfly
-    unstable.p4v
-    unstable.p4
-    pkg-config
-    # build dependencies for dragonfly
-    conda
-    mesa
-    libglvnd
-    rustdesk
-    virt-manager # kvm management
-    xclip # for vim clipboard
-  ];
-  programs.nix-ld.enable = true;
-
-  programs.nix-index = {
-    enable = true;
-    enableBashIntegration = false;
-    enableZshIntegration = false;
-  };
-
   # enable rootless docker
   virtualisation.docker = {
     enableNvidia = true;
@@ -234,6 +234,15 @@ in {
   #   enable = true;
   #   enableSSHSupport = true;
   # };
+  programs = {
+    fish.enable = true;
+    nix-ld.enable = true;
+    nix-index = {
+      enable = true;
+      enableBashIntegration = false;
+      enableZshIntegration = false;
+    };
+  };
 
   # List services that you want to enable:
 

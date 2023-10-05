@@ -22,7 +22,7 @@
     services.tailscale = {
       enable = true;
       authKeyFile = "/run/secrets/tailscale_auth";
-      extraUpFlags = config.tailscale.extraUpFlags;
+      inherit (config.tailscale) extraUpFlags;
     };
     networking.firewall = {
       checkReversePath = "loose";

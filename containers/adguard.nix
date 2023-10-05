@@ -3,7 +3,7 @@
   lib,
   ...
 }: let
-  net = (import ../common/net.nix {inherit lib;}).lib.net;
+  inherit ((import ../common/net.nix {inherit lib;}).lib) net;
   inherit (lib) mkOption mkEnableOption types;
   adguard_settings = import ./settings/adguard.nix;
   cfg = config.container.adguard;
@@ -35,8 +35,8 @@ in {
       bridges.${cfg.bridge.name}.interfaces = [];
       interfaces.${cfg.bridge.name}.ipv4.addresses = [
         {
-          address = cfg.bridge.address;
-          prefixLength = cfg.bridge.prefixLength;
+          inherit (cfg.bridge) address;
+          inherit (cfg.bridge) prefixLength;
         }
       ];
       firewall = {
@@ -83,12 +83,14 @@ in {
             {
               # Configure a prefix address.
               address = containerIp;
-              prefixLength = cfg.bridge.prefixLength;
+              inherit (cfg.bridge) prefixLength;
             }
           ];
-          defaultGateway.address = cfg.bridge.address;
-          defaultGateway.interface = "eth0";
-          defaultGateway.metric = 0;
+          defaultGateway = {
+            inherit (cfg.bridge) address;
+            interface = "eth0";
+            metric = 0;
+          };
         };
         networking.firewall = {
           # ports needed for dns

@@ -19,7 +19,7 @@
       clientSettings = {uri = "https://login.eyen.ca";};
       enablePam = true;
       unixSettings = {
-        pam_allowed_login_groups = config.kanidm.pam_allowed_login_groups;
+        inherit (config.kanidm) pam_allowed_login_groups;
         default_shell = "${pkgs.bashInteractive}/bin/bash";
         home_prefix = "/home/";
         home_attr = "uuid";

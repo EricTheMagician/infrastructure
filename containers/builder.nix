@@ -7,7 +7,7 @@
   ...
 }: let
   inherit (lib) mkOption types;
-  net = (import ../common/net.nix {inherit lib;}).lib.net;
+  inherit ((import ../common/net.nix {inherit lib;}).lib) net;
   cfg = config.container.builder;
   containerIp = net.ip.add 1 cfg.bridge.address;
 in {
@@ -30,8 +30,8 @@ in {
       bridges.${cfg.bridge.name}.interfaces = [];
       interfaces.${cfg.bridge.name}.ipv4.addresses = [
         {
-          address = cfg.bridge.address;
-          prefixLength = cfg.bridge.prefixLength;
+          inherit (cfg.bridge) address;
+          inherit (cfg.bridge) prefixLength;
         }
       ];
     };
@@ -112,12 +112,14 @@ in {
             {
               # Configure a prefix address.
               address = containerIp;
-              prefixLength = cfg.bridge.prefixLength;
+              inherit (cfg.bridge) prefixLength;
             }
           ];
-          defaultGateway.address = cfg.bridge.address;
-          defaultGateway.interface = "eth0";
-          defaultGateway.metric = 0;
+          defaultGateway = {
+            inherit (cfg.bridge) address;
+            interface = "eth0";
+            metric = 0;
+          };
         };
       };
     };

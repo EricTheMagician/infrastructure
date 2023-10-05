@@ -53,9 +53,8 @@ in {
     };
   };
 
-  config = let
-  in {
-    networking.firewall.allowedTCPPorts = [] ++ optional cfg.master.openFirewall [cfg.master.port];
+  config = {
+    networking.firewall.allowedTCPPorts = optional cfg.master.openFirewall [cfg.master.port];
 
     systemd.services.seaweedfs-master = mkIf cfg.master.enable (let
       pkg =

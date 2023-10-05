@@ -46,7 +46,7 @@ in {
     secrets."cloudflare_api_dns" = {
       mode = "0440";
       sopsFile = ../secrets/cloudflare-api.yaml;
-      group = config.security.acme.defaults.group;
+      inherit (config.security.acme.defaults) group;
     };
   };
 }

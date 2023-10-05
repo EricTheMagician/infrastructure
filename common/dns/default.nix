@@ -16,7 +16,7 @@ in {
       type = "A";
       value = ts;
     })
-    (builtins.filter (domain: builtins.hasAttr "ts" domain)
+    (builtins.filter (builtins.hasAttr "ts")
       custom_domains);
 
   adguard_dns_entries =
@@ -29,6 +29,6 @@ in {
       inherit domain;
       answer = home;
     })
-    (builtins.filter (domain: builtins.hasAttr "home" domain)
+    (builtins.filter (builtins.hasAttr "home")
       custom_domains);
 }

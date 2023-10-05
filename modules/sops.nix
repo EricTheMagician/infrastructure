@@ -1,4 +1,4 @@
-{...}: {
+_: {
   sops = {
     age = {
       # This will automatically import SSH keys as age keys

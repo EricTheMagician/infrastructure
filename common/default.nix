@@ -1,4 +1,4 @@
-{...}: {
+_: {
   # Clean /tmp on boot.
   boot.tmp.cleanOnBoot = true;
   # automatically optimize the Nix store to save space

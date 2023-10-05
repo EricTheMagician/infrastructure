@@ -27,22 +27,20 @@ in {
     };
   };
 
-  services.nginx.clientMaxBodySize = "2048m";
+  services = {
+    nginx.clientMaxBodySize = "2048m";
 
-  services.nix-serve = {
-    enable = true;
-    secretKeyFile = config.sops.secrets."nix-serve.private".path;
-  };
+    nix-serve = {
+      enable = true;
+      secretKeyFile = config.sops.secrets."nix-serve.private".path;
+    };
 
-  #nix.settings.post-build-hook = [
-  #"${upload-cache-script}"
-  #];
-
-  services.nginx.virtualHosts.${nix-cache-domain} = {
-    useACMEHost = "eyen.ca";
-    forceSSL = true;
-    locations."/" = {
-      proxyPass = "http://${config.services.nix-serve.bindAddress}:${toString config.services.nix-serve.port}";
+    nginx.virtualHosts.${nix-cache-domain} = {
+      useACMEHost = "eyen.ca";
+      forceSSL = true;
+      locations."/" = {
+        proxyPass = "http://${config.services.nix-serve.bindAddress}:${toString config.services.nix-serve.port}";
+      };
     };
   };
 }

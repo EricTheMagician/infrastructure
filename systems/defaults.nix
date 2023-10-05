@@ -5,7 +5,7 @@
   inputs,
   ...
 }: let
-  zsh = (import ../home-manager/zsh_config.nix).zsh;
+  inherit ((import ../home-manager/zsh_config.nix)) zsh;
 in {
   nix = {
     # This will add each flake input as a registry

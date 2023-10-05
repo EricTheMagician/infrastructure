@@ -1,4 +1,4 @@
-{...}: {
+_: {
   extra_lua_config = ''
 
     vim.g.mapleader =  ' '

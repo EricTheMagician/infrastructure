@@ -16,12 +16,12 @@ in {
 
   services.borgbackup.jobs.kanidm-server = build_borg_backup_job {
     inherit config;
-    paths = [(builtins.toPath (config.services.kanidm.serverSettings.db_path + "/.."))];
+    paths = [(config.services.kanidm.serverSettings.db_path + "/..")];
     #user = "kanidm";
     name = "kanidm-server";
     patterns = [
       "+ ${config.services.kanidm.serverSettings.db_path}"
-      ("- " + (builtins.toPath (config.services.kanidm.serverSettings.db_path + "/..")))
+      ("- " + (config.services.kanidm.serverSettings.db_path + "/.."))
     ];
     keep = {
       weekly = 4;
@@ -47,47 +47,49 @@ in {
   #systemd.tmpfiles.rules = [
   #  "d /var/lib/private/kanidm  0750 kanidm kanidm 10d"
   #];
-  services.kanidm = {
-    enableServer = true;
-    package = unstable.kanidm;
-    serverSettings = {
-      origin = "https://login.eyen.ca/*";
-      domain = "eyen.ca";
-      ldapbindaddress = "0.0.0.0:636";
-      bindaddress = "127.0.0.1:4443";
+  services = {
+    kanidm = {
+      enableServer = true;
+      package = unstable.kanidm;
+      serverSettings = {
+        origin = "https://login.eyen.ca/*";
+        domain = "eyen.ca";
+        ldapbindaddress = "0.0.0.0:636";
+        bindaddress = "127.0.0.1:4443";
 
-      tls_chain = ''${config.security.acme.certs."login.eyen.ca".directory}/fullchain.pem'';
-      tls_key = ''${config.security.acme.certs."login.eyen.ca".directory}/key.pem'';
-      online_backup = {
-        #   The path to the output folder for online backups
-        path = "/var/lib/kanidm/backups/";
-        #   The schedule to run online backups (see https://crontab.guru/)
-        #   every day at 22:00 UTC (default)
-        schedule = "00 22 * * *";
-        #   Number of backups to keep (default 7)
-        versions = 7;
+        tls_chain = ''${config.security.acme.certs."login.eyen.ca".directory}/fullchain.pem'';
+        tls_key = ''${config.security.acme.certs."login.eyen.ca".directory}/key.pem'';
+        online_backup = {
+          #   The path to the output folder for online backups
+          path = "/var/lib/kanidm/backups/";
+          #   The schedule to run online backups (see https://crontab.guru/)
+          #   every day at 22:00 UTC (default)
+          schedule = "00 22 * * *";
+          #   Number of backups to keep (default 7)
+          versions = 7;
+        };
       };
     };
-  };
-  services.nginx.virtualHosts."login.eyen.ca" = {
-    useACMEHost = "eyen.ca";
-    #listen = [
-    #  {
-    #    addr = "0.0.0.0";
-    #    port = 443;
-    #  }
-    #];
-    forceSSL = true;
-    locations."/" = {
-      proxyPass = "https://127.0.0.1:4443";
-      extraConfig = ''
-        #proxy_ssl_server_name on;
-        proxy_ssl_verify_depth 2;
-        proxy_ssl_name $host;
-        proxy_ssl_server_name on;
-        proxy_ssl_protocols  TLSv1 TLSv1.1 TLSv1.2;
-        proxy_ssl_session_reuse off;
-      '';
+    nginx.virtualHosts."login.eyen.ca" = {
+      useACMEHost = "eyen.ca";
+      #listen = [
+      #  {
+      #    addr = "0.0.0.0";
+      #    port = 443;
+      #  }
+      #];
+      forceSSL = true;
+      locations."/" = {
+        proxyPass = "https://127.0.0.1:4443";
+        extraConfig = ''
+          #proxy_ssl_server_name on;
+          proxy_ssl_verify_depth 2;
+          proxy_ssl_name $host;
+          proxy_ssl_server_name on;
+          proxy_ssl_protocols  TLSv1 TLSv1.1 TLSv1.2;
+          proxy_ssl_session_reuse off;
+        '';
+      };
     };
   };
   environment.systemPackages = [
