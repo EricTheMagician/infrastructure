@@ -53,5 +53,6 @@ in {
     pkgs.unstable.fd
     pkgs.unstable.dua
     pkgs.unstable.bat
+    pkgs.unstable.btop
   ];
 }
