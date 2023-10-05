@@ -199,7 +199,7 @@
     deploy.nodes.mini-nix = {
       hostname = "mini-nix";
       profiles.system = {
-      fastConnection = true;
+        fastConnection = true;
         sshUser = "root";
         user = "root";
         path = deployPkgs.deploy-rs.lib.activate.nixos self.nixosConfigurations.mini-nix;

@@ -151,7 +151,6 @@ in {
       unstable.ferdium
       unstable.zoom-us
       unstable.slack
-      unstable.teams
       unstable.cmakeWithGui
       ninja
       gcc13
