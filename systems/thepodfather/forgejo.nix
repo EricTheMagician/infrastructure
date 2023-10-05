@@ -21,7 +21,7 @@ in
     imports = [
       ../../modules/nginx.nix
       ../../modules/borg.nix
-          (inputs.nixpkgs-unstable + "/nixos/modules/services/misc/forgejo.nix")
+      (inputs.nixpkgs-unstable + "/nixos/modules/services/misc/forgejo.nix")
     ];
     sops.secrets.FORGEJO_DATABASE_PASSWORD = {
       owner = config.services.forgejo.user;
