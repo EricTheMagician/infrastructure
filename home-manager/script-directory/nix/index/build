@@ -1,0 +1,3 @@
+#!/usr/bin/env bash
+#build the database
+nix run github:nix-community/nix-index#nix-index

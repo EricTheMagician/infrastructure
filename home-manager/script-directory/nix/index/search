@@ -1,0 +1,3 @@
+#!/usr/bin/env bash
+#search for a file in in the index
+nix run github:nix-community/nix-index#nix-locate -- $*
