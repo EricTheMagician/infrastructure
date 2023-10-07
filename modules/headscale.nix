@@ -9,6 +9,7 @@
   inputs,
   config,
   pkgs,
+  lib,
   ...
 }: let
   domain = "hs.eyen.ca";
@@ -24,7 +25,8 @@ in {
   ];
 
   networking.firewall = {
-    allowedTCPPorts = [80 443 50443]; # open the http/https and grpc port for headscale
+    allowedTCPPorts = [80 443]; # open the http/https and grpc port for headscale
+    allowedUDPPorts = [3478]; # derp server
     enable = true;
   };
 
@@ -44,13 +46,21 @@ in {
       disable_check_updates = true; # use nix to manage that
       derp = {
         server = {
-          enabled = false;
+          enabled = true;
+          stun_listen_addr = "0.0.0.0:3478";
+          region_id = 900;
+
+          # Region code and name are displayed in the Tailscale UI to identify a DERP region
+          region_code = "headscale";
+          region_name = "Headscale Embedded DERP";
         };
+        paths = [
+        ];
       };
       dns_config = {
         #nameservers = ["100.64.0.1" "100.64.0.14"];
         #nameservers = ["100.64.0.9" "100.64.0.14"];
-        nameservers = ["45.90.28.207" "45.90.30.207"]; # nextdns
+        nameservers = ["https://dns.nextdns.io/f2314b"]; # nextdns
         magic_dns = false;
         override_local_dns = true;
         domains = ["eyen.ca"];
@@ -60,15 +70,13 @@ in {
   };
 
   # manage backups of the currrent headscale data
-  sops = {
-    secrets.BORG_BACKUP_PASSWORD = {
-      mode = "0400";
-      sopsFile = ../secrets/borg-backup.yaml;
-    };
-    secrets.BORG_PRIVATE_KEY = {
-      mode = "0400";
-      sopsFile = ../secrets/borg-backup.yaml;
-    };
+  sops.secrets.BORG_BACKUP_PASSWORD = {
+    mode = "0400";
+    sopsFile = ../secrets/borg-backup.yaml;
+  };
+  sops.secrets.BORG_PRIVATE_KEY = {
+    mode = "0400";
+    sopsFile = ../secrets/borg-backup.yaml;
   };
 
   systemd.timers.borgbackup-job-headscale-config.timerConfig.RandomizedDelaySec = 3600;
