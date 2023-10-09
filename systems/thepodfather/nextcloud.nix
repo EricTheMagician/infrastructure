@@ -42,6 +42,7 @@ in
         dbpassFile = config.sops.secrets.NEXTCLOUD_DB_PASSWORD.path;
         defaultPhoneRegion = "CA";
       };
+      phpOptions."opcache.interned_strings_buffer" = "23";
       package = nextcloud_package;
     };
     system_borg_backup_paths = [config.services.nextcloud.datadir];
