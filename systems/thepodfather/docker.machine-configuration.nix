@@ -14,6 +14,7 @@ in {
     ./keycloak.nix
     ./lldap.nix
     ./forgejo.nix
+    ./nextcloud.nix
   ];
 
   # Use the systemd-boot EFI boot loader.
@@ -27,6 +28,12 @@ in {
 
   fileSystems."/mnt/unraid" = {
     device = "shares";
+    fsType = "9p";
+    options = ["trans=virtio"];
+  };
+
+  fileSystems."/var/lib/nextcloud/data" = {
+    device = "nextcloud";
     fsType = "9p";
     options = ["trans=virtio"];
   };

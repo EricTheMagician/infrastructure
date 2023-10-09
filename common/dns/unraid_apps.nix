@@ -4,7 +4,7 @@
   "bbpb" # Back Blaze Personal Backup
   "budget" # Actual Budget
   "cloud-office" # Nextcloud Only Office Plugin
-  "cloud" # Nextcloud
+  #"cloud" # Nextcloud
   "emby"
   "gitea"
   "it-tools"

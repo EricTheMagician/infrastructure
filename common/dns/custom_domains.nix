@@ -41,6 +41,7 @@ let
       inherit (thepodfather) ts;
       inherit (thepodfather) home;
     }) [
+      "cloud.eyen.ca"
       "lldap.eyen.ca"
       "login.eyen.ca"
       "thepodfather"
