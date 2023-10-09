@@ -34,25 +34,21 @@ in {
       http_url = "https://${domain}";
       ldap_base_dn = "dc=eyen,dc=ca";
       verbose = false;
-      #ldaps_enabled = true;
-      #ldaps_port = 6360;
-      #ldaps_cert_file = "${ldaps_cert.directory}/cert.pem";
-      #ldaps_key_file = "${ldaps_cert.directory}/key.pem";
     };
     environment = {
       LLDAP_LDAP_USER_PASS_FILE = config.sops.secrets.LLDAP_LDAP_USER_PASS.path;
       LLDAP_JWT_SECRET_FILE = config.sops.secrets.LLDAP_JWT_SECRET.path;
+      LLDAP_LDAPS_OPTIONS__ENABLED = "true";
+      LLDAP_LDAPS_OPTIONS__CERT_FILE = "${ldaps_cert.directory}/cert.pem";
+      LLDAP_LDAPS_OPTIONS__KEY_FILE = "${ldaps_cert.directory}/key.pem";
     };
   };
   networking.firewall.allowedTCPPorts = [
     config.services.lldap.settings.ldap_port
-    #config.services.lldap.settings.ldaps_port
+    6360 # ldaps port
   ];
 
-  #security.acme.certs.${domain} = {
-  #  inherit domain;
-  #  reloadServices = ["nginx" "lldap"];
-  #};
+  users.users.lldap.extraGroups = ["acme"];
 
   services.nginx.virtualHosts."${domain}" = {
     useACMEHost = "eyen.ca";
