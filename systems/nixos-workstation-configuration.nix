@@ -163,6 +163,7 @@
       unstable.git
       unstable.devbox
       ansible
+      unstable.gdbgui
       # apache-directory-studio
       #  thunderbird
     ];
