@@ -122,7 +122,7 @@
     opengl = {
       enable = true;
       driSupport = true;
-      # driSupport32Bit = true;
+      driSupport32Bit = true; # for nvidia docker gpu
     };
 
     nvidia = {
@@ -219,12 +219,11 @@
   };
   # enable rootless docker
   virtualisation.docker = {
+    enable = true;
     enableNvidia = true;
-    rootless = {
-      enable = true;
-      setSocketVariable = true;
-    };
   };
+  users.extraGroups.docker.members = ["eric"];
+
   # Note: If you use the btrfs filesystem, you might need to set the storageDriver option:
   # virtualisation.docker.storageDriver = "btrfs";
 
