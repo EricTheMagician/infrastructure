@@ -45,8 +45,9 @@ in
       phpOptions."opcache.interned_strings_buffer" = "23";
       package = nextcloud_package;
     };
-    system_borg_backup_paths = [config.services.nextcloud.datadir];
     environment.systemPackages = [nextcloud_package];
+    postgresqlBackup.databases = [config.services.nextcloud.dbname];
+    system_borg_backup_paths = [config.services.nextcloud.datadir];
     services.nginx.virtualHosts."cloud.eyen.ca" = {
       useACMEHost = "eyen.ca";
       forceSSL = true;
