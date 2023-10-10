@@ -1,0 +1,5 @@
+#!/usr/bin/env bash
+# View the pending change list
+# https://www.perforce.com/manuals/cmdref/Content/CmdRef/p4_change.html
+
+p4 change $*

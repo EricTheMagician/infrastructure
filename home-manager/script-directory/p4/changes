@@ -1,0 +1,5 @@
+#!/usr/bin/env bash
+# List pending changelist for the current workspace
+# https://www.perforce.com/manuals/cmdref/Content/CmdRef/p4_changes.html
+
+p4 changes --me -r -s pending | rg $P4CLIENT | cat
