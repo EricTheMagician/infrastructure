@@ -29,6 +29,7 @@
 
     # for pre-commit-hooks
     nix-pre-commit-hooks.url = "github:cachix/pre-commit-hooks.nix";
+    nix-pre-commit-hooks.inputs.nixpkgs.follows = "nixpkgs";
 
     # vim plugins
     vim-perforce.url = "github:nfvs/vim-perforce";
