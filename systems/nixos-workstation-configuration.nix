@@ -163,7 +163,9 @@
       unstable.git
       unstable.devbox
       ansible
-      unstable.gdbgui
+      gdbgui
+      unstable.vlc
+      unstable.remmina
       # apache-directory-studio
       #  thunderbird
     ];
