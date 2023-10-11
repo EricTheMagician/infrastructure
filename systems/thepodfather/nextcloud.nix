@@ -46,7 +46,7 @@ in
       package = nextcloud_package;
     };
     environment.systemPackages = [nextcloud_package];
-    postgresqlBackup.databases = [config.services.nextcloud.dbname];
+    services.postgresqlBackup.databases = [config.services.nextcloud.config.dbname];
     system_borg_backup_paths = [config.services.nextcloud.datadir];
     services.nginx.virtualHosts."cloud.eyen.ca" = {
       useACMEHost = "eyen.ca";
