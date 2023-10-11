@@ -11,9 +11,10 @@ in {
     ./docker.machine-disks.nix
     ../../modules/tailscale.nix
     ../../services/acme-default.nix
+    ./forgejo.nix
+    ./jellyfin.nix
     ./keycloak.nix
     ./lldap.nix
-    ./forgejo.nix
     ./nextcloud.nix
   ];
 

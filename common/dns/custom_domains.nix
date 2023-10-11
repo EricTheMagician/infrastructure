@@ -46,6 +46,7 @@ let
       "login.eyen.ca"
       "thepodfather"
       "git.eyen.ca"
+      "jellyfin.eyen.ca"
     ];
 in
   [
