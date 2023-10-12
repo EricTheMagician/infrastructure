@@ -53,7 +53,6 @@ in {
           proxyPass = "http://localhost:${toString cfg.port}";
         };
       };
-      postgresqlBackup.databases = [config.services.keycloak.database.name];
     };
   };
 }

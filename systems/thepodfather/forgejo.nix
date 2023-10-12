@@ -15,6 +15,7 @@
       passwordFile = config.sops.secrets.FORGEJO_DATABASE_PASSWORD.path;
       wantedBy = ["forgejo.service"];
       inherit config;
+      inherit lib;
     };
 in
   {
@@ -96,7 +97,6 @@ in
 
     networking.firewall.allowedTCPPorts = [config.services.forgejo.settings.server.SSH_PORT];
 
-    services.postgresqlBackup.databases = ["forgejo"];
     system_borg_backup_paths = [config.services.forgejo.repositoryRoot config.services.forgejo.customDir config.services.forgejo.lfs.contentDir];
   }
   // create_database

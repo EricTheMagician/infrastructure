@@ -13,6 +13,7 @@
       wantedBy = ["nextcloud-setup.service"];
       beforeServices = ["nextcloud-setup.service"];
       inherit config;
+      inherit (pkgs) lib;
     };
 in
   {

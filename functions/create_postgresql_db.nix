@@ -5,6 +5,8 @@
   beforeServices ? [], # the service that
   wantedBy,
   config,
+  lib,
+  backupDB ? true,
   ...
 }: {
   systemd.services."${name}PostgreSQLInit" = {
@@ -39,4 +41,5 @@
       psql -tAc "SELECT 1 FROM pg_database WHERE datname = '${user_name}'" | grep -q 1 || psql -tAc 'CREATE DATABASE "${name}" OWNER "${user_name}"'
     '';
   };
+  services.postgresqlBackup.databases = lib.optional backupDB name;
 }
