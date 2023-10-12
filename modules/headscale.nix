@@ -9,7 +9,6 @@
   inputs,
   config,
   pkgs,
-  lib,
   ...
 }: let
   domain = "hs.eyen.ca";
@@ -60,7 +59,8 @@ in {
       dns_config = {
         #nameservers = ["100.64.0.1" "100.64.0.14"];
         #nameservers = ["100.64.0.9" "100.64.0.14"];
-        nameservers = ["https://dns.nextdns.io/f2314b"]; # nextdns
+        #nameservers = ["https://dns.nextdns.io/f2314b"]; # nextdns
+        nameservers = ["1.1.1.1"];
         magic_dns = false;
         override_local_dns = true;
         domains = ["eyen.ca"];
