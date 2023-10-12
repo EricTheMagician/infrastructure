@@ -1,5 +1,6 @@
 {
   pkgs,
+  lib,
   config,
   ...
 }: let
@@ -16,6 +17,7 @@
       inherit (pkgs) lib;
     };
 in
+  lib.recursiveUpdate
   {
     imports = [
       ../../modules/borg.nix
@@ -54,4 +56,4 @@ in
       forceSSL = true;
     };
   }
-  // create_database
+  create_database

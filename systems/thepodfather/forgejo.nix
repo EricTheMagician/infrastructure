@@ -2,7 +2,6 @@
   pkgs,
   lib,
   config,
-  options,
   inputs,
   ...
 }: let
@@ -18,6 +17,7 @@
       inherit lib;
     };
 in
+  lib.recursiveUpdate
   {
     imports = [
       ../../modules/nginx.nix
@@ -99,4 +99,4 @@ in
 
     system_borg_backup_paths = [config.services.forgejo.repositoryRoot config.services.forgejo.customDir config.services.forgejo.lfs.contentDir];
   }
-  // create_database
+  create_database
