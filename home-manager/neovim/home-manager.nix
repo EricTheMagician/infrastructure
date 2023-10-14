@@ -48,6 +48,7 @@ in {
   '';
 
   extraLuaConfig = neovim-extraLuaConfig.extra_lua_config + (lib.optionalString config.programs.neovim.coc.enable neovim-extraLuaConfig.coc_config);
+  extraLuaPackages = luaPkgs: with luaPkgs; [luasocket]; # needed for codeium
   plugins = with pkgs.vimPlugins; [
     # first, setup telescope
     {
@@ -416,9 +417,18 @@ in {
     vim-airline
 
     {
-      plugin = vim-codeium;
+      plugin = codeium-vim;
+      type = "lua";
       config = ''
-        let g:codeium_server_config = {'portal_url': 'https://codeium.lan.theobjects.com', 'api_url': 'https://codeium.lan.theobjects.com/_route/api_server' }
+        local socket = require("socket")
+        local hostname = socket.dns.gethostname()
+
+        if hostname == "nixos-workstation" then
+            vim.g.codeium_server_config = {
+              portal_url = 'https://codeium.lan.theobjects.com',
+              api_url = 'https://codeium.lan.theobjects.com/_route/api_server'
+            }
+        end
       '';
     }
 
