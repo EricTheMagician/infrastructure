@@ -520,11 +520,8 @@ in {
           sources = {
             { name = 'nvim_lsp',
               entry_filter = function(entry, ctx)
-                local kind = types.lsp.CompletionItemKind[entry:get_kind()]
-
-                if kind == "Text" then return false end
-                return true
-                end
+                return require('cmp.types').lsp.CompletionItemKind[entry:get_kind()] ~= 'Text'
+              end
             },
             { name = 'async_path' },
             { name = 'fuzzy_path'},
