@@ -20,7 +20,6 @@ in {
     neocmakelsp
     ruff-lsp
     nodePackages.pyright
-    nodePackages.cspell
     pylyzer
     jsonfmt
     alejandra # nix formatter
@@ -237,9 +236,7 @@ in {
         local black = require('efmls-configs.formatters.black')
         local clang_format = require('efmls-configs.formatters.clang_format')
         local alejandra = require('efmls-configs.formatters.alejandra')
-        local cspell = require('efmls-configs.linters.cspell')
         local languages = {
-          -- ['='] = {cspell,},
           python = { black,  },
           cpp = { clang_format,  },
           nix = { alejandra,  },
@@ -521,9 +518,17 @@ in {
             end, { 'i', 's' }),
           },
           sources = {
-            { name = 'nvim_lsp' },
+            { name = 'nvim_lsp',
+              entry_filter = function(entry, ctx)
+                local kind = types.lsp.CompletionItemKind[entry:get_kind()]
+
+                if kind == "Text" then return false end
+                return true
+                end
+            },
             { name = 'async_path' },
             { name = 'fuzzy_path'},
+
             -- { name = 'luasnip' },
 
           },
