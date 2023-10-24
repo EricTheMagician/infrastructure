@@ -154,18 +154,18 @@
       unstable.ferdium
       unstable.zoom-us
       unstable.slack
-      unstable.cmakeWithGui
-      ninja
-      gcc13
       unstable.jetbrains.pycharm-professional
       unstable.jetbrains.clion
       unstable.vscode.fhs # without managing extensions
       unstable.git
       unstable.devbox
+      unstable.distrobox
       ansible
       gdbgui
       unstable.vlc
       unstable.remmina
+      unstable.filezilla
+      unstable.spotify
       # apache-directory-studio
       #  thunderbird
     ];
@@ -218,6 +218,7 @@
       rustdesk
       virt-manager # kvm management
       xclip # for vim clipboard
+      unstable.docker-compose
     ];
   };
   # enable rootless docker
