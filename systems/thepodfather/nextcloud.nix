@@ -5,7 +5,7 @@
   ...
 }: let
   nextcloud_package = pkgs.unstable.nextcloud27;
-  create_database =
+  create_nextcloud_database =
     import ../../functions/create_postgresql_db.nix
     {
       name = "nextcloud";
@@ -16,12 +16,21 @@
       inherit config;
       inherit (pkgs) lib;
     };
+  create_onlyoffice_database =
+    import ../../functions/create_postgresql_db.nix
+    {
+      name = "onlyoffice";
+      user_name = "onlyoffice";
+      passwordFile = config.sops.secrets.ONLYOFFICE_DB_PASSWORD.path;
+      wantedBy = ["onlyoffice-docservice.service"];
+      beforeServices = ["onlyoffice-docservice.service"];
+      inherit config;
+      inherit (pkgs) lib;
+    };
+  create_database = lib.recursiveUpdate create_nextcloud_database create_onlyoffice_database;
 in
   lib.recursiveUpdate
   {
-    imports = [
-      ../../modules/borg.nix
-    ];
     sops.secrets.NEXTCLOUD_ADMIN_PASSWORD = {
       owner = "nextcloud";
       group = "nextcloud";
@@ -29,6 +38,14 @@ in
     sops.secrets.NEXTCLOUD_DB_PASSWORD = {
       owner = "nextcloud";
       group = "nextcloud";
+    };
+    sops.secrets.ONLYOFFICE_DB_PASSWORD = {
+      owner = "onlyoffice";
+      group = "onlyoffice";
+    };
+    sops.secrets.ONLYOFFICE_SECRET = {
+      owner = "onlyoffice";
+      group = "onlyoffice";
     };
     services.nextcloud = {
       appstoreEnable = true;
@@ -54,6 +71,30 @@ in
     services.nginx.virtualHosts."cloud.eyen.ca" = {
       useACMEHost = "eyen.ca";
       forceSSL = true;
+    };
+    services.onlyoffice = {
+      package = pkgs.unstable.onlyoffice-documentserver;
+      enable = true;
+      hostname = "office.eyen.ca";
+      jwtSecretFile = config.sops.secrets.ONLYOFFICE_SECRET.path;
+      postgresPasswordFile = config.sops.secrets.ONLYOFFICE_DB_PASSWORD.path;
+    };
+    services.nginx.virtualHosts."office.eyen.ca" = {
+      useACMEHost = "eyen.ca";
+      forceSSL = true;
+      #  locations = {
+      #    # static files
+      #    #"/" = {
+      #    #  proxyPass = "http://127.0.0.1:${builtins.toString config.services.onlyoffice.port}";
+      #    #};
+      #  };
+    };
+    services.phpfpm.pools.nextcloud = {
+      phpEnv = {
+        #LD_LIBRARY_PATH = config.environment.environment.NIX_LD_LIBRARY_PATH;
+        inherit (config.environment.variables) NIX_LD_LIBRARY_PATH;
+        inherit (config.environment.variables) NIX_LD;
+      };
     };
   }
   create_database
