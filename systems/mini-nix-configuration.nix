@@ -144,5 +144,6 @@ in {
     })
     config.container;
 
-    environment.systemPackages = with pkgs; [ nmap dig ];
+  environment.systemPackages = with pkgs; [nmap dig];
+  programs.nix-ld.enable = true; # needed for codeium
 }
