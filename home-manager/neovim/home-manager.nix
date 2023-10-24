@@ -45,6 +45,7 @@ in {
     nnoremap <C-j> <C-W>j
     nnoremap <C-k> <C-W>k
     nnoremap <C-l> <C-W>l
+    nnoremap <M-o> :ClangdSwitchSourceHeader<CR>
   '';
 
   extraLuaConfig = neovim-extraLuaConfig.extra_lua_config + (lib.optionalString config.programs.neovim.coc.enable neovim-extraLuaConfig.coc_config);
