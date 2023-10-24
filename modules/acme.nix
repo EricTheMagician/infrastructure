@@ -36,6 +36,8 @@ in {
   security.acme = {
     acceptTerms = true;
     defaults = {
+      dnsResolver = "1.1.1.1:53";
+      webroot = null;
       email = "e@eyen.ca";
       dnsProvider = "cloudflare";
       credentialsFile = "/run/secrets/cloudflare_api_dns";
