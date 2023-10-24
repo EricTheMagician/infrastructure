@@ -1,8 +1,11 @@
 {
   pkgs,
   config,
+  inputs,
   ...
 }: {
+  disabledModules = ["services/backup/postgresql-backup.nix"];
+  imports = [(inputs.nixpkgs-unstable + "/nixos/modules/services/backup/postgresql-backup.nix")];
   services.postgresql = {
     # https://nixos.wiki/wiki/PostgreSQL
     enable = true;
