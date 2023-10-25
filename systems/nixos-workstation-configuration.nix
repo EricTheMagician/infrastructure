@@ -221,7 +221,14 @@
       unstable.docker-compose
     ];
   };
-  # enable rootless docker
+  services.printing.drivers = [pkgs.hplip];
+  # for printer discovery. see https://nixos.wiki/wiki/Printing
+  services.avahi = {
+    enable = true;
+    nssmdns = true;
+    openFirewall = true;
+  };
+  # enable docker
   virtualisation.docker = {
     enable = true;
     enableNvidia = true;
