@@ -27,6 +27,10 @@
     # for multi architecture systems
     flake-utils.url = "github:numtide/flake-utils";
 
+    # arion docker-compose in nix
+    arion.url = "github:hercules-ci/arion";
+    arion.inputs.nixpkgs.follows = "nixpkgs";
+
     # for pre-commit-hooks
     nix-pre-commit-hooks.url = "github:cachix/pre-commit-hooks.nix";
     nix-pre-commit-hooks.inputs.nixpkgs.follows = "nixpkgs";
@@ -49,6 +53,7 @@
     sops-nix,
     nixpkgs-unstable,
     nix-pre-commit-hooks,
+    arion,
     ...
   } @ inputs: let
     system = "x86_64-linux";
@@ -151,6 +156,7 @@
         modules = [
           disko.nixosModules.disko
           sops-nix.nixosModules.sops
+          arion.nixosModules.arion
           ./systems/defaults.nix
           ./systems/thepodfather/docker.machine-configuration.nix
         ];

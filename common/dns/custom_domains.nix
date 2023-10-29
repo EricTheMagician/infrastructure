@@ -48,6 +48,7 @@ let
       "git.eyen.ca"
       "jellyfin.eyen.ca"
       "office.eyen.ca"
+      "viewtube.eyen.ca"
     ];
 in
   [

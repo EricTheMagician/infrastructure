@@ -16,6 +16,7 @@ in {
     ./keycloak.nix
     ./lldap.nix
     ./nextcloud.nix
+    ./docker-compose/viewtube.nix
     #./vaultwarden.nix
   ];
 
@@ -86,18 +87,21 @@ in {
   environment.systemPackages = [
     #pkgs.unstable.docker-client
   ];
-  virtualisation.docker.enable = false;
+  virtualisation.docker.enable = true;
   virtualisation.podman = {
-    enable = true;
+    enable = false;
     package = pkgs.unstable.podman;
     dockerSocket.enable = true;
     # Create a `docker` alias for podman, to use it as a drop-in replacement
     dockerCompat = true;
 
     # Required for containers under podman-compose to be able to talk to each other.
-    defaultNetwork.settings.dns_enabled = false;
+    defaultNetwork.settings.dns_enabled = true;
   };
   #virtualisation.oci-containers.backend = "docker"; # this is only needed for collabora online server
+
+  # default arion to podman socket
+  virtualisation.arion.backend = "docker";
 
   hardware.opengl = {
     enable = true;
