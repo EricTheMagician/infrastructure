@@ -1,4 +1,4 @@
-{_}: let
+_: let
   data_path = "/var/lib/viewtube";
 in {
   imports = [
