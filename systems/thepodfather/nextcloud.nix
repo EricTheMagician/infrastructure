@@ -64,8 +64,10 @@ in
       };
       phpOptions."opcache.interned_strings_buffer" = "23";
       package = nextcloud_package;
+      #extraOptions = {
+      #  memories.exiftool = "${pkgs.exiftool}/bin/exiftool";
+      #};
     };
-    environment.systemPackages = [nextcloud_package];
     services.postgresqlBackup.databases = [config.services.nextcloud.config.dbname];
     system_borg_backup_paths = [config.services.nextcloud.datadir];
     services.nginx.virtualHosts."cloud.eyen.ca" = {
@@ -96,5 +98,14 @@ in
         inherit (config.environment.variables) NIX_LD;
       };
     };
+    environment.systemPackages = with pkgs; [
+      nextcloud_package
+      # for nextcloud memories
+      unstable.exiftool
+      unstable.exif
+      ffmpeg_6
+      nodejs_20
+      unstable.perl536Packages.ImageExifTool
+    ];
   }
   create_database
