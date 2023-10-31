@@ -47,11 +47,11 @@ in {
         Type = "oneshot";
         User = cfg.user;
         Group = cfg.group;
-        StateDirectory = "ipfs-podcasting";
+        LogsDirectory = "ipfs-podcasting";
       };
       path = [cfg.package pkgs.wget pkgs.coreutils];
       script = ''
-        cd "/var/lib/ipfs-podcasting";
+        cd "/var/log/ipfs-podcasting";
         export IPFS_PATH=${cfg.dataDir};
         ${ipfs_python}/bin/python "${ipfs_podcasting_package}/ipfspodcastnode.py" '${ipfs_podcasting_email}'
       '';
