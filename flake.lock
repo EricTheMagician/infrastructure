@@ -324,6 +324,22 @@
         "type": "github"
       }
     },
+    "ipfs-podcasting": {
+      "flake": false,
+      "locked": {
+        "lastModified": 1684437308,
+        "narHash": "sha256-94wJo8LYK48WxGxNNZnJj5z4X76aS1SeT8uJVmXJp/k=",
+        "owner": "Cameron-IPFSPodcasting",
+        "repo": "podcastnode-Python",
+        "rev": "4cc364a4a541ea48a04677d78ad32440177ef58b",
+        "type": "github"
+      },
+      "original": {
+        "owner": "Cameron-IPFSPodcasting",
+        "repo": "podcastnode-Python",
+        "type": "github"
+      }
+    },
     "nix-pre-commit-hooks": {
       "inputs": {
         "flake-compat": "flake-compat_2",
@@ -454,6 +470,7 @@
         "flake-utils": "flake-utils",
         "hardware": "hardware",
         "home-manager": "home-manager",
+        "ipfs-podcasting": "ipfs-podcasting",
         "nix-pre-commit-hooks": "nix-pre-commit-hooks",
         "nixpkgs": "nixpkgs_2",
         "nixpkgs-unstable": "nixpkgs-unstable",

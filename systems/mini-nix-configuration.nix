@@ -32,6 +32,7 @@ in {
     ../services/cache.nix
     ../modules/minio.nix
     ../services/hercules-ci-agent.nix
+    ./mini-nix/ipfs-podcasting.nix
     #../services/seaweedfs.nix
     #../containers/kanidm.nix
     # ../common

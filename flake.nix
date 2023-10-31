@@ -42,6 +42,10 @@
     vim-codeium.flake = false;
     vim-spelunker.url = "github:kamykn/spelunker.vim";
     vim-spelunker.flake = false;
+
+    # ipfs podcasting
+    ipfs-podcasting.url = "github:Cameron-IPFSPodcasting/podcastnode-Python";
+    ipfs-podcasting.flake = false;
   };
 
   outputs = {
@@ -54,6 +58,7 @@
     nixpkgs-unstable,
     nix-pre-commit-hooks,
     arion,
+    ipfs-podcasting,
     ...
   } @ inputs: let
     system = "x86_64-linux";
