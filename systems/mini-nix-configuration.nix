@@ -39,6 +39,7 @@ in {
   ];
 
   services.minio.region = "mini-nix";
+  ipfs-podcasting.email = "eric@ipfspodcasting.ericyen.com";
   environment.pathsToLink = ["/share/zsh"];
 
   nix = {
