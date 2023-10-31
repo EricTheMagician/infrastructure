@@ -20,6 +20,7 @@ in {
     neocmakelsp
     ruff-lsp
     nodePackages.pyright
+    #nodePackages.cspell
     pylyzer
     jsonfmt
     alejandra # nix formatter
@@ -225,10 +226,10 @@ in {
       '';
       type = "lua";
     }
-    {
-      # spelunker is a spell checker
-      plugin = spelunker-vim;
-    }
+    #{
+    #  # spelunker is a spell checker
+    #  plugin = spelunker-vim;
+    #}
     {
       plugin = efmls-configs-nvim;
       type = "lua";
@@ -238,6 +239,7 @@ in {
         local black = require('efmls-configs.formatters.black')
         local clang_format = require('efmls-configs.formatters.clang_format')
         local alejandra = require('efmls-configs.formatters.alejandra')
+        -- local cspell = require('efmls-configs.linters.cspell')
         local languages = {
           python = { black,  },
           cpp = { clang_format,  },
@@ -360,7 +362,7 @@ in {
           vim.keymap.set({ 'n', 'v' }, '<space>ca', vim.lsp.buf.code_action, opts)
           vim.keymap.set('n', 'gr', vim.lsp.buf.references, opts)
           vim.keymap.set('n', '<space>f', function()
-          vim.lsp.buf.format { async = true }
+          vim.lsp.buf.format { async = false }
           end, opts)
           end,
         })
@@ -477,7 +479,7 @@ in {
       config = ''noremap <silent>tt :TagbarToggle<CR>'';
     }
 
-    cmp-async-path
+    cmp-path
     cmp-fuzzy-path
     cmp-nvim-lsp
     cmp-nvim-lsp-document-symbol
@@ -512,8 +514,8 @@ in {
             ['<Tab>'] = cmp.mapping(function(fallback)
               if cmp.visible() then
                 cmp.select_next_item()
-              -- elseif luasnip.expand_or_locally_jumpable() then
-              --   luasnip.expand_or_jump()
+              elseif luasnip.expand_or_locally_jumpable() then
+                luasnip.expand_or_jump()
               else
                 fallback()
               end
@@ -534,7 +536,7 @@ in {
                 return require('cmp.types').lsp.CompletionItemKind[entry:get_kind()] ~= 'Text'
               end
             },
-            { name = 'async_path' },
+            { name = 'path' },
             { name = 'fuzzy_path'},
 
             -- { name = 'luasnip' },
