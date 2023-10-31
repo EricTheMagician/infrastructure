@@ -168,6 +168,9 @@
       unstable.spotify
       # apache-directory-studio
       #  thunderbird
+      gcc13
+      ninja
+      unstable.cmakeWithGui
     ];
   };
 
