@@ -15,6 +15,8 @@
       enable = true;
       recommendedProxySettings = true;
       recommendedTlsSettings = true;
+      recommendedOptimisation = true;
+      recommendedGzipSettings = true;
     };
     users.users.nginx.extraGroups = [config.security.acme.defaults.group];
     networking.firewall = {
