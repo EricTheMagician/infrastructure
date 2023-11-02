@@ -44,8 +44,8 @@
     vim-spelunker.flake = false;
 
     # ipfs podcasting
-    ipfs-podcasting.url = "github:Cameron-IPFSPodcasting/podcastnode-Python";
-    ipfs-podcasting.flake = false;
+    ipfs-podcasting.url = "github:EricTheMagician/ipfs-podcasting.nix";
+    ipfs-podcasting.inputs.nixpkgs.follows = "nixpkgs";
   };
 
   outputs = {
@@ -128,6 +128,7 @@
         modules = [
           disko.nixosModules.disko
           sops-nix.nixosModules.sops
+          ipfs-podcasting.nixosModules.ipfs-podcasting
           ./systems/mini-nix-configuration.nix
         ];
       };

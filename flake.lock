@@ -325,18 +325,22 @@
       }
     },
     "ipfs-podcasting": {
-      "flake": false,
+      "inputs": {
+        "nixpkgs": [
+          "nixpkgs"
+        ]
+      },
       "locked": {
-        "lastModified": 1698846948,
-        "narHash": "sha256-lfH+aJAgGsIsPFTacVLQ44JBfRDtjs3uKfDbYmPSUiI=",
-        "owner": "Cameron-IPFSPodcasting",
-        "repo": "podcastnode-Python",
-        "rev": "0f8f70771f5ff939af5fa644172db10f94988399",
+        "lastModified": 1698908600,
+        "narHash": "sha256-muNOn+YEipbj4Z+g9ktniz5M4Nw6LxqGZxv6zio8R4Q=",
+        "owner": "EricTheMagician",
+        "repo": "ipfs-podcasting.nix",
+        "rev": "99c6eb90f005e8ef9c26928881289c6f1b80aafd",
         "type": "github"
       },
       "original": {
-        "owner": "Cameron-IPFSPodcasting",
-        "repo": "podcastnode-Python",
+        "owner": "EricTheMagician",
+        "repo": "ipfs-podcasting.nix",
         "type": "github"
       }
     },
