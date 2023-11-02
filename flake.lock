@@ -327,11 +327,11 @@
     "ipfs-podcasting": {
       "flake": false,
       "locked": {
-        "lastModified": 1684437308,
-        "narHash": "sha256-94wJo8LYK48WxGxNNZnJj5z4X76aS1SeT8uJVmXJp/k=",
+        "lastModified": 1698846948,
+        "narHash": "sha256-lfH+aJAgGsIsPFTacVLQ44JBfRDtjs3uKfDbYmPSUiI=",
         "owner": "Cameron-IPFSPodcasting",
         "repo": "podcastnode-Python",
-        "rev": "4cc364a4a541ea48a04677d78ad32440177ef58b",
+        "rev": "0f8f70771f5ff939af5fa644172db10f94988399",
         "type": "github"
       },
       "original": {
