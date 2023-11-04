@@ -32,13 +32,15 @@ in {
 
   services.headscale = {
     enable = true;
-    port = 443;
+    port = 8080;
     address = "0.0.0.0";
     package = unstable.headscale;
     settings = {
       server_url = "https://${domain}";
       # tls_letsencrypt_listen = ":http = port 80";
-      tls_letsencrypt_hostname = "${domain}";
+      #tls_letsencrypt_hostname = "${domain}";
+      tls_cert_path = config.security.acme.certs.${domain}.directory + "/cert.pem";
+      tls_key_path = config.security.acme.certs.${domain}.directory + "/key.pem";
       logtail.enabled = false;
       ip_prefixes = ["100.64.0.0/10"];
       private_key_path = "/var/lib/headscale/private.key";
@@ -61,7 +63,7 @@ in {
         #nameservers = ["100.64.0.1" "100.64.0.14"];
         #nameservers = ["100.64.0.9" "100.64.0.14"];
         #nameservers = ["https://dns.nextdns.io/f2314b"]; # nextdns
-        nameservers = ["1.1.1.1"];
+        nameservers = ["1.1.1.1" "2a07:a8c0::f2:314b" "2a07:a8c1::f2:314b"];
         magic_dns = false;
         override_local_dns = true;
         domains = ["eyen.ca"];
@@ -102,4 +104,20 @@ in {
                   ${pkgs.curl}/bin/curl "https://healthchecks.eyen.ca/ping/$PING_KEY/headscale/$exitStatus" --silent
       '';
     };
+
+  security.acme.certs.${domain} = {
+    inherit domain;
+    group = "nginx";
+  };
+  users.users.headscale = {
+    extraGroups = ["nginx"];
+  };
+  services.nginx.virtualHosts.${domain} = {
+    useACMEHost = domain;
+    forceSSL = true;
+    locations."/" = {
+      proxyPass = "https://${config.services.headscale.address}:${toString config.services.headscale.port}";
+      proxyWebsockets = true;
+    };
+  };
 }
