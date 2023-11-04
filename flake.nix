@@ -44,8 +44,11 @@
     vim-spelunker.flake = false;
 
     # ipfs podcasting
-    ipfs-podcasting.url = "github:EricTheMagician/ipfs-podcasting.nix";
+    ipfs-podcasting.url = "/home/eric/git/ipfs-podcasting";
+    ipfs-podcasting-python.url = "github:Cameron-IPFSPodcasting/podcastnode-Python";
+    ipfs-podcasting-python.flake = false;
     ipfs-podcasting.inputs.nixpkgs.follows = "nixpkgs";
+    ipfs-podcasting.inputs.ipfs-podcasting-python.follows = "ipfs-podcasting-python";
   };
 
   outputs = {

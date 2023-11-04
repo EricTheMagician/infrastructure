@@ -325,21 +325,37 @@
     },
     "ipfs-podcasting": {
       "inputs": {
+        "ipfs-podcasting-python": [
+          "ipfs-podcasting-python"
+        ],
         "nixpkgs": [
           "nixpkgs"
         ]
       },
       "locked": {
-        "lastModified": 1699073715,
-        "narHash": "sha256-RmztJBNuUUKkjaFO84HZQDjeifSHPdmNGWK4rM1Aa+w=",
-        "owner": "EricTheMagician",
-        "repo": "ipfs-podcasting.nix",
-        "rev": "6c2537db2f1bb1946d3afcad24ec95906611d194",
+        "lastModified": 1699077242,
+        "narHash": "sha256-NrD7pKyhAfYXIF3asS/VRys5vxPz7eL+8wWq68Roq/w=",
+        "type": "git",
+        "url": "file:///home/eric/git/ipfs-podcasting"
+      },
+      "original": {
+        "type": "git",
+        "url": "file:///home/eric/git/ipfs-podcasting"
+      }
+    },
+    "ipfs-podcasting-python": {
+      "flake": false,
+      "locked": {
+        "lastModified": 1698846948,
+        "narHash": "sha256-lfH+aJAgGsIsPFTacVLQ44JBfRDtjs3uKfDbYmPSUiI=",
+        "owner": "Cameron-IPFSPodcasting",
+        "repo": "podcastnode-Python",
+        "rev": "0f8f70771f5ff939af5fa644172db10f94988399",
         "type": "github"
       },
       "original": {
-        "owner": "EricTheMagician",
-        "repo": "ipfs-podcasting.nix",
+        "owner": "Cameron-IPFSPodcasting",
+        "repo": "podcastnode-Python",
         "type": "github"
       }
     },
@@ -472,6 +488,7 @@
         "hardware": "hardware",
         "home-manager": "home-manager",
         "ipfs-podcasting": "ipfs-podcasting",
+        "ipfs-podcasting-python": "ipfs-podcasting-python",
         "nix-pre-commit-hooks": "nix-pre-commit-hooks",
         "nixpkgs": "nixpkgs_2",
         "nixpkgs-unstable": "nixpkgs-unstable",
