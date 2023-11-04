@@ -3,7 +3,7 @@
 
   inputs = {
     # Nixpkgs
-    nixpkgs.url = "github:nixos/nixpkgs/nixos-23.05";
+    nixpkgs.url = "https://flakehub.com/f/NixOS/nixpkgs/*.tar.gz";
     nixpkgs-unstable.url = "github:nixos/nixpkgs/nixos-unstable";
 
     #mynixpkgs.url = "github:EricTheMagician/mynixpkgs";
@@ -13,10 +13,10 @@
     home-manager.url = "github:nix-community/home-manager";
     home-manager.inputs.nixpkgs.follows = "nixpkgs";
     # disko disk formatter
-    disko.url = "github:nix-community/disko";
+    disko.url = "https://flakehub.com/f/nix-community/disko/*.tar.gz";
     disko.inputs.nixpkgs.follows = "nixpkgs";
 
-    sops-nix.url = "github:Mic92/sops-nix";
+    sops-nix.url = "https://flakehub.com/f/Mic92/sops-nix/*.tar.gz";
     sops-nix.inputs.nixpkgs.follows = "nixpkgs";
 
     hardware.url = "github:nixos/nixos-hardware";
