@@ -1,14 +1,10 @@
-{
-  config,
-  pkgs,
-  ...
-}: let
+let
   sshKeys = import ../common/ssh-keys.nix;
 in {
   imports = [
     ../common
     ../modules/borg.nix
-    ../modules/headscale.nix
+    ./headscale/headscale.nix
     ../modules/tailscale.nix
     ./headscale-hardware-configuration.nix
     #../containers/adguard.nix

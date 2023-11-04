@@ -13,11 +13,12 @@
 }: let
   domain = "hs.eyen.ca";
   unstable = inputs.nixpkgs-unstable.legacyPackages.x86_64-linux;
-  inherit ((import ../common/dns)) tailscale_dns_entries;
-  build_borg_backup_job = import ../functions/borg-job.nix;
+  inherit ((import ../../common/dns)) tailscale_dns_entries;
+  build_borg_backup_job = import ../../functions/borg-job.nix;
 in {
   imports = [
-    ../modules/knownHosts.nix
+    ../../modules/knownHosts.nix
+    ../../modules/nginx.nix
   ];
   environment.systemPackages = [
     unstable.headscale # needed for the headscale cli utility
@@ -72,11 +73,11 @@ in {
   # manage backups of the currrent headscale data
   sops.secrets.BORG_BACKUP_PASSWORD = {
     mode = "0400";
-    sopsFile = ../secrets/borg-backup.yaml;
+    sopsFile = ../../secrets/borg-backup.yaml;
   };
   sops.secrets.BORG_PRIVATE_KEY = {
     mode = "0400";
-    sopsFile = ../secrets/borg-backup.yaml;
+    sopsFile = ../../secrets/borg-backup.yaml;
   };
 
   systemd.timers.borgbackup-job-headscale-config.timerConfig.RandomizedDelaySec = 3600;
