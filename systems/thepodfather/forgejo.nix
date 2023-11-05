@@ -76,6 +76,7 @@ in
           enable = true;
         };
         settings = {
+          actions.ENABLED = "true";
           server = {
             HTTP_ADDR = "localhost";
             HTTP_PORT = 57779;
