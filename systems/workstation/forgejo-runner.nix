@@ -55,11 +55,12 @@ in {
         ...
       }: {
         system.stateVersion = "23.05";
+        virtualization.docker.enable = true;
         services.gitea-actions-runner = {
           package = unstable.forgejo-actions-runner;
           instances.runner = {
             enable = true;
-            labels = ["native:host"];
+            labels = [];
             name = "workstation-runner";
             tokenFile = secret_file;
             url = forgejo_domain;
