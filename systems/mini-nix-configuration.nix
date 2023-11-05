@@ -21,6 +21,7 @@ in {
     # Import your generated (nixos-generate-config) hardware configuration
     ./mini-nix-hardware-configuration.nix
     ./mini-nix-disks.nix
+    ../modules/container_support.nix
     ../containers/adguard.nix
     #../containers/builder.nix
     ../modules/borg.nix
@@ -135,15 +136,6 @@ in {
     enable = true;
     internalInterfaces = lib.mapAttrsToList (name: value: value.bridge.name) config.container;
   };
-
-  # ensures that the bridges are automatically started by systemd when the container starts
-  # this is needed when just doing a `rebuild switch`. Otherwise, a reboot is fine.
-  systemd.services =
-    lib.mapAttrs' (name: value: {
-      name = "${value.bridge.name}-netdev";
-      value = {wantedBy = ["container@${name}.service"];};
-    })
-    config.container;
 
   environment.systemPackages = with pkgs; [nmap dig];
   programs.nix-ld.enable = true; # needed for codeium
