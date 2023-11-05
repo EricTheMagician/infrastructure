@@ -333,14 +333,16 @@
         ]
       },
       "locked": {
-        "lastModified": 1699077242,
-        "narHash": "sha256-NrD7pKyhAfYXIF3asS/VRys5vxPz7eL+8wWq68Roq/w=",
-        "type": "git",
-        "url": "file:///home/eric/git/ipfs-podcasting"
+        "lastModified": 1699078770,
+        "narHash": "sha256-69sy0W4Aq/zzHKlgn7NBWNDC4kiKaDA9q6M5bdNU/Jw=",
+        "rev": "4d635db2ae178ccbae7ca2db63680c10797b64d3",
+        "revCount": 10,
+        "type": "tarball",
+        "url": "https://api.flakehub.com/f/pinned/EricTheMagician/ipfs-podcasting.nix/0.1.10+rev-4d635db2ae178ccbae7ca2db63680c10797b64d3/018b98ff-80b3-7b36-864e-f218c3efeb3f/source.tar.gz"
       },
       "original": {
-        "type": "git",
-        "url": "file:///home/eric/git/ipfs-podcasting"
+        "type": "tarball",
+        "url": "https://flakehub.com/f/EricTheMagician/ipfs-podcasting.nix/*.tar.gz"
       }
     },
     "ipfs-podcasting-python": {

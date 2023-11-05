@@ -44,7 +44,7 @@
     vim-spelunker.flake = false;
 
     # ipfs podcasting
-    ipfs-podcasting.url = "/home/eric/git/ipfs-podcasting";
+    ipfs-podcasting.url = "https://flakehub.com/f/EricTheMagician/ipfs-podcasting.nix/*.tar.gz";
     ipfs-podcasting-python.url = "github:Cameron-IPFSPodcasting/podcastnode-Python";
     ipfs-podcasting-python.flake = false;
     ipfs-podcasting.inputs.nixpkgs.follows = "nixpkgs";
