@@ -1,7 +1,6 @@
 {
   unstable,
   lib,
-  inputs,
   config,
   ...
 }: let
@@ -10,6 +9,7 @@
   forgejo_domain = "https://git.eyen.ca";
   inherit ((import ../../common/net.nix {inherit lib;}).lib) net;
   inherit (lib) mkOption types;
+  secret_file = config.sops.secrets."git/runner".path;
 in {
   options.container.forgejo-action-runner = {
     bridge = {
@@ -37,10 +37,17 @@ in {
       };
     };
 
+    sops.secrets."git/runner" = {sopsFile = ../../secrets/git.yaml;};
     containers.forgejo-action-runner = {
       autoStart = true;
       privateNetwork = true;
       hostBridge = cfg.bridge.name;
+      bindMounts = {
+        "sops runner secret" = {
+          hostPath = secret_file;
+          mountPoint = secret_file;
+        };
+      };
       specialArgs = {inherit unstable;};
       config = {
         config,
@@ -48,18 +55,13 @@ in {
         ...
       }: {
         system.stateVersion = "23.05";
-        imports = [
-          inputs.sops-nix.nixosModules.sops
-          ../../modules/sops.nix
-        ];
-        sops.secrets."git/runner" = {sopsFile = ../../secrets/git.yaml;};
         services.gitea-actions-runner = {
           package = unstable.forgejo-actions-runner;
           instances.runner = {
             enable = true;
             labels = ["native:host"];
             name = "workstation-runner";
-            tokenFile = config.sops.secrets."git/runner".path;
+            tokenFile = secret_file;
             url = forgejo_domain;
           };
         };
