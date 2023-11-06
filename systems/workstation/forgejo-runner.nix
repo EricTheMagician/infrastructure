@@ -1,4 +1,5 @@
 {
+  pkgs,
   unstable,
   lib,
   config,
@@ -48,24 +49,43 @@ in {
           mountPoint = secret_file;
         };
       };
-      specialArgs = {inherit unstable;};
+      specialArgs = {
+        inherit pkgs;
+        inherit unstable;
+      };
       config = {
         config,
+        pkgs,
         unstable,
         ...
       }: {
         system.stateVersion = "23.05";
-        virtualization.docker.enable = true;
+        #programs.nix-ld.enable = true;
         services.gitea-actions-runner = {
-          package = unstable.forgejo-actions-runner;
+          #package = unstable.forgejo-actions-runner;
+          package = unstable.gitea-actions-runner;
           instances.runner = {
             enable = true;
-            labels = [];
+            labels = ["self-hosted" "nix"];
             name = "workstation-runner";
             tokenFile = secret_file;
             url = forgejo_domain;
+            hostPackages = with pkgs; [
+              sh
+              coreutils
+              curl
+              gawk
+              gitMinimal
+              gnused
+              nodejs
+              wget
+              sudo
+            ];
           };
         };
+        #environment.systemPackages = with unstable; [
+        #  #docker-client
+        #];
         networking = {
           interfaces.eth0.ipv4.addresses = [
             {
@@ -81,6 +101,18 @@ in {
           };
         };
       };
+      # needed for running docker inside of the container according to the arch wiki
+      # https://wiki.archlinux.org/title/systemd-nspawn
+      extraFlags = [
+        "--system-call-filter=add_key,bpf,keyctl"
+      ];
+      ##"-U"]; # for unprivileged
+      allowedDevices = [
+        {
+          modifier = "rwm";
+          node = "/dev/fuse";
+        }
+      ];
     };
   };
 }

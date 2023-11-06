@@ -4,7 +4,6 @@
 {
   config,
   lib,
-  pkgs,
   modulesPath,
   ...
 }: {
@@ -18,6 +17,7 @@
       kernelModules = [];
     };
     kernelModules = ["kvm-amd"];
+    kernelParams = ["cgroup_no_v1=all" "systemd.unified_cgroup_hierarchy=1"];
     extraModulePackages = [];
     loader.efi.efiSysMountPoint = "/boot";
   };

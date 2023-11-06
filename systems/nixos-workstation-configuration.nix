@@ -14,8 +14,8 @@
     ./nixos-workstation-hardware-configuration.nix
     ../modules/tailscale.nix
     ../modules/builder.nix
-    ../modules/container_support.nix
-    ./workstation/forgejo-runner.nix
+    #../modules/container_support.nix
+    #./workstation/forgejo-runner.nix
     #../services/hercules-ci-agent.nix
   ];
   tailscale.secrets_path = ../secrets/tailscale/eric.yaml;
@@ -281,13 +281,13 @@
   # kvm virt manager
   virtualisation.libvirtd.enable = true;
 
-  container.forgejo-action-runner = {
-    bridge = {
-      name = "br-act-runner";
-      address = "10.100.0.1";
-      prefixLength = 24;
-    };
-  };
+  #container.forgejo-action-runner = {
+  #  bridge = {
+  #    name = "br-act-runner";
+  #    address = "10.100.0.1";
+  #    prefixLength = 24;
+  #  };
+  #};
 
   # Open ports in the firewall.
   # networking.firewall.allowedTCPPorts = [ ... ];
