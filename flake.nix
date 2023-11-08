@@ -19,7 +19,7 @@
     sops-nix.url = "https://flakehub.com/f/Mic92/sops-nix/*.tar.gz";
     sops-nix.inputs.nixpkgs.follows = "nixpkgs";
 
-    hardware.url = "github:nixos/nixos-hardware";
+    hardware.url = "https://flakehub.com/f/NixOS/nixos-hardware/*.tar.gz";
 
     deploy-rs.url = "github:serokell/deploy-rs";
     deploy-rs.inputs.nixpkgs.follows = "nixpkgs";
