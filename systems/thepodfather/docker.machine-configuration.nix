@@ -19,7 +19,7 @@ in {
     ../../modules/nginx.nix
     ./docker-compose/viewtube.nix
     ./docker-compose/immich.nix
-
+    ../../modules/arion-scripts.nix
     #./vaultwarden.nix
   ];
 
