@@ -24,6 +24,10 @@
       #type database DBuser origin-address auth-method
       host  sameuser  all     ::1/128   md5
       host  sameuser  all     127.0.0.1/32   md5
+      # for docker only
+      host sameuser all 172.16.0.0/12 md5
+      # for tailscale network
+      host sameuser all 100.64.0.0/10 md5
     '';
   };
 

@@ -49,6 +49,7 @@ let
       "jellyfin.eyen.ca"
       "office.eyen.ca"
       "viewtube.eyen.ca"
+      "immich.eyen.ca"
     ];
 in
   [

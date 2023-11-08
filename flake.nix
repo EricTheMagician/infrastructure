@@ -159,6 +159,7 @@
         specialArgs = {
           inherit inputs;
           inherit pkgs;
+          inherit unstable;
         }; # Pass flake inputs to our config
 
         #specialArgs = {inherit pkgs;};

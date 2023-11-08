@@ -16,7 +16,10 @@ in {
     ./keycloak.nix
     ./lldap.nix
     ./nextcloud.nix
+    ../../modules/nginx.nix
     ./docker-compose/viewtube.nix
+    ./docker-compose/immich.nix
+
     #./vaultwarden.nix
   ];
 
@@ -85,7 +88,7 @@ in {
   # networking.firewall.enable = false;
 
   environment.systemPackages = [
-    #pkgs.unstable.docker-client
+    pkgs.unstable.arion
   ];
   virtualisation.docker.enable = true;
   virtualisation.podman = {
@@ -103,6 +106,18 @@ in {
   # default arion to podman socket
   virtualisation.arion.backend = "docker";
 
+  services.postgresql.enableTCPIP = true;
+  #networking.firewall.allowedTCPPorts = [5432];
+  networking.firewall.interfaces.tailscale0.allowedTCPPorts = [5432 config.services.typesense.settings.server.api-port];
+  networking.firewall.extraCommands = ''
+    iptables -A INPUT -s 172.16.0.0/12 -p tcp --dport 5432 -j ACCEPT
+    iptables -A INPUT -s 172.16.0.0/12 -p tcp --dport ${toString config.services.typesense.settings.server.api-port} -j ACCEPT
+  '';
+  services.nginx.clientMaxBodySize = "2048m";
+  #networking.nftables.enable = true;
+  #networking.firewall.extraInputRules = ''
+  #  ip saddr { 172.16.0.0/12 } meta oifname "tailscale0" tcp dport 5432 accept;
+  #'';
   hardware.opengl = {
     enable = true;
     driSupport = true;
