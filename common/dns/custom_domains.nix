@@ -43,14 +43,15 @@ let
       inherit (thepodfather) home;
     }) [
       "cloud.eyen.ca"
+      "git.eyen.ca"
+      "immich.eyen.ca"
+      "it-tools.eyen.ca"
+      "jellyfin.eyen.ca"
       "lldap.eyen.ca"
       "login.eyen.ca"
-      "thepodfather"
-      "git.eyen.ca"
-      "jellyfin.eyen.ca"
       "office.eyen.ca"
+      "thepodfather"
       "viewtube.eyen.ca"
-      "immich.eyen.ca"
     ];
 in
   [

@@ -7,7 +7,6 @@
   #"cloud" # Nextcloud
   "emby"
   "gitea"
-  "it-tools"
   "ferdium"
   "keycloak"
   "metabase" # n8n automation
