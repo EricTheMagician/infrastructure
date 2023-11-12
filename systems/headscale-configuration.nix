@@ -7,6 +7,7 @@ in {
     ./headscale/headscale.nix
     ../modules/tailscale.nix
     ./headscale-hardware-configuration.nix
+    ./headscale/nebula.nix
     #../containers/adguard.nix
   ];
 

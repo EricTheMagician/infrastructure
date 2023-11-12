@@ -146,7 +146,10 @@
       };
 
       headscale = nixpkgs.lib.nixosSystem {
-        specialArgs = {inherit inputs;}; # Pass flake inputs to our config
+        specialArgs = {
+          inherit inputs;
+          inherit pkgs;
+        }; # Pass flake inputs to our config
         # > Our main nixos configuration file <
         modules = [
           sops-nix.nixosModules.sops
