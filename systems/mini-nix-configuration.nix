@@ -34,6 +34,7 @@ in {
     ../modules/minio.nix
     ../services/hercules-ci-agent.nix
     ./mini-nix/ipfs-podcasting.nix
+    #./mini-nix/nebula.nix
     #../services/seaweedfs.nix
     #../containers/kanidm.nix
     # ../common
@@ -130,14 +131,7 @@ in {
   #  };
   #};
 
-  # configure my containers
-
-  networking.nat = {
-    enable = true;
-    internalInterfaces = lib.mapAttrsToList (name: value: value.bridge.name) config.container;
-  };
-
-  environment.systemPackages = with pkgs; [nmap dig];
+  environment.systemPackages = with pkgs; [nmap dig unstable.nebula];
   programs.nix-ld.enable = true; # needed for codeium
   programs.mosh.enable = true;
 }

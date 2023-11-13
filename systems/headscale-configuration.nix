@@ -7,7 +7,7 @@ in {
     ./headscale/headscale.nix
     ../modules/tailscale.nix
     ./headscale-hardware-configuration.nix
-    ./headscale/nebula.nix
+    #./headscale/nebula.nix
     #../containers/adguard.nix
   ];
 
@@ -27,6 +27,10 @@ in {
         addr = "100.64.0.1"; # headscale ip address
         port = 22;
       }
+      #{
+      #  addr = "192.168.252.1";
+      #  port = 22;
+      #}
     ];
     settings.PasswordAuthentication = false;
   };
