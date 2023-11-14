@@ -216,12 +216,12 @@
     },
     "hardware": {
       "locked": {
-        "lastModified": 1699159446,
-        "narHash": "sha256-cL63IjsbPl2otS7R4kdXbVOJOXYMpGw5KGZoWgdCuCM=",
-        "rev": "627bc9b88256379578885a7028c9e791c29fb581",
-        "revCount": 1436,
+        "lastModified": 1699701045,
+        "narHash": "sha256-mDzUXK7jNO/utInWpSWEX1NgEEunVIpJg+LyPsDTfy0=",
+        "rev": "b689465d0c5d88e158e7d76094fca08cc0223aad",
+        "revCount": 1442,
         "type": "tarball",
-        "url": "https://api.flakehub.com/f/pinned/NixOS/nixos-hardware/0.1.1436+rev-627bc9b88256379578885a7028c9e791c29fb581/018b9dcb-e006-73b2-915d-d042cacf7b27/source.tar.gz"
+        "url": "https://api.flakehub.com/f/pinned/NixOS/nixos-hardware/0.1.1442+rev-b689465d0c5d88e158e7d76094fca08cc0223aad/018bbe14-600b-78e9-8176-0bbc93568b00/source.tar.gz"
       },
       "original": {
         "type": "tarball",
@@ -309,11 +309,11 @@
         ]
       },
       "locked": {
-        "lastModified": 1699368917,
-        "narHash": "sha256-nUtGIWf86BOkUbtksWtfglvCZ/otP0FTZlQH8Rzc7PA=",
+        "lastModified": 1699783872,
+        "narHash": "sha256-4zTwLT2LL45Nmo6iwKB3ls3hWodVP9DiSWxki/oewWE=",
         "owner": "nix-community",
         "repo": "home-manager",
-        "rev": "6a8444467c83c961e2f5ff64fb4f422e303c98d3",
+        "rev": "280721186ab75a76537713ec310306f0eba3e407",
         "type": "github"
       },
       "original": {
@@ -436,11 +436,11 @@
     },
     "nixpkgs-stable_2": {
       "locked": {
-        "lastModified": 1699110214,
-        "narHash": "sha256-L2TU4RgtiqF69W8Gacg2jEkEYJrW+Kp0Mp4plwQh5b8=",
+        "lastModified": 1699756042,
+        "narHash": "sha256-bHHjQQBsEPOxLL+klYU2lYshDnnWY12SewzQ7n5ab2M=",
         "owner": "NixOS",
         "repo": "nixpkgs",
-        "rev": "78f3a4ae19f0e99d5323dd2e3853916b8ee4afee",
+        "rev": "9502d0245983bb233da8083b55d60d96fd3c29ff",
         "type": "github"
       },
       "original": {
@@ -468,12 +468,12 @@
     },
     "nixpkgs_2": {
       "locked": {
-        "lastModified": 1699291058,
-        "narHash": "sha256-5ggduoaAMPHUy4riL+OrlAZE14Kh7JWX4oLEs22ZqfU=",
-        "rev": "41de143fda10e33be0f47eab2bfe08a50f234267",
-        "revCount": 492102,
+        "lastModified": 1699596684,
+        "narHash": "sha256-XSXP8zjBZJBVvpNb2WmY0eW8O2ce+sVyj1T0/iBRIvg=",
+        "rev": "da4024d0ead5d7820f6bd15147d3fe2a0c0cec73",
+        "revCount": 492172,
         "type": "tarball",
-        "url": "https://api.flakehub.com/f/pinned/NixOS/nixpkgs/0.2305.492102+rev-41de143fda10e33be0f47eab2bfe08a50f234267/018baa8d-4a5d-7b48-af86-bd62b1eabe58/source.tar.gz"
+        "url": "https://api.flakehub.com/f/pinned/NixOS/nixpkgs/0.2305.492172+rev-da4024d0ead5d7820f6bd15147d3fe2a0c0cec73/018bc3df-6c0a-78fa-b718-b5c65a1bce77/source.tar.gz"
       },
       "original": {
         "type": "tarball",
@@ -507,12 +507,12 @@
         "nixpkgs-stable": "nixpkgs-stable_2"
       },
       "locked": {
-        "lastModified": 1699311858,
-        "narHash": "sha256-W/sQrghPAn5J9d+9kMnHqi4NPVWVpy0V/qzQeZfS/dM=",
-        "rev": "664187539871f63857bda2d498f452792457b998",
-        "revCount": 694,
+        "lastModified": 1699915071,
+        "narHash": "sha256-EVZTfDVsB/g34pxieNIFwcUIbq8BmQL8Eu7K+VKbBz0=",
+        "rev": "074ff78f8d6d9d3867ee34bad81fd424973e6509",
+        "revCount": 697,
         "type": "tarball",
-        "url": "https://api.flakehub.com/f/pinned/Mic92/sops-nix/0.1.694+rev-664187539871f63857bda2d498f452792457b998/018ba6e2-65b0-7a95-9830-f1338b389772/source.tar.gz"
+        "url": "https://api.flakehub.com/f/pinned/Mic92/sops-nix/0.1.697+rev-074ff78f8d6d9d3867ee34bad81fd424973e6509/018bcad6-d238-7814-a823-88bc48258b21/source.tar.gz"
       },
       "original": {
         "type": "tarball",
@@ -567,11 +567,11 @@
     "vim-codeium": {
       "flake": false,
       "locked": {
-        "lastModified": 1698445922,
-        "narHash": "sha256-IMGHg92T9v8q2fAsTw6tV3vY1GVf2DTVtMBjMBPYHQo=",
+        "lastModified": 1699487587,
+        "narHash": "sha256-s4SsYiVp1vzxa8F9sylAXfv6oToUMls4DarHYFnewE4=",
         "owner": "exafunction",
         "repo": "codeium.vim",
-        "rev": "78f32674d42dcf8e5626e105bc8fb93b6c27120b",
+        "rev": "1efe2a2cdf516094bdb211aa8a1d45ef01836207",
         "type": "github"
       },
       "original": {
