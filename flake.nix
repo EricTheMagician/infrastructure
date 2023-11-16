@@ -1,6 +1,5 @@
 {
   description = "Nix Infrastructure";
-
   inputs = {
     # Nixpkgs
     nixpkgs.url = "https://flakehub.com/f/NixOS/nixpkgs/*.tar.gz";
@@ -118,6 +117,20 @@
           disko.nixosModules.disko
           sops-nix.nixosModules.sops
           ./systems/nixos-workstation-configuration.nix
+        ];
+      };
+
+      letouch = nixpkgs.lib.nixosSystem {
+        inherit system;
+        specialArgs = {
+          inherit inputs;
+          inherit pkgs;
+          inherit unstable;
+        }; # Pass flake inputs to our config
+        # > Our main nixos configuration file <
+        modules = [
+          sops-nix.nixosModules.sops
+          ./systems/letouch
         ];
       };
 
