@@ -4,4 +4,5 @@
   "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAILTv7EIWSTKHG4Rb4+Qgm2wGDl02fB9pJ9qzOSK46Xfn ericyen@Erics-MacBook-Pro.local"
   "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAICCfsSXdnCwueNTwfGO6YG27VygOfka0p91Qzv0Sc+nB eric@nixos-workstation"
   "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAINXhnTldMrJ5o5igm/zFNRq9/00Oh2vT2vnpjuCYalpp eric@mini-nix"
+  "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAINd89dkZXTqUSmo611SEXCtCMJiU5V8/JzIfM/OB67ui eric@nixos"
 ]
