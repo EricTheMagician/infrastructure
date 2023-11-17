@@ -1,5 +1,4 @@
 {
-  unstable,
   config,
   pkgs,
   ...
@@ -29,7 +28,7 @@ in {
   services = {
     healthchecks = {
       enable = true;
-      package = unstable.healthchecks.overrideAttrs (final: prev: let
+      package = pkgs.unstable.healthchecks.overrideAttrs (final: prev: let
         localSettings = pkgs.writeText "local_settings.py" ''
           import os
           STATIC_ROOT = os.getenv("STATIC_ROOT")
