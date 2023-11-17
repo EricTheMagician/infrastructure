@@ -10,7 +10,7 @@
     {
       name = "nextcloud";
       user_name = "nextcloud";
-      passwordFile = config.sops.secrets.NEXTCLOUD_DB_PASSWORD.path;
+      passwordFile = config.sops.secrets."nextcloud/db_password".path;
       wantedBy = ["nextcloud-setup.service"];
       beforeServices = ["nextcloud-setup.service"];
       inherit config;
@@ -21,7 +21,7 @@
     {
       name = "onlyoffice";
       user_name = "onlyoffice";
-      passwordFile = config.sops.secrets.ONLYOFFICE_DB_PASSWORD.path;
+      passwordFile = config.sops.secrets."onlyoffice/db_password".path;
       wantedBy = ["onlyoffice-docservice.service"];
       beforeServices = ["onlyoffice-docservice.service"];
       inherit config;
@@ -31,19 +31,19 @@
 in
   lib.recursiveUpdate
   {
-    sops.secrets.NEXTCLOUD_ADMIN_PASSWORD = {
+    sops.secrets."nextcloud/admin_password" = {
       owner = "nextcloud";
       group = "nextcloud";
     };
-    sops.secrets.NEXTCLOUD_DB_PASSWORD = {
+    sops.secrets."nextcloud/db_password" = {
       owner = "nextcloud";
       group = "nextcloud";
     };
-    sops.secrets.ONLYOFFICE_DB_PASSWORD = {
+    sops.secrets."onlyoffice/db_password" = {
       owner = "onlyoffice";
       group = "onlyoffice";
     };
-    sops.secrets.ONLYOFFICE_SECRET = {
+    sops.secrets."onlyoffice/secret" = {
       owner = "onlyoffice";
       group = "onlyoffice";
     };
@@ -57,9 +57,9 @@ in
       configureRedis = true;
       config = {
         adminuser = "admin";
-        adminpassFile = config.sops.secrets.NEXTCLOUD_ADMIN_PASSWORD.path;
+        adminpassFile = config.sops.secrets."nextcloud/admin_password".path;
         dbtype = "pgsql";
-        dbpassFile = config.sops.secrets.NEXTCLOUD_DB_PASSWORD.path;
+        dbpassFile = config.sops.secrets."nextcloud/db_password".path;
         defaultPhoneRegion = "CA";
       };
       phpOptions."opcache.interned_strings_buffer" = "23";
@@ -78,8 +78,8 @@ in
       package = pkgs.unstable.onlyoffice-documentserver;
       enable = true;
       hostname = "office.eyen.ca";
-      jwtSecretFile = config.sops.secrets.ONLYOFFICE_SECRET.path;
-      postgresPasswordFile = config.sops.secrets.ONLYOFFICE_DB_PASSWORD.path;
+      jwtSecretFile = config.sops.secrets."onlyoffice/secret".path;
+      postgresPasswordFile = config.sops.secrets."onlyoffice/db_password".path;
     };
     services.nginx.virtualHosts."office.eyen.ca" = {
       useACMEHost = "eyen.ca";
