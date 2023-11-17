@@ -16,6 +16,7 @@ in {
     ./keycloak.nix
     ./lldap.nix
     ./nextcloud.nix
+    #./peertube.nix
     ../../modules/nginx.nix
     ./docker-compose/viewtube.nix
     ./docker-compose/immich.nix
@@ -115,10 +116,21 @@ in {
     iptables -A INPUT -s 172.16.0.0/12 -p tcp --dport ${toString config.services.typesense.settings.server.api-port} -j ACCEPT
   '';
   services.nginx.clientMaxBodySize = "2048m";
-  #networking.nftables.enable = true;
-  #networking.firewall.extraInputRules = ''
-  #  ip saddr { 172.16.0.0/12 } meta oifname "tailscale0" tcp dport 5432 accept;
-  #'';
+
+  #sops.secrets."nebula/ca-certificate-authority/ca.key" = {
+  #  sopsFile = ./secrets/mini-nix/nebula.yaml;
+  #  owner = config.users.users.eric.name;
+  #  path = "${config.users.users.eric.home}/nebula/ca/ca.key";
+  #  mode = "0400";
+  #};
+
+  #sops.secrets."nebula/ca-certificate-authority/ca.crt" = {
+  #  sopsFile = ./secrets/mini-nix/nebula.yaml;
+  #  owner = config.users.users.eric;
+  #  path = "${config.users.users.eric.home}/nebula/ca/ca.crt";
+  #  mode = "0400";
+  #};
+
   hardware.opengl = {
     enable = true;
     driSupport = true;
