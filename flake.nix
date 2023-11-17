@@ -69,12 +69,10 @@
     pkgs = import nixpkgs {
       inherit system;
       config.allowUnfree = true;
-      overlays = [overlays.my_vim_plugins overlays.unstable-packages];
-    };
-    unstable = import nixpkgs-unstable {
-      inherit system;
-      config.allowUnfree = true;
-      overlays = [overlays.my_vim_plugins overlays.unstable-packages];
+      overlays = [
+        overlays.my_vim_plugins
+        overlays.unstable-packages
+      ];
     };
 
     deployPkgs = import nixpkgs {
@@ -110,7 +108,6 @@
         inherit system;
         specialArgs = {
           inherit inputs;
-          inherit unstable;
         }; # Pass flake inputs to our config
         # > Our main nixos configuration file <
         modules = [
@@ -125,7 +122,6 @@
         specialArgs = {
           inherit inputs;
           inherit pkgs;
-          inherit unstable;
         }; # Pass flake inputs to our config
         # > Our main nixos configuration file <
         modules = [
@@ -139,7 +135,6 @@
         specialArgs = {
           inherit inputs;
           inherit pkgs;
-          inherit unstable;
         }; # Pass flake inputs to our config
         # > Our main nixos configuration file <
         modules = [
@@ -176,7 +171,6 @@
         specialArgs = {
           inherit inputs;
           inherit pkgs;
-          inherit unstable;
         }; # Pass flake inputs to our config
 
         #specialArgs = {inherit pkgs;};
@@ -194,7 +188,7 @@
     # Available through 'home-manager --flake .#your-username@your-hostname'
     homeConfigurations = {
       "eric@nixos-workstation" = home-manager.lib.homeManagerConfiguration {
-        pkgs = unstable; # Home-manager requires 'pkgs' instance
+        pkgs = pkgs.unstable; # Home-manager requires 'pkgs' instance
         extraSpecialArgs = {
           #inherit nixpkgs;
           inherit inputs;
@@ -213,7 +207,7 @@
         ];
       };
       "eric" = home-manager.lib.homeManagerConfiguration {
-        pkgs = unstable; # Home-manager requires 'pkgs' instance
+        pkgs = pkgs.unstable; # Home-manager requires 'pkgs' instance
         extraSpecialArgs = {
           inherit inputs;
           stable = pkgs;
@@ -294,7 +288,7 @@
       builtins.mapAttrs (system: deployLib: deployLib.deployChecks self.deploy) deploy-rs.lib;
 
     devShells.x86_64-linux.default = pkgs.mkShell {
-      buildInputs = [unstable.deploy-rs unstable.sops unstable.ssh-to-age unstable.nix-build-uncached unstable.statix];
+      buildInputs = [pkgs.unstable.deploy-rs pkgs.unstable.sops pkgs.unstable.ssh-to-age pkgs.unstable.nix-build-uncached pkgs.unstable.statix];
       shellHook = let
         pre-commit-check = nix-pre-commit-hooks.lib.${system}.run {
           src = ./.;
