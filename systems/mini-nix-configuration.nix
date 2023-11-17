@@ -131,7 +131,7 @@ in {
   #  };
   #};
 
-  environment.systemPackages = with pkgs; [nmap dig unstable.nebula];
+  environment.systemPackages = with pkgs; [nmap dig entr];
   programs.nix-ld.enable = true; # needed for codeium
   programs.mosh.enable = true;
 }
