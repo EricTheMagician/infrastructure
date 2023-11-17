@@ -93,6 +93,7 @@
     #  wget
     git
     vim
+    mosh
   ];
   nix = {
     # This will add each flake input as a registry
