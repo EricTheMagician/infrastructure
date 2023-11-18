@@ -1,6 +1,5 @@
 {
   pkgs,
-  unstable,
   config,
   ...
 }: let
@@ -23,7 +22,7 @@ in {
   services = {
     minio = {
       enable = true;
-      package = unstable.minio;
+      package = pkgs.unstable.minio;
       rootCredentialsFile = config.sops.secrets.minio_credentials.path;
       dataDir = ["/data/minio"];
       region = "mini-nix";

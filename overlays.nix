@@ -1,5 +1,5 @@
-# This file defines overlays
-{inputs, ...}: {
+# This file defines1 overlays
+{inputs, ...}: rec {
   # This one brings our custom packages from the 'pkgs' directory
   # additions = final: _prev: import ../pkgs {pkgs = final;};
 
@@ -32,6 +32,7 @@
     unstable = import inputs.nixpkgs-unstable {
       inherit (final) system;
       config.allowUnfree = true;
+      overlays = [my_vim_plugins];
     };
   };
 }

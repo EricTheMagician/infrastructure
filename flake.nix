@@ -108,6 +108,7 @@
         inherit system;
         specialArgs = {
           inherit inputs;
+          inherit pkgs;
         }; # Pass flake inputs to our config
         # > Our main nixos configuration file <
         modules = [
@@ -190,9 +191,7 @@
       "eric@nixos-workstation" = home-manager.lib.homeManagerConfiguration {
         pkgs = pkgs.unstable; # Home-manager requires 'pkgs' instance
         extraSpecialArgs = {
-          #inherit nixpkgs;
           inherit inputs;
-          stable = pkgs;
         }; # Pass flake inputs to our config
         # > Our main home-manager configuration file <
         modules = [

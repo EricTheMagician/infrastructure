@@ -4,7 +4,6 @@
 {
   config,
   pkgs,
-  unstable,
   inputs,
   lib,
   ...
@@ -151,7 +150,7 @@
     isNormalUser = true;
     description = "Eric";
     extraGroups = ["networkmanager" "wheel" "plocate" "libvirtd"];
-    shell = unstable.zsh;
+    shell = pkgs.unstable.zsh;
     packages = with pkgs; [
       unstable.ferdium
       unstable.zoom-us
@@ -268,7 +267,7 @@
   services = {
     tailscale = {
       enable = true;
-      package = unstable.tailscale;
+      package = pkgs.unstable.tailscale;
     };
     locate = {
       enable = true;

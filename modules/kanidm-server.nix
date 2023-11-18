@@ -1,7 +1,7 @@
 {
   inputs,
+  pkgs,
   config,
-  unstable,
   ...
 }: let
   build_borg_backup_job = import ../functions/borg-job.nix;
@@ -50,7 +50,7 @@ in {
   services = {
     kanidm = {
       enableServer = true;
-      package = unstable.kanidm;
+      package = pkgs.unstable.kanidm;
       serverSettings = {
         origin = "https://login.eyen.ca/*";
         domain = "eyen.ca";
@@ -93,6 +93,6 @@ in {
     };
   };
   environment.systemPackages = [
-    unstable.kanidm
+    pkgs.unstable.kanidm
   ];
 }

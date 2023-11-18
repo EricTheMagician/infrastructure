@@ -4,7 +4,6 @@
   inputs,
   lib,
   config,
-  unstable,
   pkgs,
   ...
 }: let
@@ -88,7 +87,7 @@ in {
       isNormalUser = true;
       extraGroups = ["wheel"];
       home = "/home/eric";
-      shell = unstable.zsh;
+      shell = pkgs.unstable.zsh;
       openssh.authorizedKeys.keys = sshKeys;
     };
   };

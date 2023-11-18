@@ -6,13 +6,11 @@
 #
 #####################
 {
-  inputs,
   config,
   pkgs,
   ...
 }: let
   domain = "hs.eyen.ca";
-  unstable = inputs.nixpkgs-unstable.legacyPackages.x86_64-linux;
   inherit ((import ../../common/dns)) tailscale_dns_entries;
   build_borg_backup_job = import ../../functions/borg-job.nix;
 in {
@@ -21,7 +19,7 @@ in {
     ../../modules/nginx.nix
   ];
   environment.systemPackages = [
-    unstable.headscale # needed for the headscale cli utility
+    pkgs.unstable.headscale # needed for the headscale cli utility
   ];
 
   networking.firewall = {
@@ -34,7 +32,7 @@ in {
     enable = true;
     port = 8080;
     address = "0.0.0.0";
-    package = unstable.headscale;
+    package = pkgs.unstable.headscale;
     settings = {
       server_url = "https://${domain}";
       # tls_letsencrypt_listen = ":http = port 80";

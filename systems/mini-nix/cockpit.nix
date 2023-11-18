@@ -1,9 +1,9 @@
-{unstable, ...}: {
+{pkgs, ...}: {
   imports = [../../modules/nginx.nix];
   services.cockpit = {
     enable = true;
     port = 9090;
-    package = unstable.cockpit;
+    package = pkgs.unstable.cockpit;
     settings = {
       WebService = {
         Origins = "https://pit.eyen.ca";

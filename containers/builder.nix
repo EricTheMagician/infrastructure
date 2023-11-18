@@ -1,7 +1,6 @@
 {
   inputs,
   pkgs,
-  unstable,
   lib,
   config,
   ...
@@ -58,7 +57,7 @@ in {
           '';
       in {
         system.stateVersion = "23.05";
-        environment.systemPackages = with unstable; [
+        environment.systemPackages = with pkgs.unstable; [
           nix-build-uncached
           git
         ];

@@ -1,11 +1,7 @@
-{
-  unstable,
-  config,
-  ...
-}: {
+{pkgs, ...}: {
   services.locate = {
     enable = true;
-    locate = unstable.plocate;
+    locate = pkgs.unstable.plocate;
     # silence the warning
     localuser = null;
   };

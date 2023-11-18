@@ -1,7 +1,5 @@
 {
   pkgs,
-  unstable,
-  inputs,
   config,
   ...
 }: let

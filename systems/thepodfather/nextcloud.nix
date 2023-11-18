@@ -68,7 +68,7 @@ in
       #  memories.exiftool = "${pkgs.exiftool}/bin/exiftool";
       #};
     };
-    services.postgresqlBackup.databases = [config.services.nextcloud.config.dbname];
+    services.postgresqlBackup.databases = [config.services.nextcloud.config.dbname config.services.onlyoffice.postgresName];
     system_borg_backup_paths = [config.services.nextcloud.datadir];
     services.nginx.virtualHosts."cloud.eyen.ca" = {
       useACMEHost = "eyen.ca";

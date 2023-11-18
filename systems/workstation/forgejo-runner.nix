@@ -1,6 +1,5 @@
 {
   pkgs,
-  unstable,
   lib,
   config,
   ...
@@ -51,7 +50,6 @@ in {
       };
       specialArgs = {
         inherit pkgs;
-        inherit unstable;
       };
       config = {
         config,
