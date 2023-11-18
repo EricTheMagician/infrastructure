@@ -179,7 +179,7 @@
           sops-nix.nixosModules.sops
           arion.nixosModules.arion
           ./systems/defaults.nix
-          ./systems/thepodfather/docker.machine-configuration.nix
+          ./systems/thepodfather/configuration.nix
         ];
       };
     };

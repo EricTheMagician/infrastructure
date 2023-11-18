@@ -7,7 +7,7 @@
 in {
   imports = [
     # Include the results of the hardware scan.
-    ./docker.machine-hardware.nix
+    ./hardware-configuration.nix
     ./docker.machine-disks.nix
     ../../modules/tailscale.nix
     ../../services/acme-default.nix
