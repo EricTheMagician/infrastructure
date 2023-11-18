@@ -11,7 +11,7 @@
     {
       name = "forgejo";
       user_name = "forgejo";
-      passwordFile = config.sops.secrets.FORGEJO_DATABASE_PASSWORD.path;
+      passwordFile = config.sops.secrets."forgejo/database_password".path;
       wantedBy = ["forgejo.service"];
       inherit config;
       inherit lib;
@@ -25,30 +25,30 @@ in
       (inputs.nixpkgs-unstable + "/nixos/modules/services/misc/forgejo.nix")
     ];
     sops.secrets = {
-      FORGEJO_DATABASE_PASSWORD = {
+      "forgejo/database_password" = {
         owner = config.services.forgejo.user;
         inherit (config.services.forgejo) group;
         restartUnits = ["forgejo.service"];
       };
-      FORGEJO_SECRET_KEY = {
+      "forgejo/secret_key" = {
         owner = config.services.forgejo.user;
         inherit (config.services.forgejo) group;
         restartUnits = ["forgejo.service"];
         path = "${config.services.forgejo.customDir}/conf/secret_key";
       };
-      FORGEJO_INTERNAL_TOKEN = {
+      "forgejo/internal_token" = {
         owner = config.services.forgejo.user;
         inherit (config.services.forgejo) group;
         restartUnits = ["forgejo.service"];
         path = "${config.services.forgejo.customDir}/conf/internal_token";
       };
-      FORGEJO_OAUTH_JWT_SECRET = {
+      "forgejo/oauth_jwt_secret" = {
         owner = config.services.forgejo.user;
         inherit (config.services.forgejo) group;
         restartUnits = ["forgejo.service"];
         path = "${config.services.forgejo.customDir}/conf/oauth2_jwt_secret";
       };
-      FORGEJO_LFS_JWT_SECRET = {
+      "forgejo/lfs_jwt_secret" = {
         owner = config.services.forgejo.user;
         inherit (config.services.forgejo) group;
         restartUnits = ["forgejo.service"];
@@ -62,7 +62,7 @@ in
         package = pkgs.unstable.forgejo;
         database = {
           type = "postgres";
-          passwordFile = config.sops.secrets.FORGEJO_DATABASE_PASSWORD.path;
+          passwordFile = config.sops.secrets."forgejo/database_password".path;
           host = "localhost";
           #socket = null;
           createDatabase = false;

@@ -21,7 +21,7 @@ in {
     };
   };
   config = {
-    sops.secrets.keycloak_database_password = {};
+    sops.secrets."keycloak/database_password" = {};
     services.postgresql.ensureUsers = [
       {
         name = "keycloak";
@@ -36,7 +36,7 @@ in {
       database = {
         type = "postgresql"; # this is already the default.
         createLocally = true;
-        passwordFile = config.sops.secrets.keycloak_database_password.path;
+        passwordFile = config.sops.secrets."keycloak/database_password".path;
       };
       settings = {
         http-host = "localhost"; # let the proxy decide

@@ -21,8 +21,8 @@ in {
   users.groups.lldap = {};
   # setup the secrets
   sops.secrets = {
-    LLDAP_JWT_SECRET = secret_owner;
-    LLDAP_LDAP_USER_PASS = secret_owner;
+    "lldap/jwt_secret" = secret_owner;
+    "lldap/ldap_user_pass" = secret_owner;
   };
 
   #setup the service
@@ -36,8 +36,8 @@ in {
       verbose = false;
     };
     environment = {
-      LLDAP_LDAP_USER_PASS_FILE = config.sops.secrets.LLDAP_LDAP_USER_PASS.path;
-      LLDAP_JWT_SECRET_FILE = config.sops.secrets.LLDAP_JWT_SECRET.path;
+      LLDAP_LDAP_USER_PASS_FILE = config.sops.secrets."lldap/ldap_user_pass".path;
+      LLDAP_JWT_SECRET_FILE = config.sops.secrets."lldap/jwt_secret".path;
       LLDAP_LDAPS_OPTIONS__ENABLED = "true";
       LLDAP_LDAPS_OPTIONS__CERT_FILE = "${ldaps_cert.directory}/cert.pem";
       LLDAP_LDAPS_OPTIONS__KEY_FILE = "${ldaps_cert.directory}/key.pem";
