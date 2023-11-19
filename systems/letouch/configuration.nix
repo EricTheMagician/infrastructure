@@ -8,10 +8,18 @@
   lib,
   ...
 }: {
+  disabledModules = [
+    # "programs/hyprland.nix"
+    #"config/fonts/packages.nix"
+    # "config/fonts/fonts.nix"
+  ];
   imports = [
     # Include the results of the hardware scan.
     ./hardware-configuration.nix
+    ../../modules/tailscale.nix
+    #"${inputs.nixpkgs-unstable}/nixos/modules/programs/hyprland.nix"
   ];
+  tailscale.secrets_path = ../../secrets/tailscale/eric.yaml;
 
   # Bootloader.
   boot.loader.systemd-boot.enable = true;
@@ -180,7 +188,7 @@
   # List services that you want to enable:
 
   # Enable the OpenSSH daemon.
-  # services.openssh.enable = true;
+  services.openssh.enable = true;
 
   # Open ports in the firewall.
   # networking.firewall.allowedTCPPorts = [ ... ];
