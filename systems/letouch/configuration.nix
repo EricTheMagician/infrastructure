@@ -94,6 +94,39 @@
     git
     vim
     mosh
+    unstable.element-desktop
+    unstable.obsidian
+    (
+      unstable.vscode-with-extensions.override
+      {
+        vscodeExtensions = with pkgs.unstable.vscode-extensions;
+          [
+            # generatl development related packages
+            ms-vscode-remote.remote-ssh
+            eamodio.gitlens
+            # ms-vscode.powershell
+            # ms-azuretools.vscode-docker
+
+            # python related packages
+            ms-python.python
+            ms-python.vscode-pylance
+            ms-python.black-formatter
+
+            # C++ related packages
+            #ms-vscode.cpptools
+            #ms-vscode.cmake-tools
+            #xaver.clang-format
+
+            # nix related packages
+            bbenoist.nix
+            arrterian.nix-env-selector
+            jnoortheen.nix-ide
+          ]
+          ++ pkgs.vscode-utils.extensionsFromVscodeMarketplace
+          [
+          ];
+      }
+    )
   ];
   nix = {
     # This will add each flake input as a registry
@@ -136,6 +169,11 @@
   #   enable = true;
   #   enableSSHSupport = true;
   # };
+
+  # flatpak
+  services.flatpak.enable = true;
+  #flatpak remote-add --if-not-exists flathub https://dl.flathub.org/repo/flathub.flatpakrepo
+  #flatpak install flathub com.viber.Viber
 
   # needed for codeium
   programs.nix-ld.enable = true;
