@@ -16,7 +16,7 @@ in {
     ./keycloak.nix
     ./lldap.nix
     ./nextcloud.nix
-    #./peertube.nix
+    ./peertube.nix
     ../../modules/nginx.nix
     ./docker-compose/viewtube.nix
     ./docker-compose/immich.nix
