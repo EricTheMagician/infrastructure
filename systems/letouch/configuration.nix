@@ -104,6 +104,8 @@
     mosh
     unstable.element-desktop
     unstable.obsidian
+    unstable.sqlitebrowser
+    # vscode
     (
       unstable.vscode-with-extensions.override
       {
