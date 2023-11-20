@@ -4,6 +4,11 @@
     user = "root";
   };
 
+  "mini-nix" = {
+    hostname = "100.64.0.14";
+    user = "eric";
+  };
+
   "office" = {
     hostname = "192.168.0.37";
     user = "eric";
