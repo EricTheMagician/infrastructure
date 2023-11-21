@@ -66,6 +66,9 @@ in
         container_name = "immich_server";
         image = "ghcr.io/immich-app/immich-server:release";
         command = ["start.sh" "immich"];
+        ports = [
+          "2283:3001"
+        ];
         environment = immich_environment;
         volumes =
           immich_volumes;
@@ -95,14 +98,6 @@ in
         env_file = [env_file];
         restart = "unless-stopped";
       };
-      immich-web.service = {
-        container_name = "immich_web";
-        image = "ghcr.io/immich-app/immich-web:release";
-        environment = immich_environment;
-        env_file = [env_file];
-        restart = "unless-stopped";
-      };
-
       #typesense = {
       #  container_name = "immich_typesense";
       #  image = "typesense/typesense:0.24.1@sha256:9bcff2b829f12074426ca044b56160ca9d777a0c488303469143dd9f8259d4dd";
@@ -135,19 +130,6 @@ in
       #   volumes =
       #     - pgdata:/var/lib/postgresql/data
       #   restart = unless-stopped
-
-      immich-proxy.service = {
-        container_name = "immich_proxy";
-        image = "ghcr.io/immich-app/immich-proxy:release";
-        ports = [
-          "2283:8080"
-        ];
-        depends_on = [
-          "immich-server"
-          "immich-web"
-        ];
-        restart = "unless-stopped";
-      };
     };
 
     services.nginx.virtualHosts."immich.eyen.ca" = {
