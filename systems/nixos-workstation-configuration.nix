@@ -139,6 +139,7 @@
 
       # Optionally, you may need to select the appropriate driver version for your specific GPU.
       package = config.boot.kernelPackages.nvidiaPackages.stable;
+      powerManagement.enable = true;
     };
   };
 
@@ -192,7 +193,7 @@
     pathsToLink = ["/share/zsh"];
     sessionVariables = {
       # Hint electron apps to use wayland;
-      #NIXOS_OZONE_WL = "1";
+      NIXOS_OZONE_WL = "1";
     };
     # List packages installed in system profile. To search, run:
     # $ nix search wget

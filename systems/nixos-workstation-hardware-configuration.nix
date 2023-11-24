@@ -5,10 +5,13 @@
   config,
   lib,
   modulesPath,
+  pkgs,
+  inputs,
   ...
 }: {
   imports = [
     (modulesPath + "/installer/scan/not-detected.nix")
+    inputs.hardware.nixosModules.common-gpu-nvidia-nonprime
   ];
 
   boot = {
@@ -16,8 +19,12 @@
       availableKernelModules = ["nvme" "xhci_pci" "ahci" "usb_storage" "sd_mod"];
       kernelModules = [];
     };
+    #kernelPackages = pkgs.linuxPackages;
+    #kernelPackages = pkgs.unstable.linuxPackages;
+    #kernelPackages = pkgs.unstable.linuxPackages_6_6;
+    kernelPackages = pkgs.linuxPackages_6_6;
     kernelModules = ["kvm-amd"];
-    kernelParams = ["cgroup_no_v1=all" "systemd.unified_cgroup_hierarchy=1"];
+    kernelParams = ["cgroup_no_v1=all" "systemd.unified_cgroup_hierarchy=1" "module_blacklist=amdgpu"];
     extraModulePackages = [];
     loader.efi.efiSysMountPoint = "/boot";
   };
