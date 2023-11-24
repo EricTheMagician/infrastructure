@@ -7,6 +7,9 @@
 }: let
   inherit ((import ../home-manager/zsh_config.nix)) zsh;
 in {
+  # disable building the documentation
+  documentation.nixos.enable = false;
+
   nix = {
     # This will add each flake input as a registry
     # To make nix3 commands consistent with your flake
@@ -41,6 +44,13 @@ in {
   programs.fzf = {
     fuzzyCompletion = true;
     keybindings = true;
+  };
+
+  programs.neovim = {
+    enable = true;
+    defaultEditor = true;
+    vimAlias = true;
+    viAlias = true;
   };
 
   environment.systemPackages = [

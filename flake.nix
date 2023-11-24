@@ -127,6 +127,7 @@
         # > Our main nixos configuration file <
         modules = [
           sops-nix.nixosModules.sops
+          ./systems/defaults.nix
           ./systems/letouch
         ];
       };
