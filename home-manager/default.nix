@@ -1,11 +1,10 @@
 {
   config,
   pkgs,
-  stable,
   ...
 }: let
   # vimspector debuggers
-  python-debugpy = stable.python310.withPackages (ps: with ps; [debugpy]);
+  python-debugpy = pkgs.python310.withPackages (ps: with ps; [debugpy]);
   debugpy_path = python-debugpy + "/lib/python3.10/site-packages/debugpy";
 
   codelldb = pkgs.vscode-extensions.vadimcn.vscode-lldb.overrideAttrs (finalAttrs: previousAttrs: {lldb = pkgs.lldb_16;});
