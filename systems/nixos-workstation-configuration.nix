@@ -13,6 +13,7 @@
     ./nixos-workstation-hardware-configuration.nix
     ../modules/tailscale.nix
     ../modules/builder.nix
+    ../services/locate.nix
     #../modules/container_support.nix
     #./workstation/forgejo-runner.nix
     #../services/hercules-ci-agent.nix
@@ -168,6 +169,7 @@
       unstable.remmina
       unstable.filezilla
       unstable.spotify
+      unstable.firefox
       # apache-directory-studio
       #  thunderbird
       gcc13
@@ -266,17 +268,9 @@
   # Enable the OpenSSH daemon.
   services.openssh.enable = true;
 
-  services = {
-    tailscale = {
-      enable = true;
-      package = pkgs.unstable.tailscale;
-    };
-    locate = {
-      enable = true;
-      locate = pkgs.plocate;
-      localuser = null;
-      # interval = "hourly"; # default 02:15
-    };
+  services.tailscale = {
+    enable = true;
+    package = pkgs.unstable.tailscale;
   };
 
   # kvm virt manager
