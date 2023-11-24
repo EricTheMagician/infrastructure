@@ -61,7 +61,7 @@ in {
         #programs.nix-ld.enable = true;
         services.gitea-actions-runner = {
           #package = unstable.forgejo-actions-runner;
-          package = unstable.gitea-actions-runner;
+          package = unstable.forgejo-actions-runner;
           instances.runner = {
             enable = true;
             labels = ["self-hosted" "nix"];
