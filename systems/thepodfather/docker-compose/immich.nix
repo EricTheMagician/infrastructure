@@ -1,6 +1,5 @@
 {
   config,
-  inputs,
   pkgs,
   lib,
   ...
@@ -37,7 +36,7 @@
 in
   lib.recursiveUpdate {
     imports = [
-      "${inputs.nixpkgs-unstable}/nixos/modules/services/search/typesense.nix"
+      #"${inputs.nixpkgs-unstable}/nixos/modules/services/search/typesense.nix"
     ];
     sops.secrets = {
       "immich/typesense_api" = {

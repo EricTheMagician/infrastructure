@@ -2,7 +2,6 @@
   pkgs,
   lib,
   config,
-  inputs,
   ...
 }: let
   domain = "git.eyen.ca";
@@ -22,7 +21,6 @@ in
     imports = [
       ../../modules/nginx.nix
       ../../modules/borg.nix
-      (inputs.nixpkgs-unstable + "/nixos/modules/services/misc/forgejo.nix")
     ];
     sops.secrets = {
       "forgejo/database_password" = {
