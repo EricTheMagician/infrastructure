@@ -28,7 +28,7 @@ in {
   services = {
     healthchecks = {
       enable = true;
-      package = pkgs.unstable.healthchecks.overrideAttrs (final: prev: let
+      package = pkgs.healthchecks.overrideAttrs (final: prev: let
         localSettings = pkgs.writeText "local_settings.py" ''
           import os
           STATIC_ROOT = os.getenv("STATIC_ROOT")
