@@ -61,7 +61,7 @@
       },
       "original": {
         "type": "tarball",
-        "url": "https://flakehub.com/f/nix-community/disko/*.tar.gz"
+        "url": "https://flakehub.com/f/nix-community/disko/%2A.tar.gz"
       }
     },
     "flake-compat": {
@@ -221,11 +221,11 @@
         "rev": "c3abafb01cd7045dba522af29b625bd1e170c2fb",
         "revCount": 1471,
         "type": "tarball",
-        "url": "https://api.flakehub.com/f/pinned/NixOS/nixos-hardware/0.1.1471+rev-c3abafb01cd7045dba522af29b625bd1e170c2fb/018bf13a-0288-71c2-b157-741d4df5d557/source.tar.gz"
+        "url": "https://api.flakehub.com/f/pinned/NixOS/nixos-hardware/0.1.1471%2Brev-c3abafb01cd7045dba522af29b625bd1e170c2fb/018bf13a-0288-71c2-b157-741d4df5d557/source.tar.gz"
       },
       "original": {
         "type": "tarball",
-        "url": "https://flakehub.com/f/NixOS/nixos-hardware/*.tar.gz"
+        "url": "https://flakehub.com/f/NixOS/nixos-hardware/%2A.tar.gz"
       }
     },
     "haskell-flake": {
@@ -324,40 +324,21 @@
     },
     "ipfs-podcasting": {
       "inputs": {
-        "ipfs-podcasting-python": [
-          "ipfs-podcasting-python"
-        ],
         "nixpkgs": [
           "nixpkgs"
         ]
       },
       "locked": {
-        "lastModified": 1699078770,
-        "narHash": "sha256-69sy0W4Aq/zzHKlgn7NBWNDC4kiKaDA9q6M5bdNU/Jw=",
-        "rev": "4d635db2ae178ccbae7ca2db63680c10797b64d3",
-        "revCount": 10,
+        "lastModified": 1700854026,
+        "narHash": "sha256-GMYWoBxe+fD6NnXMahVd/mp9el5VzHlW3gx1nkkZuMI=",
+        "rev": "060a59de0c2d99a24a05386a7515d9f9f3b4a006",
+        "revCount": 11,
         "type": "tarball",
-        "url": "https://api.flakehub.com/f/pinned/EricTheMagician/ipfs-podcasting.nix/0.1.10+rev-4d635db2ae178ccbae7ca2db63680c10797b64d3/018b98ff-80b3-7b36-864e-f218c3efeb3f/source.tar.gz"
+        "url": "https://api.flakehub.com/f/pinned/EricTheMagician/ipfs-podcasting.nix/0.1.11%2Brev-060a59de0c2d99a24a05386a7515d9f9f3b4a006/018c02cd-7a20-79d8-bc13-79342b77ca68/source.tar.gz"
       },
       "original": {
         "type": "tarball",
-        "url": "https://flakehub.com/f/EricTheMagician/ipfs-podcasting.nix/*.tar.gz"
-      }
-    },
-    "ipfs-podcasting-python": {
-      "flake": false,
-      "locked": {
-        "lastModified": 1698846948,
-        "narHash": "sha256-lfH+aJAgGsIsPFTacVLQ44JBfRDtjs3uKfDbYmPSUiI=",
-        "owner": "Cameron-IPFSPodcasting",
-        "repo": "podcastnode-Python",
-        "rev": "0f8f70771f5ff939af5fa644172db10f94988399",
-        "type": "github"
-      },
-      "original": {
-        "owner": "Cameron-IPFSPodcasting",
-        "repo": "podcastnode-Python",
-        "type": "github"
+        "url": "https://flakehub.com/f/EricTheMagician/ipfs-podcasting.nix/%2A.tar.gz"
       }
     },
     "nix-pre-commit-hooks": {
@@ -473,11 +454,11 @@
         "rev": "4784a12198f7434971d5bb8aa6f111acef662ff4",
         "revCount": 551703,
         "type": "tarball",
-        "url": "https://api.flakehub.com/f/pinned/NixOS/nixpkgs/0.2311.551703+rev-4784a12198f7434971d5bb8aa6f111acef662ff4/018bfc00-56d8-70bb-981b-af29b0605192/source.tar.gz"
+        "url": "https://api.flakehub.com/f/pinned/NixOS/nixpkgs/0.2311.551703%2Brev-4784a12198f7434971d5bb8aa6f111acef662ff4/018bfc00-56d8-70bb-981b-af29b0605192/source.tar.gz"
       },
       "original": {
         "type": "tarball",
-        "url": "https://flakehub.com/f/NixOS/nixpkgs/*.tar.gz"
+        "url": "https://flakehub.com/f/NixOS/nixpkgs/%2A.tar.gz"
       }
     },
     "root": {
@@ -511,11 +492,11 @@
         "rev": "49a87c6c827ccd21c225531e30745a9a6464775c",
         "revCount": 699,
         "type": "tarball",
-        "url": "https://api.flakehub.com/f/pinned/Mic92/sops-nix/0.1.699+rev-49a87c6c827ccd21c225531e30745a9a6464775c/018be586-707f-7c7c-8960-8ab43ca3bca8/source.tar.gz"
+        "url": "https://api.flakehub.com/f/pinned/Mic92/sops-nix/0.1.699%2Brev-49a87c6c827ccd21c225531e30745a9a6464775c/018be586-707f-7c7c-8960-8ab43ca3bca8/source.tar.gz"
       },
       "original": {
         "type": "tarball",
-        "url": "https://flakehub.com/f/Mic92/sops-nix/*.tar.gz"
+        "url": "https://flakehub.com/f/Mic92/sops-nix/%2A.tar.gz"
       }
     },
     "systems": {
