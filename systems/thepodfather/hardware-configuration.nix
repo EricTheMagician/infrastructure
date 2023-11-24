@@ -2,6 +2,7 @@
 # and may be overwritten by future invocations.  Please make changes
 # to /etc/nixos/configuration.nix instead.
 {
+  pkgs,
   lib,
   modulesPath,
   ...
@@ -17,6 +18,7 @@
     };
     kernelModules = ["kvm-amd"];
     extraModulePackages = [];
+    kernelPackages = pkgs.linuxPackages_6_6;
   };
 
   # Enables DHCP on each ethernet and wireless interface. In case of scripted networking

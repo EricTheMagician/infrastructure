@@ -1,4 +1,5 @@
 {
+  pkgs,
   modulesPath,
   lib,
   ...
@@ -10,6 +11,7 @@
       availableKernelModules = ["ata_piix" "uhci_hcd" "xen_blkfront" "vmw_pvscsi"];
       kernelModules = ["nvme"];
     };
+    kernelPackages = pkgs.linuxPackages_6_6;
   };
   fileSystems."/" = {
     device = "/dev/vda1";

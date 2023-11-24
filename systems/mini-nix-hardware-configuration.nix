@@ -19,6 +19,7 @@
     };
     kernelModules = [];
     extraModulePackages = [];
+    kernelPackages = pkgs.linuxPackages_6_6;
   };
 
   # Enables DHCP on each ethernet and wireless interface. In case of scripted networking

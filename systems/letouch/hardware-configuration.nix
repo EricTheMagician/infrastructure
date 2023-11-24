@@ -18,7 +18,7 @@
     (inputs.hardware + "/common/gpu/amd")
   ];
 
-  boot.kernelPackages = pkgs.linuxKernel.packages.linux_6_5;
+  boot.kernelPackages = pkgs.linuxKernel.packages.linux_6_6;
   boot.initrd.availableKernelModules = ["nvme" "xhci_pci" "usb_storage" "sd_mod" "sdhci_pci"];
   boot.initrd.kernelModules = [];
   boot.kernelModules = ["kvm-amd"];
