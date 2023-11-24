@@ -13,7 +13,6 @@
   "n8n" # n8n automation
   "nocodb" # n8n automation
   "ntfy"
-  "peertube" # peertube
   "plex"
   "portal"
   "radarr"

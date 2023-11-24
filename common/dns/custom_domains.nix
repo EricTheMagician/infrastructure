@@ -45,11 +45,13 @@ let
       "cloud.eyen.ca"
       "git.eyen.ca"
       "immich.eyen.ca"
+      "invidious.eyen.ca"
       "it-tools.eyen.ca"
       "jellyfin.eyen.ca"
       "lldap.eyen.ca"
       "login.eyen.ca"
       "office.eyen.ca"
+      "peertube.eyen.ca"
       "thepodfather"
       "viewtube.eyen.ca"
     ];

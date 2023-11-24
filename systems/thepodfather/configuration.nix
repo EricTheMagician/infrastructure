@@ -17,6 +17,7 @@ in {
     ./lldap.nix
     ./nextcloud.nix
     ./peertube.nix
+    #./invidious.nix
     ../../modules/nginx.nix
     ./docker-compose/viewtube.nix
     ./docker-compose/immich.nix
