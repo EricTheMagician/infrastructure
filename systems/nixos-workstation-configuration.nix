@@ -281,6 +281,7 @@
   # kvm virt manager
   virtualisation.libvirtd.enable = true;
 
+  services.flatpak.enable = true;
   #container.forgejo-action-runner = {
   #  bridge = {
   #    name = "br-act-runner";
