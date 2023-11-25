@@ -37,14 +37,14 @@ in {
 
   fileSystems."/mnt/unraid" = {
     device = "shares";
-    fsType = "9p";
-    options = ["trans=virtio"];
+    fsType = "virtiofs";
+    #options = ["trans=virtio"];
   };
 
   fileSystems."/var/lib/nextcloud/data" = {
     device = "nextcloud";
-    fsType = "9p";
-    options = ["trans=virtio"];
+    fsType = "virtiofs";
+    #options = ["trans=virtio"];
   };
 
   # Set your time zone.
