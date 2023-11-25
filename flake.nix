@@ -46,6 +46,11 @@
     ipfs-podcasting.url = "https://flakehub.com/f/EricTheMagician/ipfs-podcasting.nix/*.tar.gz";
     #ipfs-podcasting.url = "/home/eric/git/ipfs-podcasting";
     ipfs-podcasting.inputs.nixpkgs.follows = "nixpkgs";
+
+    microvm = {
+      url = "github:astro/microvm.nix";
+      inputs = {nixpkgs.follows = "nixpkgs";};
+    };
   };
 
   outputs = {
@@ -59,6 +64,7 @@
     nix-pre-commit-hooks,
     arion,
     ipfs-podcasting,
+    microvm,
     ...
   } @ inputs: let
     system = "x86_64-linux";
@@ -141,6 +147,7 @@
           disko.nixosModules.disko
           sops-nix.nixosModules.sops
           ipfs-podcasting.nixosModules.ipfs-podcasting
+          microvm.nixosModules.host
           ./systems/mini-nix-configuration.nix
         ];
       };
@@ -178,6 +185,7 @@
           disko.nixosModules.disko
           sops-nix.nixosModules.sops
           arion.nixosModules.arion
+          microvm.nixosModules.host
           ./systems/defaults.nix
           ./systems/thepodfather/configuration.nix
         ];
@@ -192,7 +200,7 @@
         extraSpecialArgs = {
           inherit inputs;
         }; # Pass flake inputs to our config
-        # > Our main home-manager configuration file <
+        #  Our main home-manager configuration file <
         modules = [
           ./home-manager
           ./home-manager/eric-desktop.nix

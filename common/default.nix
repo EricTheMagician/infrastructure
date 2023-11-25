@@ -18,7 +18,6 @@ _: {
   # surprising ways.
   services.resolved = {
     enable = true;
-    dnssec = "false";
   };
 
   time.timeZone = "America/Vancouver";

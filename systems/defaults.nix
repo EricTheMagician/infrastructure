@@ -29,6 +29,7 @@ in {
         "https://nix-community.cachix.org"
         "https://cache.nixos.org/"
       ];
+      trusted-users = ["root" "@wheel"];
       trusted-public-keys = [
         "mini-nix.eyen.ca:YDI5WEPr5UGe9HjhU8y1iR07XTacpoBDQHiLcm/t2QY="
         "nix-community.cachix.org-1:mB9FSh9qf2dCimDSUo8Zy7bkq5CX+/rkCWyvRCYg3Fs="
