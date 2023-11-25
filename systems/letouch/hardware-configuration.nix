@@ -34,7 +34,23 @@
     fsType = "vfat";
   };
 
-  swapDevices = [];
+  swapDevices = [
+    {
+      device = "/var/lib/swapfile";
+      size = 16 * 1024; # 16 GB, size in Megabytes
+    }
+  ];
+
+  # suspend to RAM (deep) rather than `s2idle`
+  boot.kernelParams = ["mem_sleep_default=deep"];
+  # suspend-then-hibernate
+  systemd.sleep.extraConfig = ''
+    HibernateDelaySec=30m
+    SuspendState=mem
+    AllowSuspendThenHibernate=yes
+    AllowHybridSleep=yes
+    #SuspendState=suspend-then-hibernate
+  '';
 
   # Enables DHCP on each ethernet and wireless interface. In case of scripted networking
   # (the default) this is the recommended approach. When using systemd-networkd it's
