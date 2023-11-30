@@ -20,6 +20,11 @@
       publicKey = "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIC35qotLgb1j50CodY0nE+N8Uqm8a1/Fo8zL9eSRZ+c9";
     };
 
+    mini-nix = {
+      extraHostNames = ["100.64.0.14" "mini-nix.eyen.ca"];
+      publicKey = "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIJql5f5i6dnTFwHwxlGk35PYuYU0pgsh9r4cQqO5+vcc";
+    };
+
     unraid = {
       extraHostNames = ["100.64.0.2"];
       publicKey = "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAICEjyjaX/it47Hz5JxPmmYRs/uohCkxASG+0X4y5QH2a";

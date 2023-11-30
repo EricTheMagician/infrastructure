@@ -29,6 +29,14 @@
     "||edge.safedk.com^$important"
     "#||apps.mzstatic.com^$important"
   ];
+  upstream_dns = [
+    "45.90.28.207"
+    "45.90.30.207"
+    "2a07:a8c0::f2:314b"
+    "2a07:a8c1::f2:314b"
+    "https://dns.nextdns.io/f2314b"
+    "f2314b.dns.nextdns.io"
+  ];
   # the filters list
   filters = [
     {

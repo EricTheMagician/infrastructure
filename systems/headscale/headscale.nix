@@ -40,7 +40,7 @@ in {
       tls_cert_path = config.security.acme.certs.${domain}.directory + "/cert.pem";
       tls_key_path = config.security.acme.certs.${domain}.directory + "/key.pem";
       logtail.enabled = false;
-      ip_prefixes = ["100.64.0.0/10"];
+      ip_prefixes = ["100.64.0.0/10" "fd7a:115c:a1e0::/48"];
       private_key_path = "/var/lib/headscale/private.key";
       noise.private_key_path = "/var/lib/headscale/noise_private.key";
       disable_check_updates = true; # use nix to manage that
@@ -61,7 +61,7 @@ in {
         #nameservers = ["100.64.0.1" "100.64.0.14"];
         #nameservers = ["100.64.0.9" "100.64.0.14"];
         #nameservers = ["https://dns.nextdns.io/f2314b"]; # nextdns
-        nameservers = ["1.1.1.1" "2a07:a8c0::f2:314b" "2a07:a8c1::f2:314b"];
+        nameservers = ["45.90.28.207" "45.90.30.207" "2a07:a8c0::f2:314b" "2a07:a8c1::f2:314b"];
         magic_dns = false;
         override_local_dns = true;
         domains = ["eyen.ca"];
