@@ -8,5 +8,5 @@ let
 in [
   systems
   home-manager
-  outputs.devShell
+  outputs.devShells
 ]
