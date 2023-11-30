@@ -42,7 +42,7 @@
     nixpkgs-unstable = originPkgs.applyPatches {
       name = "nixpkgs-patched";
       src = inputs.nixpkgs;
-      patches = map originPkgs.fetchpatch patches;
+      #patches = map originPkgs.fetchpatch patches;
     };
   in {
     unstable = import nixpkgs-unstable {
