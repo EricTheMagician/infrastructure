@@ -69,6 +69,7 @@ in {
       };
     };
   };
+  systemd.services.peertube.path = [pkgs.unstable.yt-dlp];
   services.nginx.virtualHosts."${config.services.peertube.localDomain}" = {
     forceSSL = true;
     useACMEHost = "eyen.ca";
