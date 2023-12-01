@@ -23,9 +23,6 @@
     deploy-rs.url = "github:serokell/deploy-rs";
     deploy-rs.inputs.nixpkgs.follows = "nixpkgs";
 
-    # for multi architecture systems
-    flake-utils.url = "github:numtide/flake-utils";
-
     # arion docker-compose in nix
     arion.url = "github:hercules-ci/arion";
     arion.inputs.nixpkgs.follows = "nixpkgs";
