@@ -12,7 +12,7 @@
     mode = "0400";
   };
   redis_socket = config.services.redis.servers.immich.unixSocket;
-  db_socket = "/run/postgresql/.s.PGSQL.5432";
+  db_socket = "/run/postgresql";
   immich_environment = {
     REDIS_SOCKET = redis_socket;
     DB_HOSTNAME = "100.64.0.18";
