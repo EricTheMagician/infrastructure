@@ -34,5 +34,5 @@
   services.postgresqlBackup = {
     enable = true;
   };
-  system_borg_backup_paths = [config.services.postgresqlBackup.location];
+  my.backup_paths = [config.services.postgresqlBackup.location];
 }

@@ -45,5 +45,5 @@ in {
       proxyPass = "http://127.0.0.1:8066";
     };
   };
-  system_borg_backup_paths = [data_path];
+  my.backup_paths = [data_path];
 }

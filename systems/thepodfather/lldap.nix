@@ -58,5 +58,5 @@ in {
     };
   };
   # setup the backup
-  system_borg_backup_paths = ["/var/lib/lldap/"];
+  my.backup_paths = ["/var/lib/lldap/"];
 }

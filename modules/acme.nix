@@ -6,7 +6,7 @@
   # ensure that default acme group is created and nginx is part of me
   # the group has permission to read the cloudflare private key
 
-  system_borg_backup_paths = ["/var/lib/acme"];
+  my.backup_paths = ["/var/lib/acme"];
   users.groups.${config.security.acme.defaults.group} = {};
   security.acme = {
     acceptTerms = true;
