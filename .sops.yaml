@@ -5,7 +5,7 @@ keys:
   - &server_adguard_lxc age1ew6eh5z96z67jqx5anvaylmz9srhnhlehrgacysrh7tvqvqedp0qgrx3k3
   - &server_mini-nix age1yk7ve29tg0amjud953r86nrefhumsn9xsznz4n53l0je6zzt0uhsta27ea
   - &server_infrastructure age1vjhly9gdhewd4d8l6duqh06lvyvrczzkraj8n7r9dym86dehe9vq39uhph
-  - &server_headscale age1ddc9huyw7vfwpu9zj5g0qkmavyxppqlsn6kkynnygaly4f0tjg4splm092
+  - &server_headscale age1ewj2skz6kevkzmlc72cc7tw3kx7przgyjlh5upj438u48x05v9eqpgmhuj
   - &server_thepodfather age1ttr8txnr794dxmw6ngp0ygrvs0reajc5js3t4u3kzelkmjgy0qysnq4ufr
   - &workstation_nixos-workstation age1f3mwf2jsdd4ngrnvhxgq97xg3rk5y4p68dysvrmd860s6dncxggsym6njt
   - &workstation_letouch age16h88a5peaunsj85q3cadngjdl20g04hpjrwj3msls8waud83w5hqhufajn

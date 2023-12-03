@@ -8,7 +8,7 @@
 
     headscale = {
       extraHostNames = ["100.64.0.1" "headscale.eyen.ca"];
-      publicKey = "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIBlI3pYLW1+d7ulkVl3HLc0Fd00AFEm2SZjIEhkxcAIO";
+      publicKey = "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAION03O8T+c/d40IDwdJDsR4XckbqT6GJoPDLWpyQSp2Q";
     };
 
     nixos-workstation = {

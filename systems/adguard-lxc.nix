@@ -58,4 +58,5 @@ in {
     enable = true;
     internalInterfaces = [config.container.adguard.bridge.name];
   };
+  boot.enableContainers = true;
 }
