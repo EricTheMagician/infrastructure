@@ -1,39 +1,47 @@
 let
-  sshKeys = import ../common/ssh-keys.nix;
+  sshKeys = import ../../common/ssh-keys.nix;
 in {
   imports = [
-    ../common
-    ../modules/borg.nix
-    ./headscale/headscale.nix
-    ../modules/tailscale.nix
-    ./headscale-hardware-configuration.nix
+    ../../common
+    ../../modules/borg.nix
+    ./headscale.nix
+    ../../modules/tailscale.nix
+    ./hardware-configuration.nix
+    ./disk-configuration.nix
     #./headscale/nebula.nix
     #../containers/adguard.nix
   ];
+  boot.loader.grub = {
+    # no need to set devices, disko will add all devices that have a EF02 partition to the list already
+    # devices = [ ];
+    efiSupport = true;
+    efiInstallAsRemovable = true;
+  };
 
-  tailscale.secrets_path = ../secrets/tailscale/headscale.yaml;
+  tailscale.secrets_path = ../../secrets/tailscale/headscale.yaml;
   boot.tmp.cleanOnBoot = true;
   system.stateVersion = "22.11";
   zramSwap.enable = false;
-  networking.hostName = "racknerd-08df0e";
+  networking.hostName = "headscale";
   networking.domain = "";
   users.users.root.openssh.authorizedKeys.keys = sshKeys;
 
   services.openssh = {
     enable = true;
     openFirewall = true;
-    listenAddresses = [
-      {
-        addr = "100.64.0.1"; # headscale ip address
-        port = 22;
-      }
-      #{
-      #  addr = "192.168.252.1";
-      #  port = 22;
-      #}
-    ];
+    #listenAddresses = [
+    #  {
+    #    addr = "100.64.0.1"; # headscale ip address
+    #    port = 22;
+    #  }
+    #  #{
+    #  #  addr = "192.168.252.1";
+    #  #  port = 22;
+    #  #}
+    #];
     settings.PasswordAuthentication = false;
   };
+  services.fail2ban.enable = true;
   ## configure my containers
   #container.adguard = {
   #  bridge = {

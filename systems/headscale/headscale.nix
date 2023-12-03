@@ -70,16 +70,6 @@ in {
     };
   };
 
-  # manage backups of the currrent headscale data
-  sops.secrets.BORG_BACKUP_PASSWORD = {
-    mode = "0400";
-    sopsFile = ../../secrets/borg-backup.yaml;
-  };
-  sops.secrets.BORG_PRIVATE_KEY = {
-    mode = "0400";
-    sopsFile = ../../secrets/borg-backup.yaml;
-  };
-
   systemd.timers.borgbackup-job-headscale-config.timerConfig.RandomizedDelaySec = 3600;
   services.borgbackup.jobs.headscale-config =
     build_borg_backup_job {
