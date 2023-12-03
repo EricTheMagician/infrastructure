@@ -17,6 +17,7 @@
     # Include the results of the hardware scan.
     ./hardware-configuration.nix
     ../../modules/tailscale.nix
+    ../../modules/chromium.nix
     #"${inputs.nixpkgs-unstable}/nixos/modules/programs/hyprland.nix"
   ];
   tailscale.secrets_path = ../../secrets/tailscale/eric.yaml;
@@ -82,10 +83,10 @@
     isNormalUser = true;
     description = "Eric Yen";
     extraGroups = ["networkmanager" "wheel"];
-    packages = with pkgs; [
-      firefox
-      #  thunderbird
-    ];
+    #packages = with pkgs; [
+    #  #firefox
+    #  #  thunderbird
+    #];
   };
 
   # default shell for everyone
@@ -93,7 +94,6 @@
   users.defaultUserShell = pkgs.zsh;
   # Allow unfree packages
   nixpkgs.config.allowUnfree = true;
-
   # List packages installed in system profile. To search, run:
   # $ nix search wget
   environment.systemPackages = with pkgs; [
@@ -105,6 +105,10 @@
     unstable.element-desktop
     unstable.obsidian
     unstable.sqlitebrowser
+    unstable.spotify
+    unstable.chromium
+    #unstable.ungoogled-chromium
+    unstable.nextcloud-client
     # vscode
     (
       unstable.vscode-with-extensions.override
