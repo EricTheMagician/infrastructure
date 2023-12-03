@@ -128,7 +128,7 @@
         # > Our main nixos configuration file <
         modules = [
           sops-nix.nixosModules.sops
-          ./systems
+          ./systems/defaults.nix
           ./systems/letouch
         ];
       };
@@ -167,6 +167,7 @@
         modules = [
           disko.nixosModules.disko
           sops-nix.nixosModules.sops
+          ./systems/defaults.nix
           ./systems/headscale
         ];
       };

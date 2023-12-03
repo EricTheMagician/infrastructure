@@ -8,6 +8,7 @@ in {
     ../../modules/tailscale.nix
     ./hardware-configuration.nix
     ./disk-configuration.nix
+    ./couchdb.nix
     #./headscale/nebula.nix
     #../containers/adguard.nix
   ];
