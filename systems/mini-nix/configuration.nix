@@ -7,7 +7,7 @@
   pkgs,
   ...
 }: let
-  sshKeys = import ../common/ssh-keys.nix;
+  sshKeys = import ../../common/ssh-keys.nix;
 in {
   imports = [
     # If you want to use modules from other flakes (such as nixos-hardware):
@@ -18,21 +18,21 @@ in {
     # ./users.nix
 
     # Import your generated (nixos-generate-config) hardware configuration
-    ./mini-nix-hardware-configuration.nix
-    ./mini-nix-disks.nix
-    ../modules/container_support.nix
-    ../containers/adguard.nix
+    ./hardware-configuration.nix
+    ./disk-configuration.nix
+    ../../modules/container_support.nix
+    ../../containers/adguard.nix
     #../containers/builder.nix
-    ../modules/borg.nix
-    ../modules/tailscale.nix
-    ../modules/knownHosts.nix
-    ../modules/builder.nix
-    ../services/healthchecks.nix
-    ../services/locate.nix
-    ../services/cache.nix
-    ../modules/minio.nix
-    ../services/hercules-ci-agent.nix
-    ./mini-nix/ipfs-podcasting.nix
+    ../../modules/borg.nix
+    ../../modules/tailscale.nix
+    ../../modules/knownHosts.nix
+    ../../modules/builder.nix
+    ../../services/healthchecks.nix
+    ../../services/locate.nix
+    ../../services/cache.nix
+    ../../modules/minio.nix
+    ../../services/hercules-ci-agent.nix
+    ./ipfs-podcasting.nix
     #./mini-nix/nebula.nix
     #../services/seaweedfs.nix
     #../containers/kanidm.nix

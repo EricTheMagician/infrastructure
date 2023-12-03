@@ -128,7 +128,7 @@
         # > Our main nixos configuration file <
         modules = [
           sops-nix.nixosModules.sops
-          ./systems/defaults.nix
+          ./systems
           ./systems/letouch
         ];
       };
@@ -145,7 +145,7 @@
           sops-nix.nixosModules.sops
           ipfs-podcasting.nixosModules.ipfs-podcasting
           microvm.nixosModules.host
-          ./systems/mini-nix-configuration.nix
+          ./systems/mini-nix
         ];
       };
 
@@ -165,8 +165,9 @@
         }; # Pass flake inputs to our config
         # > Our main nixos configuration file <
         modules = [
+          disko.nixosModules.disko
           sops-nix.nixosModules.sops
-          ./systems/headscale-configuration.nix
+          ./systems/headscale
         ];
       };
 
