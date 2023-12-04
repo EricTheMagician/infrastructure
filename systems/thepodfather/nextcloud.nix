@@ -75,7 +75,7 @@ in
         config.services.nextcloud.config.dbname
         #config.services.onlyoffice.postgresName
       ];
-      system_borg_backup_paths = [config.services.nextcloud.datadir];
+      my.backup_paths = [config.services.nextcloud.datadir];
       services.nginx.virtualHosts."cloud.eyen.ca" = {
         useACMEHost = "eyen.ca";
         forceSSL = true;
