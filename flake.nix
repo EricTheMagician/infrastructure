@@ -203,7 +203,9 @@
         modules = [
           ./home-manager
           ./home-manager/eric-desktop.nix
+          inputs.sops-nix.homeManagerModule
           {
+            my.programs.plik.enable = true;
             home = {
               username = "eric";
               homeDirectory = "/home/eric";
@@ -220,7 +222,6 @@
         # > Our main home-manager configuration file <
         modules = [
           ./home-manager
-          ./home-manager/plik.nix
           inputs.sops-nix.homeManagerModule
           {
             #imports = [(inputs.sops-nix + "/modules/home-manager/sops.nix")];
