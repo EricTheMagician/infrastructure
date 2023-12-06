@@ -9,6 +9,7 @@ in {
     ./hardware-configuration.nix
     ./disk-configuration.nix
     ./couchdb.nix
+    ./plikd.nix
     #./headscale/nebula.nix
     #../containers/adguard.nix
   ];
@@ -43,33 +44,4 @@ in {
     settings.PasswordAuthentication = false;
   };
   services.fail2ban.enable = true;
-  ## configure my containers
-  #container.adguard = {
-  #  bridge = {
-  #    name = "br-adguard";
-  #    address = "10.100.0.1";
-  #    prefixLength = 24;
-  #  };
-  #  openFirewall = false;
-  #};
-  #nginx.enable = false;
-
-  #networking.firewall.interfaces.tailscale0 = {
-  #  allowedTCPPorts = [53];
-  #  allowedUDPPorts = [53];
-  #};
-
-  #networking.nat = {
-  #  enable = true;
-  #  internalInterfaces = pkgs.lib.mapAttrsToList (name: value: value.bridge.name) config.container;
-  #};
-
-  ## ensures that the bridges are automatically started by systemd when the container starts
-  ## this is needed when just doing a `rebuild switch`. Otherwise, a reboot is fine.
-  #systemd.services =
-  #  pkgs.lib.mapAttrs' (name: value: {
-  #    name = "${value.bridge.name}-netdev";
-  #    value = {wantedBy = ["container@${name}.service"];};
-  #  })
-  #  config.container;
 }
