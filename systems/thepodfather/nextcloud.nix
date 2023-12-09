@@ -103,7 +103,8 @@ in
           ports = ["9980:9980"];
           environment = {
             domain = "cloud.eyen.ca";
-            extra_params = "--o:ssl.enable=true --o:ssl.termination=true";
+            server_name = "cloud.eyen.ca";
+            extra_params = "--o:ssl.enable=false --o:ssl.termination=true";
           };
           extraOptions = [
             "--cap-add"
