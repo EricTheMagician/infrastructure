@@ -1,6 +1,7 @@
 {
   config,
   pkgs,
+  lib,
   ...
 }: let
   # vimspector debuggers
@@ -56,7 +57,7 @@ in {
   # You should not change this value, even if you update Home Manager. If you do
   # want to update the value, then make sure to first check the Home Manager
   # release notes.
-  imports = [./plik.nix];
+  imports = [./plik.nix ./neovim/home-manager.nix];
   home = {
     stateVersion = "23.05"; # Please read the comment before changing.
     enableNixpkgsReleaseCheck = false;
@@ -170,11 +171,15 @@ in {
     };
   };
 
-  programs.neovim = import ./neovim/home-manager.nix {
-    inherit pkgs;
-    inherit config;
-    inherit (pkgs) lib;
-  }; #  home.file.".config/fish/config.fish".text = ''
+  my.programs.neovim = {
+    enable = true;
+    codeium.enable = lib.mkDefault true;
+  };
+  #programs.neovim = import ./neovim/home-manager.nix {
+  #  inherit pkgs;
+  #  inherit config;
+  #  inherit (pkgs) lib;
+  #}; #  home.file.".config/fish/config.fish".text = ''
   ## fish configuration added by home-manager
   #export MAMBA_ROOT_PREFIX=/home/eric/.config/mamba
   #if status is-interactive

@@ -230,6 +230,8 @@
               homeDirectory = "/home/eric";
             };
             my.programs.plik.enable = true;
+            my.programs.neovim.languages = {nix.enable = true;};
+            #my.programs.neovim.codeium.nvim = true;
           }
         ];
       };
