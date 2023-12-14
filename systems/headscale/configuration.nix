@@ -44,4 +44,5 @@ in {
     settings.PasswordAuthentication = false;
   };
   services.fail2ban.enable = true;
+  services.vnstat.enable = true;
 }
