@@ -16,7 +16,6 @@
   immich_environment = {
     REDIS_SOCKET = redis_socket;
     DB_HOSTNAME = "100.64.0.18";
-    TYPESENSE_HOST = "100.64.0.18";
   };
   immich_volumes = [
     "${upload_path}:/usr/src/app/upload"
@@ -39,10 +38,6 @@ in
       #"${inputs.nixpkgs-unstable}/nixos/modules/services/search/typesense.nix"
     ];
     sops.secrets = {
-      "immich/typesense_api" = {
-        sopsFile = ../../../secrets/immich.yaml;
-        mode = "0444";
-      };
       "immich/env_file" = immich_sops;
       "immich/db_password" = immich_sops;
     };
@@ -52,15 +47,9 @@ in
     };
 
     systemd.services.arion-immich = {
-      after = ["redis-immich.service" "typesense.service" "postgresql.service"];
+      after = ["redis-immich.service" "postgresql.service"];
     };
 
-    services.typesense = {
-      enable = true;
-      apiKeyFile = config.sops.secrets."immich/typesense_api".path;
-      package = pkgs.unstable.typesense;
-      settings = {server = {api-address = "0.0.0.0";};};
-    };
     virtualisation.arion.projects.immich.settings.docker-compose.volumes = {
       model-cache = {};
     };

@@ -71,6 +71,7 @@
       inherit system;
       config.allowUnfree = true;
       overlays = [
+        overlays.additions
         overlays.my_vim_plugins
         overlays.unstable-packages
       ];

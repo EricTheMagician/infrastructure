@@ -2,14 +2,23 @@
   pkgs,
   config,
   inputs,
+  lib,
   ...
-}: {
+}: let
+  #immich_enabled = builtins.hasAttr "immichPostgreSQLInit" config.systemd.services;
+  immich_enabled = builtins.hasAttr "immichPostgreSQLInit" config.systemd.services;
+  inherit (lib) mkIf;
+in {
   disabledModules = ["services/backup/postgresql-backup.nix"];
   imports = [(inputs.nixpkgs-unstable + "/nixos/modules/services/backup/postgresql-backup.nix")];
   services.postgresql = {
     # https://nixos.wiki/wiki/PostgreSQL
     enable = true;
-    package = pkgs.unstable.postgresql_16;
+    #package = pkgs.unstable.postgresql_16;
+    package = pkgs.postgresql_16.withPackages (p: (lib.optional immich_enabled (pkgs.pgvecto_rs.override {postgres = pkgs.postgresql_16;}))); #.override {postgresql = pkgs.unstable.postgresql_16;})));
+    settings = mkIf immich_enabled {
+      shared_preload_libraries = "vectors.so";
+    };
     identMap = ''
       # ArbitraryMapName systemUser DBUser
          superuser_map      root      postgres
