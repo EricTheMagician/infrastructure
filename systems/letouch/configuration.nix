@@ -102,8 +102,16 @@
     git
     vim
     mosh
+    okular
     unstable.element-desktop
-    unstable.obsidian
+    unstable.wpsoffice
+    #unstable.obsidian
+    (unstable.obsidian.override {
+      electron = electron_25.overrideAttrs (_: {
+        preFixup = "patchelf --add-needed ${libglvnd}/lib/libEGL.so.1 $out/bin/electron"; # NixOS/nixpkgs#272912
+        meta.knownVulnerabilities = []; # NixOS/nixpkgs#273613
+      });
+    })
     unstable.sqlitebrowser
     unstable.spotify
     unstable.chromium
