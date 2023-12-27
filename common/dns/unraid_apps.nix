@@ -3,10 +3,7 @@
   "artifactory" # personal artifactory
   "bbpb" # Back Blaze Personal Backup
   "budget" # Actual Budget
-  "cloud-office" # Nextcloud Only Office Plugin
   #"cloud" # Nextcloud
-  "emby"
-  "gitea"
   "ferdium"
   "keycloak"
   "metabase" # n8n automation
@@ -16,7 +13,6 @@
   "plex"
   "portal"
   "radarr"
-  "recipes"
   "sabnzbd"
   "sonarr"
   "syncthing"

@@ -55,6 +55,7 @@ let
       "thepodfather"
       "viewtube.eyen.ca"
       "vw.eyen.ca"
+      "recipes.eyen.ca"
     ];
 in
   [

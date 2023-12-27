@@ -24,6 +24,7 @@ in {
     ./docker-compose/tools.nix
     ../../modules/arion-scripts.nix
     ./vaultwarden.nix
+    ./tandoor-recipes.nix
   ];
 
   # Use the systemd-boot EFI boot loader.
