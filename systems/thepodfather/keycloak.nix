@@ -22,14 +22,6 @@ in {
   };
   config = {
     sops.secrets."keycloak/database_password" = {};
-    services.postgresql.ensureUsers = [
-      {
-        name = "keycloak";
-        ensurePermissions = {
-          "DATABASE keycloak" = "ALL PRIVILEGES";
-        };
-      }
-    ];
     services.keycloak = {
       enable = true;
       package = pkgs.keycloak;
