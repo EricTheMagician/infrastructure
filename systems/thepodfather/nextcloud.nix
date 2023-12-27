@@ -4,7 +4,7 @@
   config,
   ...
 }: let
-  nextcloud_package = pkgs.unstable.nextcloud27;
+  nextcloud_package = pkgs.nextcloud28;
   create_nextcloud_database =
     import ../../functions/create_postgresql_db.nix
     {
