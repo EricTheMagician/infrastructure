@@ -22,5 +22,4 @@
   "syncthing"
   "unraid-traefik"
   "unraid"
-  "vw" # vault warden
 ]

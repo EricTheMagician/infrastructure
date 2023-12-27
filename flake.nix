@@ -17,6 +17,7 @@
 
     sops-nix.url = "https://flakehub.com/f/Mic92/sops-nix/*.tar.gz";
     sops-nix.inputs.nixpkgs.follows = "nixpkgs";
+    sops-nix.inputs.nixpkgs-stable.follows = "nixpkgs";
 
     hardware.url = "https://flakehub.com/f/NixOS/nixos-hardware/*.tar.gz";
 

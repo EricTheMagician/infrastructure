@@ -54,6 +54,7 @@ let
       "peertube.eyen.ca"
       "thepodfather"
       "viewtube.eyen.ca"
+      "vw.eyen.ca"
     ];
 in
   [

@@ -23,7 +23,7 @@ in {
     ./docker-compose/immich.nix
     ./docker-compose/tools.nix
     ../../modules/arion-scripts.nix
-    #./vaultwarden.nix
+    ./vaultwarden.nix
   ];
 
   # Use the systemd-boot EFI boot loader.
