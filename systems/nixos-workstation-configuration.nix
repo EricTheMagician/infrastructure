@@ -212,6 +212,7 @@
       nvtop
       btop
       direnv
+      alacritty
       # (python3.withPackages(ps: with ps; [conda]))
       # micromamba
       # build environment for dragonfly
