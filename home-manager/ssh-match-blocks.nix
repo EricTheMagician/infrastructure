@@ -54,6 +54,18 @@
     proxyJump = "vm-server2";
   };
 
+  "vm-server2-chatbot" = {
+    hostname = "10.99.99.9";
+    user = "user";
+    proxyJump = "vm-server2";
+  };
+
+  "vm-server2-nixos-container" = {
+    hostname = "10.99.99.10";
+    user = "user";
+    proxyJump = "vm-server2";
+  };
+
   "unraid" = {
     user = "root";
   };
