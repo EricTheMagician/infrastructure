@@ -42,6 +42,7 @@ let
       inherit (thepodfather) ts;
       inherit (thepodfather) home;
     }) [
+      "budget.eyen.ca"
       "cloud.eyen.ca"
       "git.eyen.ca"
       "immich.eyen.ca"

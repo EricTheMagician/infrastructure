@@ -2,8 +2,6 @@
 [
   "artifactory" # personal artifactory
   "bbpb" # Back Blaze Personal Backup
-  "budget" # Actual Budget
-  #"cloud" # Nextcloud
   "ferdium"
   "keycloak"
   "metabase" # n8n automation
