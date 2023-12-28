@@ -28,14 +28,12 @@ in
         enable = true;
         port = 14380;
         extraConfig = {
-          #DEBUG = "1";
-          #DEBUG_TOOLBAR = "0";
           FRACTION_PREF_DEFAULT = "1";
           ALLOWED_HOSTS = "recipes.eyen.ca";
         };
-        package =
-          pkgs.tandoor-recipes.overrideAttrs (finalAttrs: previousAttrs: {
-          });
+        #package =
+        #  pkgs.tandoor-recipes.overrideAttrs (finalAttrs: previousAttrs: {
+        #  });
       };
 
       systemd.services.tandoor-recipes = {
@@ -50,6 +48,6 @@ in
           proxyPass = "http://localhost:${builtins.toString config.services.tandoor-recipes.port}";
         };
       };
-      my.backup_paths = ["/var/lib/tandoor-recipes/recipes"];
+      my.backup_paths = ["/var/lib/tandoor-recipes/recipes" "/var/lib/private/tandoor-recipes/recipes"];
     }
   ]
