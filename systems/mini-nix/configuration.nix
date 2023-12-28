@@ -33,6 +33,7 @@ in {
     ../../modules/minio.nix
     ../../services/hercules-ci-agent.nix
     ./ipfs-podcasting.nix
+    ./ntfy.nix
     #./mini-nix/nebula.nix
     #../services/seaweedfs.nix
     #../containers/kanidm.nix

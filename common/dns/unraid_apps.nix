@@ -7,13 +7,11 @@
   "metabase" # n8n automation
   "n8n" # n8n automation
   "nocodb" # n8n automation
-  "ntfy"
   "plex"
   "portal"
   "radarr"
   "sabnzbd"
   "sonarr"
-  "syncthing"
   "unraid-traefik"
   "unraid"
 ]

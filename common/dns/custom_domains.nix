@@ -19,6 +19,7 @@ let
       inherit (mini-nix) home;
       inherit (mini-nix) ts;
     }) [
+      "ntfy.eyen.ca"
       "mini-nix"
       "minio-api.eyen.ca"
       "minio-web.eyen.ca"
