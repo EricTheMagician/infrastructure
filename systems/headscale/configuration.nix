@@ -10,6 +10,7 @@ in {
     ./disk-configuration.nix
     ./couchdb.nix
     ./plikd.nix
+    ./fail2ban.nix
     #./headscale/nebula.nix
     #../containers/adguard.nix
   ];
