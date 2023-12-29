@@ -43,12 +43,16 @@
     # ipfs podcasting
     ipfs-podcasting.url = "https://flakehub.com/f/EricTheMagician/ipfs-podcasting.nix/*.tar.gz";
     #ipfs-podcasting.url = "/home/eric/git/ipfs-podcasting";
-    ipfs-podcasting.inputs.nixpkgs.follows = "nixpkgs";
+    ipfs-podcasting.inputs.nixpkgs.follows = "nixpkgs-unstable";
 
     microvm = {
       url = "github:astro/microvm.nix";
       inputs = {nixpkgs.follows = "nixpkgs";};
     };
+
+    # kde 6 until it is merged into nixpkgs
+    kde6.url = "github:nix-community/kde2nix";
+    #kde6.inputs.nixpkgs.follows = "nixpkgs";
   };
 
   outputs = {
@@ -63,6 +67,7 @@
     arion,
     ipfs-podcasting,
     microvm,
+    kde6,
     ...
   } @ inputs: let
     system = "x86_64-linux";
@@ -132,6 +137,11 @@
           sops-nix.nixosModules.sops
           ./systems/defaults.nix
           ./systems/letouch
+          kde6.nixosModules.default
+          {
+            services.xserver.desktopManager.plasma6.enable = true;
+            programs.ssh.askPassword = pkgs.gnome.seahorse + "/bin/seahorse";
+          }
         ];
       };
 
