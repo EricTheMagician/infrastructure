@@ -180,9 +180,9 @@
   };
 
   # enable the fingerprint reader
-  services.fprintd.enable = true;
-  services.fprintd.tod.enable = true;
-  services.fprintd.tod.driver = pkgs.libfprint-2-tod1-goodix-550a;
+  #services.fprintd.enable = true;
+  #services.fprintd.tod.enable = true;
+  #services.fprintd.tod.driver = pkgs.libfprint-2-tod1-goodix-550a;
 
   # Some programs need SUID wrappers, can be configured further or are
   # started in user sessions.

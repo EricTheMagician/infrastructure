@@ -122,6 +122,7 @@
         modules = [
           disko.nixosModules.disko
           sops-nix.nixosModules.sops
+          ./systems/defaults.nix
           ./systems/nixos-workstation-configuration.nix
         ];
       };
@@ -214,7 +215,27 @@
         #  Our main home-manager configuration file <
         modules = [
           ./home-manager
-          ./home-manager/eric-desktop.nix
+          ./home-manager/desktops/workstation.nix
+          inputs.sops-nix.homeManagerModule
+          {
+            my.programs.plik.enable = true;
+            home = {
+              username = "eric";
+              homeDirectory = "/home/eric";
+            };
+          }
+        ];
+      };
+
+      "eric@letouch" = home-manager.lib.homeManagerConfiguration {
+        pkgs = pkgs.unstable; # Home-manager requires 'pkgs' instance
+        extraSpecialArgs = {
+          inherit inputs;
+        }; # Pass flake inputs to our config
+        #  Our main home-manager configuration file <
+        modules = [
+          ./home-manager
+          ./home-manager/desktops/default.nix
           inputs.sops-nix.homeManagerModule
           {
             my.programs.plik.enable = true;

@@ -200,17 +200,11 @@
     # List packages installed in system profile. To search, run:
     # $ nix search wget
     systemPackages = with pkgs; [
-      wpsoffice
       unstable.nomachine-client
       # unstable.thunderbird
-      unstable.element-desktop
-      unstable.bitwarden
-      vim # Do not forget to add an editor to edit configuration.nix! The Nano editor is also installed by default.
       curl
-      wezterm
       unstable.tailscale
       nvtop
-      btop
       direnv
       alacritty
       # (python3.withPackages(ps: with ps; [conda]))

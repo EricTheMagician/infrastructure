@@ -3,6 +3,7 @@
   pkgs,
   ...
 }: {
+  imports = [../default.nix];
   home.packages = with pkgs; [
     # # Adds the 'hello' command to your environment. It prints a friendly
     # # "Hello, world!" when run.
