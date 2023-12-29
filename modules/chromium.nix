@@ -20,6 +20,7 @@
       "iokeahhehimjnekafflcihljlcjccdbe" # alby
       "mnjggcdmjocbbbhaepdhchncahnbgone" # sponson block
       "hnmpcagpplmpfojmgmnngilcnanddlhb" # windscribe
+      "cimiefiiaegbelhefglklhhakcgmhkai" # kde/plasma integration
     ];
   };
 }
