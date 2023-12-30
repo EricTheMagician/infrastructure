@@ -18,9 +18,11 @@
     ./hardware-configuration.nix
     ../../modules/tailscale.nix
     ../../modules/chromium.nix
+    ../../modules/my_options.nix
     #"${inputs.nixpkgs-unstable}/nixos/modules/programs/hyprland.nix"
   ];
   tailscale.secrets_path = ../../secrets/tailscale/eric.yaml;
+  my.wayland.enable = true;
 
   # Bootloader.
   boot.loader.systemd-boot.enable = true;
