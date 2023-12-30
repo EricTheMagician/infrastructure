@@ -239,6 +239,7 @@
           inputs.sops-nix.homeManagerModule
           {
             my.programs.plik.enable = true;
+            my.programs.neovim.languages = {nix.enable = true;};
             home = {
               username = "eric";
               homeDirectory = "/home/eric";
