@@ -138,11 +138,11 @@
           sops-nix.nixosModules.sops
           ./systems/defaults.nix
           ./systems/letouch
-          kde6.nixosModules.default
-          {
-            services.xserver.desktopManager.plasma6.enable = true;
-            programs.ssh.askPassword = pkgs.gnome.seahorse + "/bin/seahorse";
-          }
+          #kde6.nixosModules.default
+          #{
+          #  services.xserver.desktopManager.plasma6.enable = true;
+          #  programs.ssh.askPassword = pkgs.gnome.seahorse + "/bin/seahorse";
+          #}
         ];
       };
 
