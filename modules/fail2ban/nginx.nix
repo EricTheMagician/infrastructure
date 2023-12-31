@@ -11,6 +11,7 @@ in {
         [Definition]
         failregex = ^<HOST>.*GET.*(matrix/server|\.php|admin|wp\-).* HTTP/\d.\d\" 404.*$
                     ^<HOST>.* 400 \d+ "-" "-"$
+                    ^<HOST>.* 444 0 .*$
       '';
     };
     services.fail2ban.jails = {
