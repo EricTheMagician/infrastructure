@@ -37,6 +37,13 @@ in {
           recommendedProxySettings = true;
           recommendedTlsSettings = true;
           recommendedZstdSettings = true;
+          virtualHosts."localhost" = {
+            rejectSSL = true;
+            default = true;
+            locations."/" = {
+              return = "444";
+            };
+          };
         };
         users.users.nginx.extraGroups = [config.security.acme.defaults.group];
         networking.firewall = {
