@@ -7,24 +7,24 @@
 in {
   imports = [
     # Include the results of the hardware scan.
-    ./hardware-configuration.nix
-    ./docker.machine-disks.nix
+    ../../modules/arion-scripts.nix
+    ../../modules/nginx.nix
     ../../modules/tailscale.nix
     ../../services/acme-default.nix
+    ./docker-compose/immich.nix
+    ./docker-compose/tools.nix
+    ./docker-compose/viewtube.nix
+    ./docker.machine-disks.nix
     ./forgejo.nix
+    ./hardware-configuration.nix
+    ./invidious.nix
     ./jellyfin.nix
     ./keycloak.nix
     ./lldap.nix
     ./nextcloud.nix
     ./peertube.nix
-    ./invidious.nix
-    ../../modules/nginx.nix
-    ./docker-compose/viewtube.nix
-    ./docker-compose/immich.nix
-    ./docker-compose/tools.nix
-    ../../modules/arion-scripts.nix
-    ./vaultwarden.nix
     ./tandoor-recipes.nix
+    ./vaultwarden.nix
   ];
 
   # Use the systemd-boot EFI boot loader.
