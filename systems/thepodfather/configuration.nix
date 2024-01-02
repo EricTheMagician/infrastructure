@@ -94,10 +94,15 @@ in {
   environment.systemPackages = [
     pkgs.unstable.arion
   ];
-  virtualisation.docker.enable = true;
+  virtualisation.docker = {
+    enable = true;
+    autoPrune.enable = true;
+  };
+
   virtualisation.podman = {
     enable = false;
-    package = pkgs.unstable.podman;
+    #package = pkgs.unstable.podman;
+    autoPrune.enable = true;
     dockerSocket.enable = true;
     # Create a `docker` alias for podman, to use it as a drop-in replacement
     dockerCompat = true;
