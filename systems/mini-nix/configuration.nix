@@ -137,4 +137,9 @@ in {
   environment.systemPackages = with pkgs; [nmap dig entr];
   programs.nix-ld.enable = true; # needed for codeium
   programs.mosh.enable = true;
+
+  services.nginx.virtualHosts."unraid.eyen.ca" = {
+    useACMEHost = "eyen.ca";
+    locations."/".proxyPass = "http://192.168.88.19:81";
+  };
 }

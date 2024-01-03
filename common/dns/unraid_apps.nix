@@ -12,6 +12,4 @@
   "radarr"
   "sabnzbd"
   "sonarr"
-  "unraid-traefik"
-  "unraid"
 ]
