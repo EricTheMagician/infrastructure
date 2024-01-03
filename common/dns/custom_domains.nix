@@ -25,7 +25,7 @@ let
       "minio-web.eyen.ca"
       "healthchecks.eyen.ca"
       "mini-nix-adguard.eyen.ca"
-      "pit.eyen.ca"
+      "grafana.eyen.ca"
     ];
 
   headscale-domains =

@@ -27,6 +27,7 @@ in {
     ../../modules/tailscale.nix
     ../../modules/knownHosts.nix
     ../../modules/builder.nix
+    ../../modules/postgres.nix
     ../../services/healthchecks.nix
     ../../services/locate.nix
     ../../services/cache.nix
@@ -34,6 +35,7 @@ in {
     ../../services/hercules-ci-agent.nix
     ./ipfs-podcasting.nix
     ./ntfy.nix
+    ./grafana.nix
     #./mini-nix/nebula.nix
     #../services/seaweedfs.nix
     #../containers/kanidm.nix
@@ -41,6 +43,7 @@ in {
   ];
 
   services.minio.region = "mini-nix";
+  my.programs.grafana.enable = true;
   environment.pathsToLink = ["/share/zsh"];
 
   nix = {
