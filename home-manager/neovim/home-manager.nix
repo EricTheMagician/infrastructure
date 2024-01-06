@@ -9,6 +9,51 @@
   };
   cfg = config.my.programs.neovim;
   inherit (lib) mkEnableOption mkIf genAttrs;
+  # vimspector debuggers
+  python-debugpy = pkgs.python310.withPackages (ps: with ps; [debugpy]);
+  debugpy_path = python-debugpy + "/lib/python3.10/site-packages/debugpy";
+
+  codelldb = pkgs.vscode-extensions.vadimcn.vscode-lldb.overrideAttrs (finalAttrs: previousAttrs: {lldb = pkgs.lldb_16;});
+  codelldb_path = "${codelldb}/share/vscode/extensions/${codelldb.vscodeExtPublisher}.${codelldb.vscodeExtName}";
+  vimspector_configuration = {
+    adapters = {
+      CodeLLDB = mkIf cfg.languages.cpp.enable {
+        command = [
+          "${codelldb_path}/adapter/codelldb"
+          "--port"
+          "\${unusedLocalPort}"
+        ];
+        configuration = {
+          args = [];
+          cargo = {};
+          cwd = "\${workspaceRoot}";
+          env = {};
+          name = "lldb";
+          terminal = "integrated";
+          type = "lldb";
+        };
+        name = "CodeLLDB";
+        port = "\${unusedLocalPort}";
+        type = "CodeLLDB";
+      };
+      debugpy = mkIf cfg.languages.python.enable {
+        command = [
+          "${python-debugpy}/bin/python3"
+          "${debugpy_path}/adapter"
+        ];
+        configuration = {
+          python = "${python-debugpy}/bin/python3";
+        };
+        custom_handler = "vimspector.custom.python.Debugpy";
+        name = "debugpy";
+      };
+    };
+
+    multi-session = {
+      host = "\${host}";
+      port = "\${port}";
+    };
+  };
 in {
   options.my.programs.neovim = {
     enable = mkEnableOption "enable neovim";
@@ -19,6 +64,11 @@ in {
     };
   };
   config = mkIf cfg.enable {
+    home.file = {
+      #    ".config/vimspector/gadgets/linux/debugpy".source = config.lib.file.mkOutOfStoreSymlink debugpy_path;
+      #    ".config/vimspector/gadgets/linux/codelldb".source = config.lib.file.mkOutOfStoreSymlink codelldb_path;
+      ".config/vimspector/gadgets/linux/.gadgets.json".source = pkgs.writeText ".gadgets.json" (builtins.toJSON vimspector_configuration);
+    };
     programs.neovim = mkIf cfg.enable {
       enable = true;
       viAlias = true;
@@ -30,7 +80,6 @@ in {
         ++ (
           lib.optionals cfg.languages.cpp.enable [
             pkgs.clang-tools_16 # clang-format
-
             pkgs.cmake-format
             pkgs.neocmakelsp
           ]

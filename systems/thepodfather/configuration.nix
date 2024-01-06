@@ -75,6 +75,13 @@ in {
     };
   };
 
+  users.users.eric = {
+    isNormalUser = true;
+    description = "Eric";
+    extraGroups = ["wheel"];
+    shell = pkgs.unstable.zsh;
+  };
+
   sops.defaultSopsFile = ../../secrets/thepodfather/default.yaml;
 
   # List services that you want to enable:

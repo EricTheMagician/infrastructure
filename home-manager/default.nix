@@ -3,53 +3,7 @@
   pkgs,
   lib,
   ...
-}: let
-  # vimspector debuggers
-  python-debugpy = pkgs.python310.withPackages (ps: with ps; [debugpy]);
-  debugpy_path = python-debugpy + "/lib/python3.10/site-packages/debugpy";
-
-  codelldb = pkgs.vscode-extensions.vadimcn.vscode-lldb.overrideAttrs (finalAttrs: previousAttrs: {lldb = pkgs.lldb_16;});
-  codelldb_path = "${codelldb}/share/vscode/extensions/${codelldb.vscodeExtPublisher}.${codelldb.vscodeExtName}";
-  vimspector_configuration = {
-    adapters = {
-      CodeLLDB = {
-        command = [
-          "${codelldb_path}/adapter/codelldb"
-          "--port"
-          "\${unusedLocalPort}"
-        ];
-        configuration = {
-          args = [];
-          cargo = {};
-          cwd = "\${workspaceRoot}";
-          env = {};
-          name = "lldb";
-          terminal = "integrated";
-          type = "lldb";
-        };
-        name = "CodeLLDB";
-        port = "\${unusedLocalPort}";
-        type = "CodeLLDB";
-      };
-      debugpy = {
-        command = [
-          "${python-debugpy}/bin/python3"
-          "${debugpy_path}/adapter"
-        ];
-        configuration = {
-          python = "${python-debugpy}/bin/python3";
-        };
-        custom_handler = "vimspector.custom.python.Debugpy";
-        name = "debugpy";
-      };
-    };
-
-    multi-session = {
-      host = "\${host}";
-      port = "\${port}";
-    };
-  };
-in {
+}: {
   # This value determines the Home Manager release that your configuration is
   # compatible with. This helps avoid breakage when a new Home Manager release
   # introduces backwards incompatible changes.
@@ -95,6 +49,7 @@ in {
       pigz # fast extraction for gz files
       pixz # fast extraction for xz files
       fd
+      helix
     ];
   };
   programs = {
@@ -218,9 +173,6 @@ in {
         | ${pkgs.fzf}/bin/fzf)
       nix flake lock --update-input $input
     '';
-    #    ".config/vimspector/gadgets/linux/debugpy".source = config.lib.file.mkOutOfStoreSymlink debugpy_path;
-    #    ".config/vimspector/gadgets/linux/codelldb".source = config.lib.file.mkOutOfStoreSymlink codelldb_path;
-    ".config/vimspector/gadgets/linux/.gadgets.json".source = pkgs.writeText ".gadgets.json" (builtins.toJSON vimspector_configuration);
     # # You can also set the file content immediately.
     # ".gradle/gradle.properties".text = ''
     #   org.gradle.console=verbose
