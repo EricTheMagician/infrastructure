@@ -140,6 +140,10 @@ in {
 
   services.nginx.virtualHosts."unraid.eyen.ca" = {
     useACMEHost = "eyen.ca";
-    locations."/".proxyPass = "http://192.168.88.19:81";
+    forceSSL = true;
+    locations."/" = {
+      proxyPass = "http://192.168.88.19:81";
+      proxyWebsockets = true;
+    };
   };
 }

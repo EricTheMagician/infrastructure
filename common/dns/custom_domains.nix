@@ -73,11 +73,6 @@ in
     }
 
     {
-      domain = "unraid.eyen.ca";
-      home = "192.168.88.19";
-      ts = "100.64.0.2";
-    }
-    {
       domain = "vscode-server-unraid";
       home = "192.168.88.32";
       ts = "100.64.0.11";
