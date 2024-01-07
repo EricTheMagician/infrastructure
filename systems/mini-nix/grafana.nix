@@ -412,7 +412,7 @@ in {
         };
       };
       my.backup_paths = [
-        "/var/lib/granafa/data"
+        "/var/lib/grafana/data"
       ];
     }
     (mkIf cfg.enable create_database)
