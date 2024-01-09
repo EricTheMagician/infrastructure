@@ -222,10 +222,16 @@
         #  Our main home-manager configuration file <
         modules = [
           ./home-manager
+          ./home-manager/desktops
           ./home-manager/desktops/workstation.nix
           inputs.sops-nix.homeManagerModule
           {
             my.programs.plik.enable = true;
+            my.programs.neovim.languages = {
+              nix.enable = true;
+              cpp.enable = true;
+              python.enable = true;
+            };
             home = {
               username = "eric";
               homeDirectory = "/home/eric";
