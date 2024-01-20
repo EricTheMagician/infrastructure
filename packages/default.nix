@@ -1,6 +1,11 @@
-# Custom packages, that can be defined similarly to ones from nixpkgs
+# Custom packages, that can be defined similarly to ones from nixfinal
 # You can build them using 'nix build .#example'
-pkgs: {
-  # example = pkgs.callPackage ./example { };
-  pgvecto_rs = pkgs.callPackage ./pgvecto.rs {};
+final: prev: rec {
+  # example = final.callPackage ./example { };
+  pgvecto_rs = final.callPackage ./pgvecto.rs {};
+  nginx.mod_geoip2 = final.callPackage ./nginx-mod-geoip2 {};
+  nginx-with-mod_geoip2 = prev.nginx.overrideAttrs (oldAttrs: {
+    configureFlags = oldAttrs.configureFlags ++ ["--add-module=${nginx.mod_geoip2}"];
+    buildInputs = oldAttrs.buildInputs ++ [final.libmaxminddb];
+  });
 }

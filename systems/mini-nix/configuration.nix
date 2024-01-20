@@ -21,7 +21,7 @@ in {
     ./hardware-configuration.nix
     ./disk-configuration.nix
     ../../modules/container_support.nix
-    ../../containers/adguard.nix
+    #../../containers/adguard.nix
     #../containers/builder.nix
     ../../modules/borg.nix
     ../../modules/tailscale.nix
@@ -36,6 +36,7 @@ in {
     ./ipfs-podcasting.nix
     ./ntfy.nix
     ./grafana.nix
+    ../../modules/nextdns.nix
     #./mini-nix/nebula.nix
     #../services/seaweedfs.nix
     #../containers/kanidm.nix
@@ -70,8 +71,8 @@ in {
         "nix-community.cachix.org-1:mB9FSh9qf2dCimDSUo8Zy7bkq5CX+/rkCWyvRCYg3Fs="
         "cache.nixos.org-1:6NCHdD59X431o0gWypbMrAURkbJ16ZPMQFGspcDShjY="
       ];
-      max-jobs = 8;
-      cores = 2;
+      max-jobs = 4;
+      cores = 8;
     };
   };
 
@@ -116,15 +117,15 @@ in {
   system.stateVersion = "23.05";
 
   # configure my containers
-  container.adguard = {
-    bridge = {
-      name = "br-adguard";
-      address = "10.100.0.1";
-      prefixLength = 24;
-    };
-    nginx.domain.name = "mini-nix-adguard.eyen.ca";
-    openFirewall = true;
-  };
+  #container.adguard = {
+  #  bridge = {
+  #    name = "br-adguard";
+  #    address = "10.100.0.1";
+  #    prefixLength = 24;
+  #  };
+  #  nginx.domain.name = "mini-nix-adguard.eyen.ca";
+  #  openFirewall = true;
+  #};
 
   #container.builder = {
   #  bridge = {
@@ -133,6 +134,7 @@ in {
   #    prefixLength = 24;
   #  };
   #};
+  my.backup_paths = ["/home/eric/git"];
 
   environment.systemPackages = with pkgs; [nmap dig entr];
   programs.nix-ld.enable = true; # needed for codeium

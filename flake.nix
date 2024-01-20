@@ -53,6 +53,9 @@
     # kde 6 until it is merged into nixpkgs
     kde6.url = "github:nix-community/kde2nix";
     #kde6.inputs.nixpkgs.follows = "nixpkgs";
+
+    # matrix/synapse deployment
+    #synapse.url = "github:dali99/nixos-matrix-modules";
   };
 
   outputs = {
@@ -68,6 +71,8 @@
     ipfs-podcasting,
     microvm,
     kde6,
+    mynixpkgs,
+    #synapse,
     ...
   } @ inputs: let
     system = "x86_64-linux";
@@ -198,6 +203,7 @@
           sops-nix.nixosModules.sops
           arion.nixosModules.arion
           microvm.nixosModules.host
+          #synapse.nixosModules
           ./systems/defaults.nix
           ./systems/thepodfather/configuration.nix
         ];
@@ -327,25 +333,45 @@
         user = "root";
         path = deployPkgs.deploy-rs.lib.activate.nixos self.nixosConfigurations.thepodfather;
       };
+      #profiles.eric = {
+      #  sshUser = "root";
+      #  user = "eric";
+      #  profilePath = "/nix/var/nix/profiles/per-user/eric/home-manager";
+      #  path = deploy-rs.lib.${system}.activate.custom self.homeConfigurations.eric.activationPackage "$PROFILE/activate";
+      #};
     };
 
     checks =
       # This is highly advised, and will prevent many possible mistakes
       builtins.mapAttrs (system: deployLib: deployLib.deployChecks self.deploy) deploy-rs.lib;
 
-    devShells.x86_64-linux.default = pkgs.mkShell {
-      buildInputs = [pkgs.unstable.deploy-rs pkgs.unstable.sops pkgs.unstable.ssh-to-age pkgs.unstable.nix-build-uncached pkgs.unstable.statix];
-      shellHook = let
-        pre-commit-check = nix-pre-commit-hooks.lib.${system}.run {
-          src = ./.;
-          hooks = {
-            alejandra.enable = true;
-            nil.enable = true;
-            statix.enable = true;
+    devShells.x86_64-linux.default = let
+      update-dns-python-script = pkgs.callPackage ./packages/nextdns-update {};
+      host-json = pkgs.writeText "host.json" (builtins.toJSON (import ./common/dns/custom_domains.nix));
+      update-dns-shell-script = pkgs.writeShellScriptBin "update-nextdns" ''
+        API_KEY=$(sudo cat /run/secrets/nextdns/api_token)
+        HOME_PROFILE=$(sudo cat /run/secrets/nextdns/profile/home)
+        TAILSCALE_PROFILE=$(sudo cat /run/secrets/nextdns/profile/tailscale)
+        ${update-dns-python-script.interpreter} ${update-dns-python-script.script} \
+            --json-hosts-file ${host-json} \
+            --api-key $API_KEY \
+            --home-profile $HOME_PROFILE \
+            --tailscale-profile $TAILSCALE_PROFILE
+      '';
+    in
+      pkgs.mkShell {
+        buildInputs = [pkgs.unstable.deploy-rs pkgs.unstable.sops pkgs.unstable.ssh-to-age pkgs.unstable.nix-build-uncached pkgs.unstable.statix update-dns-shell-script];
+        shellHook = let
+          pre-commit-check = nix-pre-commit-hooks.lib.${system}.run {
+            src = ./.;
+            hooks = {
+              alejandra.enable = true;
+              nil.enable = true;
+              statix.enable = true;
+            };
           };
-        };
-      in
-        pre-commit-check.shellHook;
-    };
+        in
+          pre-commit-check.shellHook;
+      };
   };
 }

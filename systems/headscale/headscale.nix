@@ -61,11 +61,12 @@ in {
         #nameservers = ["100.64.0.1" "100.64.0.14"];
         #nameservers = ["100.64.0.9" "100.64.0.14"];
         #nameservers = ["https://dns.nextdns.io/f2314b"]; # nextdns
-        nameservers = ["45.90.28.207" "45.90.30.207" "2a07:a8c0::f2:314b" "2a07:a8c1::f2:314b"];
+        #nameservers = ["45.90.28.207" "45.90.30.207" "2a07:a8c0::ad:3362" "2a07:a8c1::ad:3362"];
+        nameservers = ["https://dns.nextdns.io/ad3362" "2a07:a8c0::ad:3362" "2a07:a8c1::ad:3362"];
         magic_dns = false;
         override_local_dns = true;
         domains = ["eyen.ca"];
-        extra_records = tailscale_dns_entries;
+        #extra_records = tailscale_dns_entries;
       };
     };
   };
