@@ -71,7 +71,7 @@
     ipfs-podcasting,
     microvm,
     kde6,
-    mynixpkgs,
+    #mynixpkgs,
     #synapse,
     ...
   } @ inputs: let
@@ -206,6 +206,22 @@
           #synapse.nixosModules
           ./systems/defaults.nix
           ./systems/thepodfather/configuration.nix
+        ];
+      };
+
+      rica = nixpkgs.lib.nixosSystem {
+        inherit system;
+        specialArgs = {
+          inherit inputs;
+          inherit pkgs;
+        }; # Pass flake inputs to our config
+
+        #specialArgs = {inherit pkgs;};
+        modules = [
+          disko.nixosModules.disko
+          sops-nix.nixosModules.sops
+          ./systems/defaults.nix
+          ./systems/rica/configuration.nix
         ];
       };
     };
