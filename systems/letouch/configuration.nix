@@ -20,6 +20,7 @@
     ../../modules/chromium.nix
     ../../modules/my_options.nix
     #"${inputs.nixpkgs-unstable}/nixos/modules/programs/hyprland.nix"
+    ./tlp.nix
   ];
   tailscale.secrets_path = ../../secrets/tailscale/eric.yaml;
   my.wayland.enable = true;
