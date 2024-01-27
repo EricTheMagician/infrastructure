@@ -1,29 +1,42 @@
-{config, ...}: {
+{
+  config,
+  lib,
+  ...
+}: let
+  inherit (lib) mkOption mkIf mkEnableOption types;
+in {
   imports = [
     ./borg.nix
     ./sops.nix
   ];
-  # ensure that default acme group is created and nginx is part of me
-  # the group has permission to read the cloudflare private key
-
-  my.backup_paths = ["/var/lib/acme"];
-  users.groups.${config.security.acme.defaults.group} = {};
-  security.acme = {
-    acceptTerms = true;
-    defaults = {
-      dnsResolver = "1.1.1.1:53";
-      webroot = null;
-      email = "e@eyen.ca";
-      dnsProvider = "cloudflare";
-      credentialsFile = "/run/secrets/cloudflare_api_dns";
-    };
+  options.my.acme = {
+    enable = mkEnableOption "ACME";
   };
-  sops = {
-    # This is the actual specification of the secrets.
-    secrets."cloudflare_api_dns" = {
-      mode = "0440";
-      sopsFile = ../secrets/cloudflare-api.yaml;
-      inherit (config.security.acme.defaults) group;
+  config = mkIf config.my.acme.enable {
+    # backup the generated certs
+    my.backups.paths = ["/var/lib/acme"];
+
+    # ensure that default acme group is created and nginx is part of me
+    # the group has permission to read the cloudflare private key
+    users.groups.${config.security.acme.defaults.group} = {};
+    security.acme = {
+      acceptTerms = true;
+      defaults = {
+        dnsResolver = "1.1.1.1:53";
+        webroot = null;
+        email = "e@eyen.ca";
+        dnsProvider = "cloudflare";
+        credentialsFile = config.sops.secrets."cloudflare/api_key".path;
+      };
+    };
+    sops = {
+      # This is the actual specification of the secrets.
+      secrets."cloudflare/api_key" = {
+        mode = "0440";
+        sopsFile = ../secrets/cloudflare-api.env;
+        format = "dotenv";
+        inherit (config.security.acme.defaults) group;
+      };
     };
   };
 }

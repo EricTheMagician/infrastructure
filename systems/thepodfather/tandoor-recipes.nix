@@ -48,6 +48,6 @@ in
           proxyPass = "http://localhost:${builtins.toString config.services.tandoor-recipes.port}";
         };
       };
-      my.backup_paths = ["/var/lib/tandoor-recipes/recipes" "/var/lib/private/tandoor-recipes/recipes"];
+      my.backups.paths = ["/var/lib/tandoor-recipes/recipes" "/var/lib/private/tandoor-recipes/recipes"];
     }
   ]

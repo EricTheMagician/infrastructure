@@ -126,7 +126,6 @@
         # > Our main nixos configuration file <
         modules = [
           disko.nixosModules.disko
-          sops-nix.nixosModules.sops
           ./systems/defaults.nix
           ./systems/nixos-workstation-configuration.nix
         ];
@@ -140,7 +139,6 @@
         }; # Pass flake inputs to our config
         # > Our main nixos configuration file <
         modules = [
-          sops-nix.nixosModules.sops
           ./systems/defaults.nix
           ./systems/letouch
           #kde6.nixosModules.default
@@ -160,7 +158,6 @@
         # > Our main nixos configuration file <
         modules = [
           disko.nixosModules.disko
-          sops-nix.nixosModules.sops
           ipfs-podcasting.nixosModules.ipfs-podcasting
           microvm.nixosModules.host
           ./systems/mini-nix
@@ -171,7 +168,6 @@
         inherit system;
         specialArgs = {inherit inputs;};
         modules = [
-          sops-nix.nixosModules.sops
           ./systems/adguard-lxc.nix
         ];
       };
@@ -184,7 +180,6 @@
         # > Our main nixos configuration file <
         modules = [
           disko.nixosModules.disko
-          sops-nix.nixosModules.sops
           ./systems/defaults.nix
           ./systems/headscale
         ];
@@ -200,7 +195,6 @@
         #specialArgs = {inherit pkgs;};
         modules = [
           disko.nixosModules.disko
-          sops-nix.nixosModules.sops
           arion.nixosModules.arion
           microvm.nixosModules.host
           #synapse.nixosModules
@@ -209,7 +203,7 @@
         ];
       };
 
-      rica = nixpkgs.lib.nixosSystem {
+      nixos-rica = nixpkgs.lib.nixosSystem {
         inherit system;
         specialArgs = {
           inherit inputs;
@@ -219,7 +213,6 @@
         #specialArgs = {inherit pkgs;};
         modules = [
           disko.nixosModules.disko
-          sops-nix.nixosModules.sops
           ./systems/defaults.nix
           ./systems/rica/configuration.nix
         ];

@@ -1,16 +1,20 @@
 {
   config,
   pkgs,
-  inputs,
   lib,
   ...
-}: {
-  disabledModules = ["services/networking/tailscale.nix"];
-  imports = [(inputs.nixpkgs-unstable + "/nixos/modules/services/networking/tailscale.nix")];
-  options.tailscale = {
-    secrets_path = lib.mkOption {
-      type = lib.types.path;
-      default = ../secrets/tailscale/infrastructure.yaml;
+}: let
+  cfg = config.my.tailscale;
+  inherit (lib) mkIf mkEnableOption types mkOption;
+in {
+  # disabledModules = ["services/networking/tailscale.nix"];
+  #imports = [(inputs.nixpkgs-unstable + "/nixos/modules/services/networking/tailscale.nix")];
+  options.my.tailscale = {
+    enable = mkEnableOption "My Tailscale";
+    user_name = mkOption {
+      type = types.enum ["eric" "infrastructure" "headscale"];
+      default = "infrastructure";
+      description = "Tailscale user name";
     };
     extraUpFlags = lib.mkOption {
       type = lib.types.listOf lib.types.str;
@@ -18,11 +22,11 @@
     };
   };
 
-  config = {
+  config = mkIf cfg.enable {
     services.tailscale = {
       enable = true;
       authKeyFile = "/run/secrets/tailscale_auth";
-      inherit (config.tailscale) extraUpFlags;
+      inherit (cfg) extraUpFlags;
     };
     networking.firewall = {
       checkReversePath = "loose";
@@ -45,7 +49,7 @@
       # This is the actual specification of the secrets.
       secrets."tailscale_auth" = {
         mode = "0440";
-        sopsFile = config.tailscale.secrets_path;
+        sopsFile = ../secrets/tailscale + "/" + cfg.user_name + ".yaml";
       };
     };
   };

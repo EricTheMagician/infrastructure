@@ -37,7 +37,7 @@ in {
           proxyPass = "http://localhost:10224";
         };
       };
-      #my.backup_paths = [config.services.vaultwarden.backupDir];
+      #my.backups.paths = [config.services.vaultwarden.backupDir];
     }
     create_database
   ];

@@ -1,3 +1,5 @@
+# This module was taken from keycloak and adapted, but I think this is overkill for me
+# It's useful for creating network accessed databases
 {
   name, # database name
   user_name, # username for the database

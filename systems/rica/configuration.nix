@@ -2,18 +2,17 @@
 # your system.  Help is available in the configuration.nix(5) man page
 # and in the NixOS manual (accessible by running ‘nixos-help’).
 {
-  config,
-  pkgs,
-  ...
-}: {
   imports = [
     # Include the results of the hardware scan.
     ./hardware-configuration.nix
     ./disks.nix
     ../defaults.nix
     ./ssh-luks.nix
-    ../../modules/tailscale.nix
+    ../modules
   ];
+  my.tailscale = {
+    enable = true;
+  };
 
   # Use the GRUB 2 boot loader.
   boot.loader.grub.enable = true;
@@ -28,15 +27,6 @@
   time.timeZone = "America/Vancouver";
 
   i18n.defaultLocale = "en_CA.UTF-8";
-  # Some programs need SUID wrappers, can be configured further or are
-  # started in user sessions.
-  # programs.mtr.enable = true;
-  # programs.gnupg.agent = {
-  #   enable = true;
-  #   enableSSHSupport = true;
-  # };
-
-  # List services that you want to enable:
 
   # Enable the OpenSSH daemon.
   services.openssh.enable = true;

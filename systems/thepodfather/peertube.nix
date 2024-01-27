@@ -74,5 +74,5 @@ in {
     forceSSL = true;
     useACMEHost = "eyen.ca";
   };
-  my.backup_paths = ["/mnt/unraid/PeerTube/data"];
+  my.backups.paths = ["/mnt/unraid/PeerTube/data"];
 }

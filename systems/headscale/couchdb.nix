@@ -14,5 +14,5 @@ in {
     enableACME = true;
     locations."/" = {proxyPass = "http://localhost:${builtins.toString cfg.port}";};
   };
-  my.backup_paths = [cfg.viewIndexDir cfg.databaseDir];
+  my.backups.paths = [cfg.viewIndexDir cfg.databaseDir];
 }

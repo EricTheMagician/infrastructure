@@ -16,21 +16,9 @@
       inherit config;
       inherit (pkgs) lib;
     };
-  create_onlyoffice_database =
-    import ../../functions/create_postgresql_db.nix
-    {
-      name = "onlyoffice";
-      user_name = "onlyoffice";
-      passwordFile = config.sops.secrets."onlyoffice/db_password".path;
-      wantedBy = ["onlyoffice-docservice.service"];
-      beforeServices = ["onlyoffice-docservice.service"];
-      inherit config;
-      inherit (pkgs) lib;
-    };
 in
   lib.mkMerge [
     create_nextcloud_database
-    #create_onlyoffice_database
     {
       sops.secrets."nextcloud/admin_password" = {
         owner = "nextcloud";
@@ -40,17 +28,8 @@ in
         owner = "nextcloud";
         group = "nextcloud";
       };
-      #sops.secrets."onlyoffice/db_password" = {
-      #  owner = "onlyoffice";
-      #  group = "onlyoffice";
-      #};
-      #sops.secrets."onlyoffice/secret" = {
-      #  owner = "onlyoffice";
-      #  group = "onlyoffice";
-      #};
       services.nextcloud = {
         enable = true;
-
         appstoreEnable = true;
         autoUpdateApps.enable = true;
         hostName = "cloud.eyen.ca";
@@ -75,7 +54,7 @@ in
         config.services.nextcloud.config.dbname
         #config.services.onlyoffice.postgresName
       ];
-      my.backup_paths = [config.services.nextcloud.datadir];
+      my.backups.paths = [config.services.nextcloud.datadir];
       services.nginx.virtualHosts."cloud.eyen.ca" = {
         useACMEHost = "eyen.ca";
         forceSSL = true;

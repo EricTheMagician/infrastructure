@@ -96,6 +96,6 @@ in
 
     networking.firewall.allowedTCPPorts = [config.services.forgejo.settings.server.SSH_PORT];
 
-    my.backup_paths = [config.services.forgejo.repositoryRoot config.services.forgejo.customDir config.services.forgejo.lfs.contentDir];
+    my.backups.paths = [config.services.forgejo.repositoryRoot config.services.forgejo.customDir config.services.forgejo.lfs.contentDir];
   }
   create_database

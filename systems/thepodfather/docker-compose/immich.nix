@@ -97,6 +97,6 @@ in
       forceSSL = true;
       locations."/".proxyPass = "http://localhost:2283";
     };
-    my.backup_paths = [data_path];
+    my.backups.paths = [data_path];
   }
   create_database

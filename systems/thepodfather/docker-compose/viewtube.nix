@@ -45,5 +45,5 @@ in {
       proxyPass = "http://127.0.0.1:8066";
     };
   };
-  my.backup_paths = [data_path];
+  my.backups.paths = [data_path];
 }

@@ -58,5 +58,5 @@ in {
     };
   };
   # setup the backup
-  my.backup_paths = ["/var/lib/lldap/" "/var/lib/private/lldap"];
+  my.backups.paths = ["/var/lib/lldap/" "/var/lib/private/lldap"];
 }

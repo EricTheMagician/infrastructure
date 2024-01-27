@@ -411,7 +411,7 @@ in {
           };
         };
       };
-      my.backup_paths = [
+      my.backups.paths = [
         "/var/lib/grafana/data"
       ];
     }
