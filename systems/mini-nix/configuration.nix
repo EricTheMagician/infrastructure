@@ -19,9 +19,6 @@ in {
     ./hardware-configuration.nix
     ./disk-configuration.nix
     ../defaults.nix
-    ../../modules/container_support.nix
-    #../../containers/adguard.nix
-    #../containers/builder.nix
     ../../modules
     ../../services/locate.nix
     ../../services/cache.nix
