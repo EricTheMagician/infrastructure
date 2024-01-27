@@ -102,15 +102,33 @@ async def manage_rewrites(session, profile_id, current_rewrites, target_rewrites
             API_ENDPOINT,
             f"/profiles/{profile_id}/rewrites/{current_rewrites[domain]['id']}",
         )
+        logging.debug(f"{url=}")
+        logging.debug(f"{current_rewrites[domain]=}")
+        logging.debug(f"{target_rewrites[domain]=}")
         logging.info(
             f"Updating rewrite for {domain} from {current_rewrites[domain]['content']} to {target_rewrites[domain]['content']} in profile {profile_id}"
         )
-        async with session.patch(
+        async with session.delete(
             url,
+            headers={"X-Api-Key": API_KEY},
+        ) as response:
+            logging.info(f"Deletion status: {response.ok=}")
+            if not response.ok:
+                logging.error(await response.json())
+                continue
+        async with session.post(
+            urllib.parse.urljoin(API_ENDPOINT, f"/profiles/{profile_id}/rewrites"),
             headers={"X-Api-Key": API_KEY},
             json=target_rewrites[domain],
         ) as response:
-            logging.info(f"{response.ok=}")
+            logging.info(f"Update status: {response.ok=}")
+            if not response.ok:
+                logging.error(await response.json())
+                continue
+        logging.info("Updated rewrite")
+
+    if combined := (existing_rewrites & expected_rewrites):
+        logging.debug(combined)
 
 
 async def main(loop):

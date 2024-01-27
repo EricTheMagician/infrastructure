@@ -288,6 +288,15 @@
 
     # deploy-rs section
     deploy.nodes = {
+      nixos-rica = {
+        hostname = "nixos-rica";
+        profiles.system = {
+          fastConnection = true;
+          sshUser = "root";
+          user = "root";
+          path = deployPkgs.deploy-rs.lib.activate.nixos self.nixosConfigurations.nixos-rica;
+        };
+      };
       mini-nix = {
         hostname = "mini-nix";
         profiles.system = {

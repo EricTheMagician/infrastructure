@@ -10,6 +10,7 @@
     ./ssh-luks.nix
     ../modules
   ];
+  my.fail2ban.enable = true;
   my.tailscale = {
     enable = true;
   };
