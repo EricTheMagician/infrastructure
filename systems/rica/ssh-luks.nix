@@ -13,13 +13,13 @@ in {
   # ssh root@209.209.9.184 "Password"
 
   boot.kernelParams = ["ip=${ip}:${server_ip}:${gateway}:${netmask}:${host}:${device}:${autoconf}:${dns1}"];
-
+  #boot.loader.timeout = 120;
   boot.initrd = {
     enable = true;
     systemd.users.root.shell = "/bin/cryptsetup-askpass";
     # Enable your network card during initrd. Find what module your network card needs with:
     #   lspci -v | grep -iA8 'network\|ethernet'
-    availableKernelModules = ["cdc_ncm"];
+    availableKernelModules = ["cdc_ncm" "xen_netfront"];
     network.enable = true;
     network.ssh = {
       enable = true;

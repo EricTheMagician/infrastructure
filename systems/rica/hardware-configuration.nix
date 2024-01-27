@@ -23,15 +23,33 @@
   # with explicit per-interface declarations with `networking.interfaces.<interface>.useDHCP`.
   networking.useDHCP = false;
   networking.useNetworkd = true;
-  networking.interfaces.enX0.ipv4.addresses = [
-    {
-      address = "209.209.9.184";
-      prefixLength = 24;
-    }
-  ];
-  networking.defaultGateway = {
-    address = "209.209.9.1";
-    interface = "enX0";
+  networking.interfaces.enX0 = {
+    ipv4.addresses = [
+      {
+        address = "209.209.9.184";
+        prefixLength = 24;
+      }
+    ];
+    ipv6.addresses = [
+      {
+        address = "2602:ffd5:0001:1a3:0000:0000:0000:0001";
+        prefixLength = 36;
+      }
+      {
+        address = "2602:ffd5:0001:1a3:0000:0000:0000:0002";
+        prefixLength = 36;
+      }
+    ];
+  };
+  networking = {
+    defaultGateway = {
+      address = "209.209.9.1";
+      interface = "enX0";
+    };
+    defaultGateway6 = {
+      address = "2602:ffd5:1:100::1";
+      interface = "enX0";
+    };
   };
   networking.nameservers = ["1.1.1.1" "1.0.0.1"];
   # networking.interfaces.enX0.useDHCP = lib.mkDefault true;

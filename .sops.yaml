@@ -6,6 +6,7 @@ keys:
   - &server_mini-nix age1yk7ve29tg0amjud953r86nrefhumsn9xsznz4n53l0je6zzt0uhsta27ea
   - &server_infrastructure age1vjhly9gdhewd4d8l6duqh06lvyvrczzkraj8n7r9dym86dehe9vq39uhph
   - &server_headscale age1ewj2skz6kevkzmlc72cc7tw3kx7przgyjlh5upj438u48x05v9eqpgmhuj
+  - &server_nixos-rica age1zeg03ugddf4atteqz3t4lygrmejyrmj5j25mf3kefsfpphahxfmsxt4yjd
   - &server_thepodfather age1ttr8txnr794dxmw6ngp0ygrvs0reajc5js3t4u3kzelkmjgy0qysnq4ufr
   - &workstation_nixos-workstation age1f3mwf2jsdd4ngrnvhxgq97xg3rk5y4p68dysvrmd860s6dncxggsym6njt
   - &workstation_letouch age16h88a5peaunsj85q3cadngjdl20g04hpjrwj3msls8waud83w5hqhufajn
@@ -22,6 +23,7 @@ creation_rules:
       - *server_adguard_lxc
       - *server_thepodfather
       - *workstation_nixos-workstation
+      - *server_nixos-rica
 
   - path_regex: secrets/mini-nix/[^/]+\.(yaml|json|env|ini)$
     key_groups:
@@ -74,4 +76,5 @@ creation_rules:
       - *server_headscale
       - *server_adguard_lxc
       - *server_thepodfather
+      - *server_nixos-rica
 

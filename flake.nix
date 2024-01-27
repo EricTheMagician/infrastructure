@@ -164,14 +164,6 @@
         ];
       };
 
-      adguard-lxc = nixpkgs.lib.nixosSystem {
-        inherit system;
-        specialArgs = {inherit inputs;};
-        modules = [
-          ./systems/adguard-lxc.nix
-        ];
-      };
-
       headscale = nixpkgs.lib.nixosSystem {
         specialArgs = {
           inherit inputs;
@@ -310,16 +302,6 @@
           user = "eric";
           profilePath = "/nix/var/nix/profiles/per-user/eric/home-manager";
           path = deploy-rs.lib.${system}.activate.custom self.homeConfigurations.eric.activationPackage "$PROFILE/activate";
-        };
-      };
-
-      adguard-lxc = {
-        hostname = "100.64.0.9";
-        fastConnection = true;
-        profiles.system = {
-          sshUser = "root";
-          user = "root";
-          path = deployPkgs.deploy-rs.lib.activate.nixos self.nixosConfigurations.adguard-lxc;
         };
       };
 

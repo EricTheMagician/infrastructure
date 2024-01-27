@@ -4,7 +4,7 @@
   ...
 }: let
   create_database =
-    import ../../functions/create_postgresql_db.nix
+    import ../functions/create_postgresql_db.nix
     {
       name = "grafana";
       user_name = "grafana";
@@ -30,6 +30,7 @@ in {
   config = mkMerge [
     (
       mkIf cfg.enable {
+        my.postgresql.enable = true;
         sops.secrets = {
           "grafana/secret_key" = grafana_secret_config;
           "grafana/db_password" = grafana_secret_config;

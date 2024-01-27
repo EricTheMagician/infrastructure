@@ -11,15 +11,17 @@
   imports = [
     # Include the results of the hardware scan.
     ./nixos-workstation-hardware-configuration.nix
-    ../modules/tailscale.nix
-    ../modules/builder.nix
+    ../modules
     ../services/locate.nix
     #../modules/container_support.nix
     #./workstation/forgejo-runner.nix
     #../services/hercules-ci-agent.nix
   ];
-  tailscale.secrets_path = ../secrets/tailscale/eric.yaml;
-  tailscale.extraUpFlags = [];
+  my.tailscale = {
+    enable = true;
+    user_name = "eric";
+    extraUpFlags = [];
+  };
   # networking.useNetworkd = true;
 
   nix = {

@@ -14,6 +14,7 @@ let
   thepodfather.home = "192.168.88.17";
 
   rica.home = "209.209.9.184";
+  rica.ts = "100.64.0.10";
 
   mini-nix-domains =
     map (domain: {
@@ -55,7 +56,7 @@ let
 
   rica-domains = map (domain: {
     inherit domain;
-    inherit (rica) home;
+    inherit (rica) home ts;
   }) ["nixos-rica"];
 
   headscale-domains =

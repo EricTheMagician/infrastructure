@@ -7,6 +7,7 @@
     ./chromium.nix
     ./docker-compose
     ./fail2ban.nix
+    ./grafana.nix
     ./healthchecks.nix
     ./knownHosts.nix
     ./minio.nix

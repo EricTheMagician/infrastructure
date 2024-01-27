@@ -25,7 +25,6 @@ in {
     ../../services/hercules-ci-agent.nix
     ./ipfs-podcasting.nix
     ./ntfy.nix
-    #./grafana.nix
     ../../modules/nextdns.nix
     #./mini-nix/nebula.nix
     #../services/seaweedfs.nix
@@ -51,7 +50,7 @@ in {
   };
   my.tailscale.enable = true;
   my.backups.paths = ["/home/eric/git"];
-  my.programs.grafana.enable = true;
+  my.programs.grafana.enable = false;
 
   virtualisation.arion.backend = "docker";
 

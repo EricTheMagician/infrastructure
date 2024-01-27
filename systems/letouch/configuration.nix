@@ -16,13 +16,14 @@
   imports = [
     # Include the results of the hardware scan.
     ./hardware-configuration.nix
-    ../../modules/tailscale.nix
-    ../../modules/chromium.nix
-    ../../modules/my_options.nix
+    ../../modules
     #"${inputs.nixpkgs-unstable}/nixos/modules/programs/hyprland.nix"
-    ./tlp.nix
   ];
-  tailscale.secrets_path = ../../secrets/tailscale/eric.yaml;
+  my.tailscale = {
+    enable = true;
+    user_name = "eric";
+  };
+  my.programs.chromium.enable = true;
   my.wayland.enable = true;
 
   # Bootloader.
