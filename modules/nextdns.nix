@@ -8,8 +8,9 @@ in {
   imports = [./sops.nix];
   options.my.nextdns.api_secrets = {
     enable = mkOption {
-      descrtipion = "if enabled, copies the next dns secrets needed for the nextdns api scripts";
+      description = "if enabled, copies the next dns secrets needed for the nextdns api scripts";
       type = types.bool;
+      default = false;
     };
   };
   config = mkIf config.my.nextdns.api_secrets.enable {

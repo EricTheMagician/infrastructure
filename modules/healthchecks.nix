@@ -6,14 +6,14 @@
   ...
 }: let
   inherit (lib) mkOption mkEnableOption types mkIf;
-  cfg = config.services.healthchecks;
+  cfg = config.my.healthchecks;
   build_borg_backup_job = import ../functions/borg-job.nix;
   inherit (cfg) domain acme_host;
 in {
   imports = [
-    ../services/acme-default.nix
-    ../modules/nginx.nix
-    ../modules/knownHosts.nix
+    ./acme.nix
+    ./nginx.nix
+    ./knownHosts.nix
   ];
   options.my.healthchecks = {
     enable = mkEnableOption "healthchecks";
@@ -27,6 +27,9 @@ in {
   };
 
   config = mkIf cfg.enable {
+    my.acme.enable = true;
+    my.nginx.enable = true;
+
     # create a healthchecks secret key
     sops = {
       # This is the actual specification of the secrets.
@@ -38,7 +41,6 @@ in {
         restartUnits = ["healthchecks.service"];
       };
     };
-
     # enable healthchecks services
     services = {
       healthchecks = {

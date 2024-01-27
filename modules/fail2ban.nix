@@ -6,7 +6,7 @@
   inherit (lib) mkIf mkEnableOption types mkOption;
   cfg = config.my.fail2ban;
 in {
-  imports = [../../modules/fail2ban];
+  imports = [./fail2ban];
   options.my.fail2ban = {
     enable = mkEnableOption "fail2ban";
     # for a list of available jails go to modules/fail2ban/

@@ -8,14 +8,14 @@
   inherit (lib) mkIf mkMerge mkOption types;
   geoip_database = config.services.geoipupdate.settings.DatabaseDirectory + "/GeoLite2-Country.mmdb";
   nginx_package =
-    if !config.nginx.ban-ip
+    if !config.my.nginx.ban-ip
     then options.services.nginx.package.default
     else pkgs.nginx-with-mod_geoip2;
 in {
   imports = [
     ./acme.nix
   ];
-  options.nginx = {
+  options.my.nginx = {
     enable = mkOption {
       type = types.bool;
       default = true;
@@ -27,7 +27,7 @@ in {
   };
   config =
     mkMerge [
-      (mkIf config.nginx.enable {
+      (mkIf config.my.nginx.enable {
         services.nginx = {
           enable = true;
           package = nginx_package;
@@ -52,7 +52,7 @@ in {
         };
       })
       (
-        mkIf config.nginx.ban-ip {
+        mkIf config.my.nginx.ban-ip {
           # enable the geoip2-lite country database download
           sops.secrets."geoip/license_key" = {
             sopsFile = ../secrets/maxmind_geoip.yaml;
@@ -109,7 +109,7 @@ in {
         }
       )
     ]
-    #  ++ lib.optionals (config.nginx.ban-ip) (
+    #  ++ lib.optionals (config.my.nginx.ban-ip) (
     #lib.mapAttrsToList (
     #name: value:
     #mkIf (!(lib.strings.hasInfix "$allowed_country" config.services.nginx.virtualHosts.${name}.extraConfig)) {

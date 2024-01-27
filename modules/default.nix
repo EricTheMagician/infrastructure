@@ -2,20 +2,23 @@
   imports = [
     ./acme.nix
     ./borg.nix
-    ./borg-server.nix
+    #./borg-server.nix
     ./builder.nix
     ./chromium.nix
+    ./docker-compose
     ./fail2ban.nix
+    ./healthchecks.nix
     ./knownHosts.nix
     ./minio.nix
-    ./nebula.nix
+    #./nebula.nix
     ./nextdns.nix
     ./nginx.nix
     ./postgres.nix
     ./sops.nix
     ./tailscale.nix
-    ./tlp.nix
-    ./vscode.nix
+    #./tlp.nix
+    ./vaultwarden.nix
+    #./vscode.nix
     ./wayland.nix
   ];
 }

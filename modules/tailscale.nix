@@ -49,7 +49,7 @@ in {
       # This is the actual specification of the secrets.
       secrets."tailscale_auth" = {
         mode = "0440";
-        sopsFile = ../secrets/tailscale + "/" + cfg.user_name + ".yaml";
+        sopsFile = ../secrets/tailscale + "/${cfg.user_name}.yaml";
       };
     };
   };

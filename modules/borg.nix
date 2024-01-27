@@ -20,7 +20,8 @@ in {
     };
     add_scripts = mkOption {
       type = types.bool;
-      descripton = "Add my custom scripts to my backups. To change which repository we are looking at, set the evar HOSTNAME to the intended machine";
+      description = "Add my custom scripts to my backups. To change which repository we are looking at, set the evar HOSTNAME to the intended machine";
+      default = false;
     };
   };
   # common sops secrets for borg backup
@@ -66,7 +67,7 @@ in {
     })
     #confiure the scripts
     (
-      mkIf config.my.backups.addScripts {
+      mkIf cfg.add_scripts {
         environment.systemPackages = let
           # things that are generally needed when using borg
           borg_script_setup = ''

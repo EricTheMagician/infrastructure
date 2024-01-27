@@ -25,7 +25,7 @@ in {
     ../../services/hercules-ci-agent.nix
     ./ipfs-podcasting.nix
     ./ntfy.nix
-    ./grafana.nix
+    #./grafana.nix
     ../../modules/nextdns.nix
     #./mini-nix/nebula.nix
     #../services/seaweedfs.nix
@@ -42,13 +42,18 @@ in {
     enable = true;
     console_address = "minio-web.eyen.ca";
     api_address = "minio-api.eyen.ca";
-    dataDir = ["/data/minio"];
+    data_dirs = ["/data/minio"];
     region = "mini-nix";
   };
-
+  my.docker.tools = {
+    it-tools.enable = true;
+    actual-budget.enable = true;
+  };
   my.tailscale.enable = true;
   my.backups.paths = ["/home/eric/git"];
   my.programs.grafana.enable = true;
+
+  virtualisation.arion.backend = "docker";
 
   environment.pathsToLink = ["/share/zsh"];
 

@@ -21,6 +21,11 @@ in {
     users.groups.${config.security.acme.defaults.group} = {};
     security.acme = {
       acceptTerms = true;
+      defaults.reloadServices = ["nginx"];
+      certs."eyen.ca" = {
+        domain = "*.eyen.ca";
+      };
+
       defaults = {
         dnsResolver = "1.1.1.1:53";
         webroot = null;
