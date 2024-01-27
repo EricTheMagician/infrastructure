@@ -13,15 +13,15 @@ in {
   ];
 
   options.my.docker.tools.it-tools = {
-    enable = mkEnableOption "actual-budget";
+    enable = mkEnableOption "it-tools";
     port = mkOption {
       type = types.port;
-      description = "Port for actual-budget";
-      default = 22600;
+      description = "Port for it-tools";
+      default = 43760;
     };
     host = mkOption {
       type = types.str;
-      description = "Host for actual-budget";
+      description = "Host for it-tools";
       default = "127.0.0.1";
     };
     acme_host = mkOption {
