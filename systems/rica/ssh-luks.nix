@@ -16,7 +16,8 @@ in {
   #boot.loader.timeout = 120;
   boot.initrd = {
     enable = true;
-    systemd.users.root.shell = "/bin/cryptsetup-askpass";
+    #systemd.users.root.shell = "/bin/cryptsetup-askpass";
+    systemd.users.root.shell = "/bin/systemd-tty-ask-password-agent";
     # Enable your network card during initrd. Find what module your network card needs with:
     #   lspci -v | grep -iA8 'network\|ethernet'
     availableKernelModules = ["cdc_ncm" "xen_netfront"];
@@ -24,11 +25,14 @@ in {
     network.ssh = {
       enable = true;
       port = 22;
-      authorizedKeys = import ../../common/ssh-keys.nix;
+      # authorizedKeys defaults to users.users.root.ssh.authorizedKeys.keys
+      #authorizedKeys = import ../../common/ssh-keys.nix;
       hostKeys = [
         # Generate new keys with:
         #   ssh-keygen -t ed25519 -N "" -f /boot/ssh_host_rsa_key
-        "/boot/ssh_host_ed25519_key"
+        #"/boot/ssh_host_ed25519_key"
+        "/etc/secrets/initrd/ssh_host_rsa_key"
+        "/etc/secrets/initrd/ssh_host_ed25519_key"
       ];
     };
   };
