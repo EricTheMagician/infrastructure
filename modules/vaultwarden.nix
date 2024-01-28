@@ -10,7 +10,8 @@ in {
     enable = mkEnableOption "vaultwarden";
     domain = mkOption {
       type = types.str;
-      descript = "Domain for vaultwarden";
+      description = "Domain for vaultwarden";
+      default = "vw.eyen.ca";
     };
     acme_host = mkOption {
       type = types.str;
@@ -18,9 +19,11 @@ in {
     };
   };
   config = mkIf cfg.enable {
+    my.postgresql.enable = true;
+    my.nginx.enable = true;
     sops.secrets."vaultwarden/env" = {
       format = "dotenv";
-      sopsFile = ../../secrets/vaultwarden.env;
+      sopsFile = ../secrets/vaultwarden.env;
       restartUnits = ["vaultwarden.service"];
     };
     services.vaultwarden = {

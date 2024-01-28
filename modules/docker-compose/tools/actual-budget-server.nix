@@ -46,7 +46,7 @@ in {
     services.nginx.virtualHosts."budget.eyen.ca" = {
       useACMEHost = cfg.acme_host;
       forceSSL = true;
-      locations."/".proxyPass = "http:/${actual-address}/";
+      locations."/".proxyPass = "http://${actual-address}/";
     };
     my.backups.paths = ["/var/lib/actual-server"];
   };

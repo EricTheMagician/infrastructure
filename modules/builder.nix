@@ -19,8 +19,8 @@
     '';
 in {
   imports = [./sops.nix];
-  options.my.programs.upload-to-nix-cache-script = lib.mkEnableOption "upload-to-my-nix-cache script";
-  config = lib.mkIf config.my.programs.upload-to-nix-cache-script {
+  options.my.programs.upload-to-nix-cache-script.enable = lib.mkEnableOption "upload-to-my-nix-cache script";
+  config = lib.mkIf config.my.programs.upload-to-nix-cache-script.enable {
     environment.systemPackages = [upload-cache-script];
     sops = {
       # This is the actual specification of the secrets.

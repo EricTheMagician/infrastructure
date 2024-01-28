@@ -49,8 +49,10 @@ in {
     actual-budget.enable = true;
   };
   my.tailscale.enable = true;
+  my.vaultwarden.enable = true;
   my.backups.paths = ["/home/eric/git"];
   my.programs.grafana.enable = false;
+  my.programs.upload-to-nix-cache-script.enable = true;
 
   virtualisation.arion.backend = "docker";
 
