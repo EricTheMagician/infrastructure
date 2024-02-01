@@ -50,6 +50,7 @@
       pixz # fast extraction for xz files
       fd
       helix
+      zellij
     ];
   };
   programs = {
