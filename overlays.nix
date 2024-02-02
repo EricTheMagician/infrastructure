@@ -46,7 +46,8 @@
     };
   in {
     unstable = import nixpkgs-unstable {
-      inherit (final) system allowUnfree;
+      inherit (final) system;
+      config.allowUnfree = final.config.allowUnfree;
       overlays = [my_vim_plugins];
     };
   };
