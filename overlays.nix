@@ -41,14 +41,21 @@
     originPkgs = inputs.nixpkgs-unstable.legacyPackages.${system};
     nixpkgs-unstable = originPkgs.applyPatches {
       name = "nixpkgs-patched";
-      src = inputs.nixpkgs;
+      src = inputs.nixpkgs-unstable;
       #patches = map originPkgs.fetchpatch patches;
     };
   in {
     unstable = import nixpkgs-unstable {
-      inherit (final) system;
-      config.allowUnfree = true;
+      inherit (final) system allowUnfree;
       overlays = [my_vim_plugins];
     };
   };
+  #unstable-packages = final: prev: {
+  #  unstable = import inputs.nixpkgs-unstable {
+  #    inherit (final) system ;
+  #    config.allowUnfree = final.config.allowUnfree ;
+  #    overlays = [my_vim_plugins];
+  #  };
+
+  #};
 }
