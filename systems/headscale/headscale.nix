@@ -14,10 +14,8 @@
   inherit ((import ../../common/dns)) tailscale_dns_entries;
   build_borg_backup_job = import ../../functions/borg-job.nix;
 in {
-  imports = [
-    ../../modules/knownHosts.nix
-    ../../modules/nginx.nix
-  ];
+  my.nginx.enable = true;
+  my.acme.enable = true;
   environment.systemPackages = [
     pkgs.unstable.headscale # needed for the headscale cli utility
   ];

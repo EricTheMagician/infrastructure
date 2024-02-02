@@ -50,13 +50,15 @@
       pixz # fast extraction for xz files
       fd
       helix
-      zellij
     ];
   };
   programs = {
     bash.enable = true;
     direnv.enable = true;
     zoxide.enable = true;
+    zellij = {
+      enable = true;
+    };
     zsh = {
       enable = true; # don't forget to add   `environment.pathsToLink = [ "/share/zsh" ];` to the system environment
       enableAutosuggestions = true;

@@ -4,6 +4,8 @@ in {
   imports = [
     ../../../modules/borg.nix
   ];
+  my.nginx.enable = true;
+  my.acme.enable = true;
   virtualisation.arion.projects.viewtube.settings.services = {
     viewtube.service = {
       image = "mauriceo/viewtube:latest";

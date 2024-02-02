@@ -17,6 +17,7 @@
     #./workstation/forgejo-runner.nix
     #../services/hercules-ci-agent.nix
   ];
+  my.programs.upload-to-nix-cache-script.enable = true;
   my.tailscale = {
     enable = true;
     user_name = "eric";
@@ -156,7 +157,6 @@
     extraGroups = ["networkmanager" "wheel" "plocate" "libvirtd"];
     shell = pkgs.unstable.zsh;
     packages = with pkgs; [
-      unstable.ferdium
       unstable.zoom-us
       unstable.slack
       unstable.jetbrains.pycharm-professional
@@ -166,7 +166,6 @@
       unstable.devbox
       unstable.distrobox
       ansible
-      gdbgui
       unstable.vlc
       unstable.remmina
       unstable.filezilla

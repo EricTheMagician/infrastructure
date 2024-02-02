@@ -20,10 +20,8 @@ in {
     efiSupport = true;
     efiInstallAsRemovable = true;
   };
-  # disable ping for this public facing server
-  networking.firewall.allowPing = false;
-  tailscale.secrets_path = ../../secrets/tailscale/headscale.yaml;
-  nginx.ban-ip = true;
+  my.tailscale.user_name = "headscale";
+  my.nginx.ban-ip = true;
   boot.tmp.cleanOnBoot = true;
   system.stateVersion = "22.11";
   zramSwap.enable = false;

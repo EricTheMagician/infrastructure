@@ -7,12 +7,9 @@
 in {
   imports = [
     # Include the results of the hardware scan.
-    ../../modules/arion-scripts.nix
-    ../../modules/nginx.nix
-    ../../modules/tailscale.nix
-    ../../services/acme-default.nix
+    ../../modules
     ./docker-compose/immich.nix
-    ./docker-compose/tools.nix
+    #./docker-compose/tools.nix
     ./docker-compose/viewtube.nix
     ./docker.machine-disks.nix
     ./forgejo.nix
@@ -24,7 +21,6 @@ in {
     ./nextcloud.nix
     ./peertube.nix
     ./tandoor-recipes.nix
-    ./vaultwarden.nix
   ];
 
   # Use the systemd-boot EFI boot loader.
