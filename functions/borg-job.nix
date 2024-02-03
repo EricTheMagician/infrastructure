@@ -6,9 +6,9 @@
   patterns ? [],
   startAt ? "weekly",
   keep ? {
-    within = "1d"; # Keep all archives from the last day
-    daily = 7;
-    weekly = 4;
+    within = "7d"; # Keep all archives from the last day
+    daily = 14;
+    weekly = 8;
     monthly = 12; # Keep at least one archive for each month
   },
   repo_name ? config.networking.hostName,
@@ -19,14 +19,17 @@
   inherit startAt;
   # group = "borg-backup";
   doInit = true;
-  repo = "ssh://u322294@u322294.your-storagebox.de:23/./${repo_name}";
+  repo = "ssh://borg@100.64.0.10/./${repo_name}";
   compression = "auto,zstd";
   archiveBaseName = "${config.networking.hostName}-${name}";
   encryption = {
     mode = "repokey-blake2";
-    passCommand = "cat ${config.sops.secrets.BORG_BACKUP_PASSWORD.path}";
+    passCommand = "cat ${config.sops.secrets."borg/password".path}";
   };
-  environment = {BORG_RSH = "ssh -i ${config.sops.secrets.BORG_PRIVATE_KEY.path} -p 23";};
+  environment = {BORG_RSH = "ssh -i ${config.sops.secrets."borg/private_key".path}";};
   prune.keep = keep;
   persistentTimer = true;
+  environment = {
+    #BORG_RELOCATED_REPO_ACCESS_IS_OK = "yes";
+  };
 }

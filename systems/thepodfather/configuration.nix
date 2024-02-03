@@ -12,16 +12,17 @@ in {
     #./docker-compose/tools.nix
     ./docker-compose/viewtube.nix
     ./docker.machine-disks.nix
-    ./forgejo.nix
     ./hardware-configuration.nix
     ./invidious.nix
-    ./jellyfin.nix
     ./keycloak.nix
-    ./lldap.nix
     ./nextcloud.nix
     ./peertube.nix
     ./tandoor-recipes.nix
   ];
+
+  my.forgejo.enable = true;
+  my.jellyfin.enable = true;
+  my.lldap.enable = true;
 
   # Use the systemd-boot EFI boot loader.
   boot.loader.systemd-boot.enable = true;

@@ -33,11 +33,11 @@ in {
           mode = "0400";
           sopsFile = ../secrets/healthchecks.yaml;
         };
-        BORG_BACKUP_PASSWORD = {
+        "borg/password" = {
           mode = "0400";
           sopsFile = ../secrets/borg-backup.yaml;
         };
-        BORG_PRIVATE_KEY = {
+        "borg/private_key" = {
           mode = "0400";
           sopsFile = ../secrets/borg-backup.yaml;
         };

@@ -44,4 +44,5 @@
     '';
   };
   services.postgresqlBackup.databases = lib.optional backupDB name;
+  my.postgresql.enable = true;
 }

@@ -14,6 +14,10 @@
   my.tailscale = {
     enable = true;
   };
+  my.borg-server = {
+    enable = true;
+    authorizedKeys = ["ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIDVWPFa7V2dsb51ImraUumblnxWJ2Nf+WBogcaHwxomr"];
+  };
 
   # Use the GRUB 2 boot loader.
   boot.loader.grub.enable = true;

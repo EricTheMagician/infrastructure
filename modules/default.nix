@@ -1,15 +1,19 @@
 {
   imports = [
+    ./audiobookshelf.nix
     ./acme.nix
     ./borg.nix
-    #./borg-server.nix
+    ./borg-server.nix
     ./builder.nix
     ./chromium.nix
     ./docker-compose
     ./fail2ban.nix
+    ./forgejo.nix
     #./grafana.nix
     ./healthchecks.nix
+    ./jellyfin.nix
     ./knownHosts.nix
+    ./lldap.nix
     ./minio.nix
     #./nebula.nix
     ./nextdns.nix
