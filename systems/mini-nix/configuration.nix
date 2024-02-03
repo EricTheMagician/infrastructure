@@ -32,6 +32,7 @@ in {
     # ../common
   ];
 
+  my.audiobookshelf.enable = true;
   my.healthchecks = {
     enable = true;
     domain = "healthchecks.eyen.ca";

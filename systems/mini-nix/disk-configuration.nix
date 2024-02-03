@@ -75,6 +75,7 @@
                   "/data/seaweedfs" = {
                     mountOptions = ["compress=zstd"];
                   };
+                  "/data/audiobookshelf" = {};
                   "/nix" = {
                     mountOptions = ["compress=zstd" "noatime"];
                     mountpoint = "/nix";

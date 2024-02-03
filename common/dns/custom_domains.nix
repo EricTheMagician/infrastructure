@@ -22,6 +22,7 @@ let
       inherit (mini-nix) home;
       inherit (mini-nix) ts;
     }) [
+      "audiobookshelf.eyen.ca"
       "budget.eyen.ca"
       "grafana.eyen.ca"
       "healthchecks.eyen.ca"
