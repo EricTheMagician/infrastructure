@@ -96,28 +96,8 @@ in {
           proxyPass = "http://localhost:${builtins.toString config.services.healthchecks.port}";
         };
       };
-
-      # create a backup for healthchecks
-      borgbackup.jobs.healthchecks =
-        build_borg_backup_job {
-          inherit config;
-          paths = [config.services.healthchecks.dataDir];
-          name = "healthchecks";
-          keep = {
-            daily = 7;
-            weekly = 4;
-          };
-          patterns = [
-            "- ${config.services.healthchecks.dataDir + "/static"}"
-          ];
-        }
-        // {
-          postHook = ''
-            PING_KEY=`cat ${config.sops.secrets.ping_key.path}`
-            ${pkgs.curl}/bin/curl "https://healthchecks.eyen.ca/ping/$PING_KEY/healthchecks/$exitStatus" --silent
-          '';
-        };
     };
+    my.backups.paths = ["/var/lib/healthchecks/healthchecks.sqlite"];
     systemd.timers.borgbackup-job-healthchecks.timerConfig.RandomizedDelaySec = 3600 * 3;
   };
 }

@@ -21,6 +21,7 @@ in {
     efiInstallAsRemovable = true;
   };
   my.tailscale.user_name = "headscale";
+  my.tailscale.enable = true;
   my.nginx.ban-ip = true;
   boot.tmp.cleanOnBoot = true;
   system.stateVersion = "22.11";
