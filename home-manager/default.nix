@@ -55,6 +55,7 @@
   programs = {
     bash.enable = true;
     direnv.enable = true;
+    direnv.nix-direnv.enable = true;
     zoxide.enable = true;
     zellij = {
       enable = true;
