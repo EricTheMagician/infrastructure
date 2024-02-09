@@ -218,6 +218,7 @@
         pkgs = pkgs.unstable; # Home-manager requires 'pkgs' instance
         extraSpecialArgs = {
           inherit inputs;
+          inherit pkgs;
         }; # Pass flake inputs to our config
         #  Our main home-manager configuration file <
         modules = [
@@ -252,7 +253,10 @@
           inputs.sops-nix.homeManagerModule
           {
             my.programs.plik.enable = true;
-            my.programs.neovim.languages = {nix.enable = true;};
+            my.programs.neovim.languages = {
+              nix.enable = true;
+              python.enable = true;
+            };
             home = {
               username = "eric";
               homeDirectory = "/home/eric";
@@ -378,6 +382,17 @@
           };
         in
           pre-commit-check.shellHook;
+      };
+
+    devShells.x86_64-linux.my-admin-portal = let
+      python_env = pkgs.python3.withPackages (ps: [ps.textual ps.textual ps.systemd ps.pydantic ps.typing-extensions]);
+    in
+      pkgs.mkShell {
+        nativeBuildInputs = [python_env pkgs.python3Packages.textual-dev pkgs.hatch];
+        shellHook = ''
+          CWD=`pwd`
+          export PYTHONPATH=$CWD/src
+        '';
       };
   };
 }

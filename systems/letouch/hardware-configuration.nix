@@ -34,15 +34,9 @@
     fsType = "vfat";
   };
 
-  swapDevices = [
-    {
-      device = "/var/lib/swapfile";
-      size = 16 * 1024; # 16 GB, size in Megabytes
-    }
-  ];
-
   # suspend to RAM (deep) rather than `s2idle`
   boot.kernelParams = ["mem_sleep_default=deep"];
+  boot.resumeDevice = "/dev/nvme0n1p5";
   # suspend-then-hibernate
   systemd.sleep.extraConfig = ''
     HibernateDelaySec=30m
