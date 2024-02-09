@@ -8,7 +8,7 @@
     inherit config;
   };
   cfg = config.my.programs.neovim;
-  inherit (lib) mkEnableOption mkIf genAttrs;
+  inherit (lib) mkEnableOption mkIf genAttrs optionalString;
   # vimspector debuggers
   python-debugpy = pkgs.python310.withPackages (ps: with ps; [debugpy]);
   debugpy_path = python-debugpy + "/lib/python3.10/site-packages/debugpy";
@@ -76,7 +76,13 @@ in {
       defaultEditor = true;
       withNodeJs = true;
       extraPackages =
-        [pkgs.jsonfmt pkgs.efm-langserver] # for efm lang server
+        [
+          pkgs.jsonfmt
+          pkgs.efm-langserver
+          pkgs.jq
+          pkgs.yamllint
+          pkgs.yq
+        ]
         ++ (
           lib.optionals cfg.languages.cpp.enable [
             pkgs.clang-tools_16 # clang-format
@@ -94,6 +100,7 @@ in {
         ++ (lib.optionals cfg.languages.nix.enable [
           pkgs.alejandra # nix formatter
           pkgs.nil # for nix language server
+          pkgs.statix
         ]);
 
       extraConfig =
@@ -307,39 +314,46 @@ in {
           {
             plugin = efmls-configs-nvim;
             type = "lua";
-            config = ''
+            config =
+              ''
+                -- Register linters and formatters per language
+                -- local cspell = require('efmls-configs.linters.cspell')
+                local languages = {
+                json = { require('efmls-configs.formatters.jq'), require('efmls-configs.linters.jq') },
+                yaml = { require('efmls-configs.formatters.yq'), require('efmls-configs.linters.yamllint') },
+              ''
+              + optionalString cfg.languages.python.enable ''
+                python = { require('efmls-configs.formatters.black'),  },
+              ''
+              + optionalString cfg.languages.cpp.enable ''
+                cpp = { require('efmls-configs.formatters.clang_format'), },
+              ''
+              + optionalString cfg.languages.nix.enable ''
+                nix = { require('efmls-configs.formatters.alejandra'), require('efmls-configs.linters.statix'),  },
+              ''
+              + ''
+                }
 
-              -- Register linters and formatters per language
-              local black = require('efmls-configs.formatters.black')
-              local clang_format = require('efmls-configs.formatters.clang_format')
-              local alejandra = require('efmls-configs.formatters.alejandra')
-              -- local cspell = require('efmls-configs.linters.cspell')
-              local languages = {
-                python = { black,  },
-                cpp = { clang_format,  },
-                nix = { alejandra,  },
-              }
+                local efmls_config = {
+                  filetypes = vim.tbl_keys(languages),
+                  settings = {
+                    rootMarkers = { '.git/' },
+                    languages = languages,
+                  },
+                  init_options = {
+                    documentFormatting = true,
+                    documentRangeFormatting = true,
+                  },
+                }
 
-              local efmls_config = {
-                filetypes = vim.tbl_keys(languages),
-                settings = {
-                  rootMarkers = { '.git/' },
-                  languages = languages,
-                },
-                init_options = {
-                  documentFormatting = true,
-                  documentRangeFormatting = true,
-                },
-              }
-
-              require('lspconfig').efm.setup(vim.tbl_extend('force', efmls_config, {
-                -- Pass your custom lsp config below like on_attach and capabilities
-                --
-                -- on_attach = on_attach,
-                capabilities = require("cmp_nvim_lsp").default_capabilities(),
-              }))
-              local lsp_fmt_group = vim.api.nvim_create_augroup('LspFormattingGroup', {})
-            '';
+                require('lspconfig').efm.setup(vim.tbl_extend('force', efmls_config, {
+                  -- Pass your custom lsp config below like on_attach and capabilities
+                  --
+                  -- on_attach = on_attach,
+                  capabilities = require("cmp_nvim_lsp").default_capabilities(),
+                }))
+                local lsp_fmt_group = vim.api.nvim_create_augroup('LspFormattingGroup', {})
+              '';
             # code for auto format on save for vim code
             #vim.api.nvim_create_autocmd('BufWritePost', {
             #  group = lsp_fmt_group,
