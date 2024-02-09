@@ -49,6 +49,7 @@ in {
     it-tools.enable = true;
     actual-budget.enable = true;
   };
+  my.stirling-pdf.enable = true;
   my.tailscale.enable = true;
   my.vaultwarden.enable = true;
   my.backups.paths = ["/home/eric/git" "/data/audiobookshelf"];

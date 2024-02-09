@@ -33,16 +33,16 @@
 
     patches = [
       {
-        # patch for lldap: https://github.com/NixOS/nixpkgs/pull/268168
-        url = "https://patch-diff.githubusercontent.com/raw/NixOS/nixpkgs/pull/268168.patch";
-        hash = "sha256-WIMDnmZV0eL1eFVD0ldHUBrulZWsjdFOmcN4i8+RgFA=";
+        # add's stirling-pdf
+        url = "https://patch-diff.githubusercontent.com/raw/NixOS/nixpkgs/pull/283305.patch";
+        hash = "sha256-HGAU1UEPlXme2EgJRbZPfitJ40/906zyF+MVju91ilA=";
       }
     ];
     originPkgs = inputs.nixpkgs-unstable.legacyPackages.${system};
     nixpkgs-unstable = originPkgs.applyPatches {
       name = "nixpkgs-patched";
       src = inputs.nixpkgs-unstable;
-      #patches = map originPkgs.fetchpatch patches;
+      patches = map originPkgs.fetchpatch patches;
     };
   in {
     unstable = import nixpkgs-unstable {

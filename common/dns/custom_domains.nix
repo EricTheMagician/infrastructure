@@ -32,6 +32,7 @@ let
       "minio-api.eyen.ca"
       "minio-web.eyen.ca"
       "ntfy.eyen.ca"
+      "pdfs.eyen.ca"
       "unraid.eyen.ca"
       "vw.eyen.ca"
     ];

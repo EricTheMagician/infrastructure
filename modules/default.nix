@@ -20,6 +20,7 @@
     ./nginx.nix
     ./postgres.nix
     ./sops.nix
+    ./stirling-pdf.nix
     ./tailscale.nix
     #./tlp.nix
     ./vaultwarden.nix
