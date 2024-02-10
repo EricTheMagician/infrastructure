@@ -45,7 +45,7 @@ in {
     data_dirs = ["/data/minio"];
     region = "mini-nix";
   };
-  my.librechat.enable = false;
+  my.librechat.enable = true;
   my.docker.tools = {
     it-tools.enable = true;
     actual-budget.enable = true;
@@ -129,15 +129,6 @@ in {
   environment.systemPackages = with pkgs; [nmap dig entr];
   programs.nix-ld.enable = true; # needed for codeium
   programs.mosh.enable = true;
-
-  services.nginx.virtualHosts."librechat.eyen.ca" = {
-    useACMEHost = "eyen.ca";
-    forceSSL = true;
-    locations."/" = {
-      proxyPass = "http://localhost:3080";
-      proxyWebsockets = true;
-    };
-  };
 
   services.nginx.virtualHosts."unraid.eyen.ca" = {
     useACMEHost = "eyen.ca";

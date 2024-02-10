@@ -19,7 +19,7 @@ in {
       type = types.str;
       default = "librechat.eyen.ca";
     };
-    acme_hsot = mkOption {
+    acme_host = mkOption {
       type = types.str;
       default = "eyen.ca";
     };
@@ -68,7 +68,7 @@ in {
       client.service = {
         build = {
           context = source.outPath;
-          dockerfile = "${source}/Dockerfile.multi";
+          dockerfile = "Dockerfile.multi";
           target = "prod-stage";
         };
         environment = {
@@ -103,6 +103,16 @@ in {
         volumes = [
           "${cfg.datapath}/meili_data:/meili_data"
         ];
+      };
+    };
+    my.nginx.enable = true;
+    my.backups.paths = [cfg.datapath];
+    services.nginx.virtualHosts.${domain} = {
+      useACMEHost = acme_host;
+      forceSSL = true;
+      locations."/" = {
+        proxyPass = "http://${cfg.domain}:${builtins.toString cfg.port}";
+        proxyWebsockets = true;
       };
     };
   };

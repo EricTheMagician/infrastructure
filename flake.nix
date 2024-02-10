@@ -25,7 +25,8 @@
     deploy-rs.inputs.nixpkgs.follows = "nixpkgs";
 
     # arion docker-compose in nix
-    arion.url = "github:hercules-ci/arion";
+    #arion.url = "github:hercules-ci/arion";
+    arion.url = "github:ericthemagician/arion/docker-build";
     arion.inputs.nixpkgs.follows = "nixpkgs";
 
     # for pre-commit-hooks
