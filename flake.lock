@@ -362,6 +362,22 @@
         "type": "github"
       }
     },
+    "libre-chat": {
+      "flake": false,
+      "locked": {
+        "lastModified": 1707493130,
+        "narHash": "sha256-S7UC9wfOnxvuCvTRJF6PCGBS1BX9hkZbVkm1KlnilFw=",
+        "owner": "danny-avila",
+        "repo": "LibreChat",
+        "rev": "39caeb2027414d7d9cc17cba60fb33d9decd27ff",
+        "type": "github"
+      },
+      "original": {
+        "owner": "danny-avila",
+        "repo": "LibreChat",
+        "type": "github"
+      }
+    },
     "microvm": {
       "inputs": {
         "flake-utils": "flake-utils_2",
@@ -523,6 +539,7 @@
         "home-manager": "home-manager",
         "ipfs-podcasting": "ipfs-podcasting",
         "kde6": "kde6",
+        "libre-chat": "libre-chat",
         "microvm": "microvm",
         "nix-pre-commit-hooks": "nix-pre-commit-hooks",
         "nixpkgs": "nixpkgs_2",

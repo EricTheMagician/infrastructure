@@ -18,7 +18,7 @@ in {
   options.my.nginx = {
     enable = mkOption {
       type = types.bool;
-      default = true;
+      default = false;
     };
     ban-ip = mkOption {
       type = types.bool;

@@ -27,6 +27,7 @@ let
       "grafana.eyen.ca"
       "healthchecks.eyen.ca"
       "it-tools.eyen.ca"
+      "librechat.eyen.ca"
       "mini-nix"
       "mini-nix-adguard.eyen.ca"
       "minio-api.eyen.ca"

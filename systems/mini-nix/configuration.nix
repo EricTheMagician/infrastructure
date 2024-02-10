@@ -45,6 +45,7 @@ in {
     data_dirs = ["/data/minio"];
     region = "mini-nix";
   };
+  my.librechat.enable = false;
   my.docker.tools = {
     it-tools.enable = true;
     actual-budget.enable = true;
@@ -52,7 +53,7 @@ in {
   my.stirling-pdf.enable = true;
   my.tailscale.enable = true;
   my.vaultwarden.enable = true;
-  my.backups.paths = ["/home/eric/git" "/data/audiobookshelf"];
+  my.backups.paths = ["/home/eric/git" "/data/audiobookshelf" "/var/lib/librechat"];
   #my.programs.grafana.enable = false;
   my.programs.upload-to-nix-cache-script.enable = true;
 
@@ -128,6 +129,15 @@ in {
   environment.systemPackages = with pkgs; [nmap dig entr];
   programs.nix-ld.enable = true; # needed for codeium
   programs.mosh.enable = true;
+
+  services.nginx.virtualHosts."librechat.eyen.ca" = {
+    useACMEHost = "eyen.ca";
+    forceSSL = true;
+    locations."/" = {
+      proxyPass = "http://localhost:3080";
+      proxyWebsockets = true;
+    };
+  };
 
   services.nginx.virtualHosts."unraid.eyen.ca" = {
     useACMEHost = "eyen.ca";

@@ -56,6 +56,10 @@
 
     # matrix/synapse deployment
     #synapse.url = "github:dali99/nixos-matrix-modules";
+    libre-chat = {
+      url = "github:danny-avila/LibreChat";
+      flake = false;
+    };
   };
 
   outputs = {
@@ -71,6 +75,7 @@
     ipfs-podcasting,
     microvm,
     kde6,
+    libre-chat,
     #mynixpkgs,
     #synapse,
     ...
