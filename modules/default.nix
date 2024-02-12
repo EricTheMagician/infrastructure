@@ -5,6 +5,7 @@
     ./borg.nix
     ./borg-server.nix
     ./builder.nix
+    ./couchdb.nix
     ./chromium.nix
     ./docker-compose
     ./fail2ban.nix

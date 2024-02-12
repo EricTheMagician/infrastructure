@@ -6,7 +6,6 @@ in {
     ../../modules
     ./hardware-configuration.nix
     ./disk-configuration.nix
-    ./couchdb.nix
     ./plikd.nix
     ./fail2ban.nix
     #./headscale/nebula.nix
@@ -18,6 +17,7 @@ in {
     efiSupport = true;
     efiInstallAsRemovable = true;
   };
+  my.couchdb.enable = true;
   my.headscale.enable = true;
   my.tailscale.user_name = "headscale";
   my.tailscale.enable = true;
