@@ -6,7 +6,7 @@
     };
 
     headscale = {
-      extraHostNames = ["100.64.0.1" "headscale.eyen.ca"];
+      extraHostNames = ["100.64.0.1" "headscale.eyen.ca" "headscale"];
       publicKey = "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAION03O8T+c/d40IDwdJDsR4XckbqT6GJoPDLWpyQSp2Q";
     };
 
@@ -20,12 +20,12 @@
     };
 
     mini-nix = {
-      extraHostNames = ["100.64.0.14" "mini-nix.eyen.ca"];
+      extraHostNames = ["100.64.0.14" "mini-nix.eyen.ca" "mini-nix"];
       publicKey = "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIJql5f5i6dnTFwHwxlGk35PYuYU0pgsh9r4cQqO5+vcc";
     };
 
     unraid = {
-      extraHostNames = ["100.64.0.2"];
+      extraHostNames = ["100.64.0.2" "unraid" "unraid.eyen.ca"];
       publicKey = "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAICEjyjaX/it47Hz5JxPmmYRs/uohCkxASG+0X4y5QH2a";
     };
 
@@ -34,7 +34,7 @@
       publicKey = "ssh-rsa AAAAB3NzaC1yc2EAAAABIwAAAQEA5EB5p/5Hp3hGW1oHok+PIOH9Pbn7cnUiGmUEBrCVjnAw+HrKyN8bYVV0dIGllswYXwkG/+bgiBlE6IVIBAq+JwVWu1Sss3KarHY3OvFJUXZoZyRRg/Gc/+LRCE7lyKpwWQ70dbelGRyyJFH36eNv6ySXoUYtGkwlU5IVaHPApOxe4LHPZa/qhSRbPo2hwoh0orCtgejRebNtW5nlx00DNFgsvn8Svz2cIYLxsPVzKgUxs8Zxsxgn+Q/UvR7uq4AbAhyBMLxv7DjJ1pc7PJocuTno2Rw9uMZi1gkjbnmiOh6TTXIEWbnroyIhwc8555uto9melEUmWNQ+C+PwAK+MPw==";
     };
     servarica-backup = {
-      hostNames = ["209.209.209.184" "nixos-rica" "100.64.0.10"];
+      hostNames = ["209.209.209.184" "nixos-rica" "100.64.0.10" "borg-backup-server"];
       publicKey = "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAINZQok+yyRqdh6YpU3bNzL91WRwRrXQFRYgdXJsUAK4z";
     };
     servarica-luks = {

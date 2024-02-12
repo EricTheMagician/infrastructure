@@ -57,10 +57,14 @@ let
       "recipes.eyen.ca"
     ];
 
-  rica-domains = map (domain: {
-    inherit domain;
-    inherit (rica) home ts;
-  }) ["nixos-rica"];
+  rica-domains =
+    map (domain: {
+      inherit domain;
+      inherit (rica) home ts;
+    }) [
+      "nixos-rica"
+      "borg-backup-server"
+    ];
 
   headscale-domains =
     map (domain: {
