@@ -14,7 +14,14 @@ in {
   };
   config = mkIf config.my.acme.enable {
     # backup the generated certs
-    my.backups.paths = ["/var/lib/acme"];
+    my.backups.services.acme = {
+      paths = ["/var/lib/acme"];
+      keep = {
+        daily = 7;
+        weekly = 4;
+        monthly = null;
+      };
+    };
 
     # ensure that default acme group is created and nginx is part of me
     # the group has permission to read the cloudflare private key

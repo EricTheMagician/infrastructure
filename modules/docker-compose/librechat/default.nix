@@ -106,7 +106,7 @@ in {
       };
     };
     my.nginx.enable = true;
-    my.backups.paths = [cfg.datapath];
+    my.backups.services.librechat = {paths = [cfg.datapath];};
     services.nginx.virtualHosts.${domain} = {
       useACMEHost = acme_host;
       forceSSL = true;

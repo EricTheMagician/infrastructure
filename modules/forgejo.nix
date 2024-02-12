@@ -108,7 +108,14 @@ in {
 
       networking.firewall.allowedTCPPorts = [config.services.forgejo.settings.server.SSH_PORT];
 
-      my.backups.paths = [config.services.forgejo.repositoryRoot config.services.forgejo.customDir config.services.forgejo.lfs.contentDir];
+      my.backups.services.forgejo = {
+        paths = [
+          config.services.forgejo.repositoryRoot
+          config.services.forgejo.customDir
+          config.services.forgejo.lfs.contentDir
+        ];
+        postgres_databases = ["forgejo"];
+      };
     })
     (mkIf cfg.enable create_database)
   ];

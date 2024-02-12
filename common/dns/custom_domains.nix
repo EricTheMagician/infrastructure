@@ -64,6 +64,7 @@ let
     }) [
       "nixos-rica"
       "borg-backup-server"
+      "borg-backup-server.eyen.ca"
     ];
 
   headscale-domains =

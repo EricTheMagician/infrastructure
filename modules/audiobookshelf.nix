@@ -26,7 +26,7 @@ in {
 
   config = mkIf cfg.enable {
     my.nginx.enable = true;
-    my.backups.paths = ["/var/lib/audiobookshelf/metadata/backups"];
+    my.backups.services.audiobookshelf.paths = ["/var/lib/audiobookshelf/metadata/backups"];
     services.audiobookshelf = {
       inherit (cfg) port;
       enable = true;

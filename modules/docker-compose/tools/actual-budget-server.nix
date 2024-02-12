@@ -48,6 +48,14 @@ in {
       forceSSL = true;
       locations."/".proxyPass = "http://${actual-address}/";
     };
-    my.backups.paths = ["/var/lib/actual-server"];
+    my.backups.services.actual-budget = {
+      paths = ["/var/lib/actual-server"];
+      startAt = "weekly";
+      keep = {
+        daily = null;
+        weekly = 4;
+        months = 24;
+      };
+    };
   };
 }

@@ -85,10 +85,10 @@ in {
         monthly = 3;
       };
       paths = [(config.services.headscale.settings.db_path + "/..")];
-      patterns = [
-        "+ ${config.services.headscale.settings.db_path}"
-        ("- " + (config.services.headscale.settings.db_path + "/.."))
-      ];
+      #patterns = [
+      #  "+ ${config.services.headscale.settings.db_path}"
+      #  ("- " + (config.services.headscale.settings.db_path + "/.."))
+      #];
     };
 
     security.acme.certs.${domain} = {

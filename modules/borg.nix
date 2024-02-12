@@ -7,6 +7,7 @@
   inherit (lib) mkOption mkIf types mkMerge;
   system_backup_enabled = (builtins.length config.my.backups.paths) > 0;
   cfg = lib.filterAttrsRecursive (k: v: v != null) config.my.backups;
+  services_backup_enabled = builtins.length (builtins.attrNames cfg.services) > 0;
 in {
   imports = [
     ./helpers/borg_backup.nix
@@ -41,8 +42,8 @@ in {
               default = null;
             };
             postgres_databases = mkOption {
-              type = types.nullOr (types.listOf types.str);
-              default = null;
+              type = types.listOf types.str;
+              default = [];
             };
             startAt = mkOption {
               type = types.str;
@@ -80,7 +81,7 @@ in {
   # common sops secrets for borg backup
   config = mkMerge [
     # configure the needed secrets
-    (mkIf (system_backup_enabled || cfg.add_scripts) {
+    (mkIf (system_backup_enabled || services_backup_enabled || cfg.add_scripts) {
       sops.secrets = {
         healthchecks_api_key = {
           mode = "0400";
