@@ -56,7 +56,7 @@ in {
         ];
       };
       dns_config = {
-        nameservers = ["https://dns.nextdns.io/ad3362" "2a07:a8c0::ad:3362" "2a07:a8c1::ad:3362"];
+        nameservers = ["45.90.28.0#ad3362.dns.nextdns.io" "45.90.30.0#ad3362.dns.nextdns.io" "https://dns.nextdns.io/ad3362" "2a07:a8c0::ad:3362" "2a07:a8c1::ad:3362"];
         magic_dns = false;
         override_local_dns = true;
         domains = ["eyen.ca"];
@@ -64,28 +64,40 @@ in {
     };
   };
 
-  systemd.timers.borgbackup-job-headscale-config.timerConfig.RandomizedDelaySec = 3600;
-  services.borgbackup.jobs.headscale-config =
-    build_borg_backup_job {
-      inherit config;
-      paths = [(config.services.headscale.settings.db_path + "/..")];
-      name = "headscale-config";
-      patterns = [
-        "+ ${config.services.headscale.settings.db_path}"
-        ("- " + (config.services.headscale.settings.db_path + "/.."))
-      ];
-      keep = {
-        daily = 7;
-        weekly = 4;
-        monthly = 3;
-      };
-    }
-    // {
-      postHook = ''
-        PING_KEY=`cat ${config.sops.secrets.ping_key.path}`
-                  ${pkgs.curl}/bin/curl "https://healthchecks.eyen.ca/ping/$PING_KEY/headscale/$exitStatus" --silent
-      '';
+  my.backups.services.headscale = {
+    startAt = "weekly";
+    keep = {
+      weekly = 4;
+      monthly = 3;
     };
+    paths = [(config.services.headscale.settings.db_path + "/..")];
+    patterns = [
+      "+ ${config.services.headscale.settings.db_path}"
+      ("- " + (config.services.headscale.settings.db_path + "/.."))
+    ];
+  };
+  #systemd.timers.borgbackup-job-headscale-config.timerConfig.RandomizedDelaySec = 3600;
+  #services.borgbackup.jobs.headscale-config =
+  #  build_borg_backup_job {
+  #    inherit config;
+  #    paths = [(config.services.headscale.settings.db_path + "/..")];
+  #    name = "headscale-config";
+  #    patterns = [
+  #      "+ ${config.services.headscale.settings.db_path}"
+  #      ("- " + (config.services.headscale.settings.db_path + "/.."))
+  #    ];
+  #    keep = {
+  #      daily = 7;
+  #      weekly = 4;
+  #      monthly = 3;
+  #    };
+  #  }
+  #  // {
+  #    postHook = ''
+  #      PING_KEY=`cat ${config.sops.secrets.ping_key.path}`
+  #                ${pkgs.curl}/bin/curl "https://healthchecks.eyen.ca/ping/$PING_KEY/headscale/$exitStatus" --silent
+  #    '';
+  #  };
 
   security.acme.certs.${domain} = {
     inherit domain;
