@@ -40,6 +40,7 @@ in {
         proxyPass = "http://localhost:10224";
       };
     };
+    my.backups.services.vaultwarden.postgres_databases = ["vaultwarden"];
     services.postgresqlBackup.databases = ["vaultwarden"];
     services.postgresql = {
       ensureDatabases = ["vaultwarden"];

@@ -97,7 +97,6 @@ in {
         };
       };
     };
-    my.backups.paths = ["/var/lib/healthchecks/healthchecks.sqlite"];
-    systemd.timers.borgbackup-job-healthchecks.timerConfig.RandomizedDelaySec = 3600 * 3;
+    my.backups.services.healthchecks.paths = ["/var/lib/healthchecks/healthchecks.sqlite"];
   };
 }

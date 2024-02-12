@@ -13,14 +13,14 @@
   };
   compressSuffix = lib.getAttr config.services.postgresqlBackup.compression compressSuffixes;
 
-  database_files = lib.map (backup: "${config.services.postgresqlBackup.location}/${backup}${compressSuffix}");
+  database_files = builtins.map (backup: "${config.services.postgresqlBackup.location}/${backup}${compressSuffix}");
 
   mkJob = name: attrs: (let
     healthcheck-name = "${config.networking.hostName}-${name}";
   in {
-    #inherit (attrs) startAt;
-    inherit (attrs) startAt paths;
-    #paths = attrs.paths  ++ (database_files attrs.postgres_database);
+    inherit (attrs) startAt;
+    #inherit (attrs) startAt paths;
+    paths = attrs.paths ++ (database_files attrs.postgres_databases);
     # group = "borg-backup";
     doInit = true;
     repo = "ssh://borg@borg-backup-server/./${healthcheck-name}";

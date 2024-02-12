@@ -76,6 +76,9 @@ in {
       };
     };
     # setup the backup
-    my.backups.paths = ["/var/lib/lldap/" "/var/lib/private/lldap"];
+    my.backups.services.lldapi = {
+      paths = ["/var/lib/lldap/" "/var/lib/private/lldap"];
+      postgres_databases = ["lldap"];
+    };
   };
 }

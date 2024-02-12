@@ -32,5 +32,6 @@ in {
         proxyPass = "http://localhost:8096";
       };
     };
+    my.backups.services.jellyfin.paths = ["/var/lib/jellyfin"];
   };
 }
