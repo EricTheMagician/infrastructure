@@ -53,8 +53,8 @@ in {
       startAt = "weekly";
       keep = {
         daily = null;
-        weekly = 4;
-        months = 24;
+        weekly = 16;
+        monthly = 24;
       };
     };
   };
