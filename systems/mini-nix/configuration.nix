@@ -33,6 +33,7 @@ in {
   ];
 
   my.audiobookshelf.enable = true;
+  my.backups.services.audiobookshelf.paths = ["/data/audiobookshelf"];
   my.healthchecks = {
     enable = true;
     domain = "healthchecks.eyen.ca";
@@ -53,7 +54,7 @@ in {
   my.stirling-pdf.enable = true;
   my.tailscale.enable = true;
   my.vaultwarden.enable = true;
-  my.backups.paths = ["/home/eric/git" "/data/audiobookshelf" "/var/lib/librechat"];
+  my.backups.paths = ["/home/eric/git"];
   #my.programs.grafana.enable = false;
   my.programs.upload-to-nix-cache-script.enable = true;
 
