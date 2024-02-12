@@ -5,7 +5,7 @@
   ...
 }: let
   inherit (lib) mapAttrs mapAttrs' mkIf mkMerge nameValuePair;
-  cfg = config.my.backups.services;
+  cfg = lib.filterAttrsRecursive (k: v: v != null) config.my.backups.services;
   service_backup_enabled = builtins.length (builtins.attrNames cfg) > 0;
   create_borg_backup_job = name: attrs: let
     healthcheck-namme = "${config.networking.hostName}-${name}";
@@ -111,6 +111,7 @@
             slug = healthcheck-namme;
             desc = "Backup ${name} on ${config.networking.hostName}";
             grace = 3600 * 6; # 6 hours
+            tags = [config.networking.hostName name];
             timeout =
               if attrs.startAt == "weekly"
               then (3600 * 24 * 7)

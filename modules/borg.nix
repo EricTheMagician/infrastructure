@@ -6,7 +6,7 @@
 }: let
   inherit (lib) mkOption mkIf types mkMerge;
   system_backup_enabled = (builtins.length config.my.backups.paths) > 0;
-  cfg = config.my.backups;
+  cfg = lib.filterAttrsRecursive (k: v: v != null) config.my.backups;
 in {
   imports = [
     ./helpers/borg_backup.nix

@@ -6,7 +6,6 @@ in {
     ../../modules
     ./hardware-configuration.nix
     ./disk-configuration.nix
-    ./plikd.nix
     ./fail2ban.nix
     #./headscale/nebula.nix
     #../containers/adguard.nix
@@ -19,6 +18,7 @@ in {
   };
   my.couchdb.enable = true;
   my.headscale.enable = true;
+  my.plikd.enable = true;
   my.tailscale.user_name = "headscale";
   my.tailscale.enable = true;
   my.nginx.ban-ip = true;

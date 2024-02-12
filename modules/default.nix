@@ -20,6 +20,7 @@
     #./nebula.nix
     ./nextdns.nix
     ./nginx.nix
+    ./plikd.nix
     ./postgres.nix
     ./sops.nix
     ./stirling-pdf.nix
