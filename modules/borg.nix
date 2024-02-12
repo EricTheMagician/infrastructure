@@ -31,7 +31,7 @@ in {
           options = {
             paths = mkOption {
               type = types.nullOr (types.listOf types.str);
-              default = null;
+              default = [];
             };
             patterns = mkOption {
               type = types.listOf types.str;

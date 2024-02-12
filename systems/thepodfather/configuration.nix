@@ -17,12 +17,12 @@ in {
     ./keycloak.nix
     ./nextcloud.nix
     ./peertube.nix
-    ./tandoor-recipes.nix
   ];
 
   my.forgejo.enable = true;
   my.jellyfin.enable = true;
   my.lldap.enable = true;
+  my.tandoor-recipes.enable = true;
 
   # Use the systemd-boot EFI boot loader.
   boot.loader.systemd-boot.enable = true;
