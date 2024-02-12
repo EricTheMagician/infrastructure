@@ -3,9 +3,7 @@ let
 in {
   imports = [
     ../../common
-    ../../modules/borg.nix
-    ./headscale.nix
-    ../../modules/tailscale.nix
+    ../../modules
     ./hardware-configuration.nix
     ./disk-configuration.nix
     ./couchdb.nix
@@ -20,6 +18,7 @@ in {
     efiSupport = true;
     efiInstallAsRemovable = true;
   };
+  my.headscale.enable = true;
   my.tailscale.user_name = "headscale";
   my.tailscale.enable = true;
   my.nginx.ban-ip = true;

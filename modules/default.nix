@@ -10,6 +10,7 @@
     ./fail2ban.nix
     ./forgejo.nix
     #./grafana.nix
+    ./headscale.nix
     ./healthchecks.nix
     ./jellyfin.nix
     ./knownHosts.nix
