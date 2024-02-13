@@ -48,6 +48,7 @@
       name = "healthchecks-job-${name}";
       value = {
         wantedBy = ["multi-user.target"];
+        after = lib.optionals config.my.healthchecks.enable ["healthchecks.service"];
         serviceConfig = {
           Type = "oneshot";
           RemainAfterExit = true;
@@ -69,17 +70,17 @@
         in ''
           API_KEY=`cat ${config.sops.secrets.healthchecks_api_key.path}`
           # upsert a new endpoints
-          echo "Upsering healthcheck ${healthcheck-namme}"
-          ${pkgs.curl}/bin/curl "https://healthchecks.eyen.ca/api/v3/checks/" --silent \
+          echo "Upserting healthcheck ${healthcheck-namme}"
+          ${pkgs.curl}/bin/curl "https://healthchecks.eyen.ca/api/v3/checks/" \
             -X POST \
             -H "Content-Type: application/json" \
             -H "X-Api-Key: $API_KEY" \
             -d '${builtins.toJSON json_data}'
-           # resume the check in case it was paused previously
-           echo "Getting resume url for healthcheck ${healthcheck-namme}"
-           RESUME_URL=$(${pkgs.curl}/bin/curl -s -H "X-Api-Key: $API_KEY" https://healthchecks.eyen.ca/api/v3/checks/ | ${pkgs.jq}/bin/jq -r '.checks[] | select(.name=="${healthcheck-namme}").resume_url')
-           echo "Resuming healthcheck ${healthcheck-namme} at $RESUME_URL"
-          ${pkgs.curl}/bin/curl "$RESUME_URL" --silent -X POST -H "X-Api-Key: $API_KEY"
+          # resume the check in case it was paused previously
+          # echo "Getting resume url for healthcheck ${healthcheck-namme}"
+          # RESUME_URL=$(${pkgs.curl}/bin/curl -s -H "X-Api-Key: $API_KEY" https://healthchecks.eyen.ca/api/v3/checks/ | ${pkgs.jq}/bin/jq -r '.checks[] | select(.name=="${healthcheck-namme}").resume_url')
+          # echo "Resuming healthcheck ${healthcheck-namme} at $RESUME_URL"
+          #${pkgs.curl}/bin/curl "$RESUME_URL" --silent -X POST -H "X-Api-Key: $API_KEY"
         '';
         preStop = ''
           API_KEY=`cat ${config.sops.secrets.healthchecks_api_key.path}`
