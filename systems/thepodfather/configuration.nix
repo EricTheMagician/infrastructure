@@ -15,13 +15,13 @@ in {
     ./hardware-configuration.nix
     ./invidious.nix
     ./keycloak.nix
-    ./nextcloud.nix
     ./peertube.nix
   ];
 
   my.forgejo.enable = true;
   my.jellyfin.enable = true;
   my.lldap.enable = true;
+  my.nextcloud.enable = true;
   my.tandoor-recipes.enable = true;
 
   # Use the systemd-boot EFI boot loader.

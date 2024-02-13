@@ -18,6 +18,7 @@
     ./lldap.nix
     ./minio.nix
     #./nebula.nix
+    ./nextcloud.nix
     ./nextdns.nix
     ./nginx.nix
     ./plikd.nix
