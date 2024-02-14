@@ -19,6 +19,7 @@ in {
   ];
 
   my.forgejo.enable = true;
+  my.immich.enable = true;
   my.jellyfin.enable = true;
   my.lldap.enable = true;
   my.nextcloud.enable = true;
