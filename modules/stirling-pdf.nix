@@ -36,9 +36,11 @@ in {
       environment = {
         SERVER_PORT = "${builtins.toString cfg.port}";
         SERVER_ADDRESS = cfg.host;
+        HOME = "/var/lib/stirling-pdf";
       };
+      path = [pkgs.unoconv pkgs.python3Packages.weasyprint pkgs.ocrmypdf];
       script = ''
-        ${cfg.package}/bin/Stirling-PDF  #--host ${cfg.host} --port ${builtins.toString cfg.port}
+        ${cfg.package}/bin/Stirling-PDF
       '';
       wantedBy = ["multi-user.target"];
       after = ["networking.target"];
@@ -46,9 +48,18 @@ in {
         WorkingDirectory = "/var/lib/stirling-pdf";
         StateDirectory = "stirling-pdf";
         LogsDirectory = "stirling-pdf";
-        DynamicUser = true;
+        # this needs to be a normal user to be able to execute subprocesses with libreoffice
+        User = "stirling-pdf";
+        Group = "stirling-pdf";
       };
     };
+    users.users.stirling-pdf = {
+      group = "stirling-pdf";
+      isSystemUser = true;
+    };
+    users.groups.stirling-pdf = {
+    };
+
     my.nginx.enable = true;
     services.nginx.virtualHosts.${cfg.domain} = {
       useACMEHost = cfg.acme_host;

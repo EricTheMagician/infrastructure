@@ -35,7 +35,7 @@
       {
         # add's stirling-pdf
         url = "https://patch-diff.githubusercontent.com/raw/NixOS/nixpkgs/pull/283305.patch";
-        hash = "sha256-HGAU1UEPlXme2EgJRbZPfitJ40/906zyF+MVju91ilA=";
+        hash = "sha256-/G+dkMBPR85a9nm3yQzws01LmxUHkZVlPJvJXj5An6I=";
       }
     ];
     originPkgs = inputs.nixpkgs-unstable.legacyPackages.${system};
