@@ -13,7 +13,7 @@
   };
   compressSuffix = lib.getAttr config.services.postgresqlBackup.compression compressSuffixes;
 
-  database_files = builtins.map (backup: "${config.services.postgresqlBackup.location}/${backup}${compressSuffix}");
+  database_files = builtins.map (backup: "${config.services.postgresqlBackup.location}/${backup}.sql${compressSuffix}");
 
   mkJob = name: attrs: (let
     healthcheck-name = "${config.networking.hostName}-${name}";
