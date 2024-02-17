@@ -7,6 +7,8 @@
 }: let
   inherit (lib) mkIf mkEnableOption genAttrs optionalAttrs optionals;
   cfg = config.my.programs.neovim;
+  enable_dap =
+    cfg.languages.python.enable || cfg.languages.cpp.enable;
 in {
   imports = [
     inputs.nixvim.homeManagerModules.nixvim
@@ -90,6 +92,7 @@ in {
         nix-develop.enable = true;
         fugitive.enable = true;
         lastplace.enable = true;
+        nvim-osc52.enable = true;
         comment-nvim = {
           enable = true;
         };
@@ -113,8 +116,8 @@ in {
               args = ["-i" "dap"];
             };
           };
-          extensions.dap-ui.enable = true;
-          extensions.dap-virtual-text.enable = true;
+          extensions.dap-ui.enable = enable_dap;
+          extensions.dap-virtual-text.enable = enable_dap;
           extensions.dap-python = {
             inherit (cfg.languages.python) enable;
           };
