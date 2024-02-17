@@ -37,7 +37,7 @@ in {
         adminuser = "admin";
         adminpassFile = config.sops.secrets."nextcloud/admin_password".path;
         dbtype = "pgsql";
-        dbpassFile = config.sops.secrets."nextcloud/db_password".path;
+        # dbpassFile = config.sops.secrets."nextcloud/db_password".path;
         defaultPhoneRegion = "CA";
       };
       database.createLocally = true;

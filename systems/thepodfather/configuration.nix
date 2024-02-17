@@ -8,7 +8,6 @@ in {
   imports = [
     # Include the results of the hardware scan.
     ../../modules
-    ./docker-compose/immich.nix
     #./docker-compose/tools.nix
     ./docker-compose/viewtube.nix
     ./docker.machine-disks.nix

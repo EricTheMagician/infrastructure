@@ -8,7 +8,7 @@
   upload_path = "${data_path}/upload";
   env_file = config.sops.secrets."immich/env_file".path;
   immich_sops = {
-    sopsFile = ../../../secrets/immich.yaml;
+    sopsFile = ../../secrets/immich.yaml;
     mode = "0400";
   };
   redis_socket = config.services.redis.servers.immich.unixSocket;
@@ -75,7 +75,7 @@ in {
           image = "ghcr.io/immich-app/immich-server:release";
           command = ["start.sh" "immich"];
           ports = [
-            "2283:3001"
+            "${builtins.toString cfg.port}:3001"
           ];
           environment = immich_environment;
           volumes =
@@ -111,11 +111,11 @@ in {
       services.nginx.virtualHosts.${cfg.domain} = {
         useACMEHost = cfg.acme_host;
         forceSSL = true;
-        locations."/".proxyPass = "http://localhost:${cfg.port}";
+        locations."/".proxyPass = "http://localhost:${builtins.toString cfg.port}";
       };
       my.backups.services.immich = {
         paths = [data_path];
-        postgresql_databases = ["immich"];
+        postgres_databases = ["immich"];
       };
     })
   ];
