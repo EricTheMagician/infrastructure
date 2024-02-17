@@ -92,16 +92,22 @@ in {
           enable = true;
         };
         codeium-nvim = {
-          enable = true;
-          api = mkIf (cfg.features.codeium.enable && cfg.features.codeium.enterprise) {
-            host = "codieum.lan.theobjects.com";
+          inherit (cfg.features.codeium) enable;
+          extraOptions = mkIf cfg.features.codeium.enterprise {
+            enterprise_mode = true;
+            api = {
+              host = "codeium.lan.theobjects.com";
+              port = 443;
+              #path = "/_route/api_server";
+              #portal_url = "codeium.lan.theobjects.com:443";
+            };
           };
         };
         dap = {
           enable = cfg.languages.python.enable || cfg.languages.cpp.enable;
           adapters.executables = {
             cpp = optionalAttrs cfg.languages.cpp.enable {
-              command = "${pkgs.unstable.gdb}/bin/gdb";
+              command = "${pkgs.gdb}/bin/gdb";
               args = ["-i" "dap"];
             };
           };
@@ -154,7 +160,7 @@ in {
               formatter = "clang_format";
             };
             cmake = optionalAttrs cfg.languages.cpp.enable {
-              formatter = "gersemi";
+              #formatter = "gersemi";
               linter = ["cmake_lint"];
             };
             python = optionalAttrs cfg.languages.python.enable {

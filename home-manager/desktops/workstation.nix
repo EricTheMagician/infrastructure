@@ -74,7 +74,7 @@
     #   }
     # )
 
-    (neovim-qt.override {neovim = config.programs.neovim.finalPackage;})
+    #(neovim-qt.override {neovim = config.programs.neovim.finalPackage;})
     nextcloud-client
     element-desktop
   ];

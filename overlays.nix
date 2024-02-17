@@ -48,7 +48,7 @@
     unstable = import nixpkgs-unstable {
       inherit (final) system;
       config.allowUnfree = final.config.allowUnfree;
-      overlays = [my_vim_plugins];
+      overlays = [my_vim_plugins inputs.nvim-codeium.overlays.${system}.default];
     };
   };
   #unstable-packages = final: prev: {

@@ -61,7 +61,10 @@
     nixvim.url = "https://flakehub.com/f/nix-community/nixvim/0.*.tar.gz";
     nixvim.inputs.nixpkgs.follows = "nixpkgs-unstable";
     nixvim.inputs.home-manager.follows = "home-manager";
+    #nixvim.inputs.home-manager.inputs.nixpkgs.follows = "nixpkgs-unstable";
     nixvim.inputs.pre-commit-hooks.follows = "nix-pre-commit-hooks";
+
+    nvim-codeium.url = "github:Exafunction/codeium.nvim";
   };
 
   outputs = {
@@ -78,6 +81,7 @@
     microvm,
     kde6,
     libre-chat,
+    nvim-codeium,
     #mynixpkgs,
     #synapse,
     ...
@@ -89,6 +93,7 @@
       inherit system;
       config.allowUnfree = true;
       overlays = [
+        nvim-codeium.overlays.${system}.default
         overlays.additions
         overlays.my_vim_plugins
         overlays.unstable-packages
@@ -222,10 +227,9 @@
     # Available through 'home-manager --flake .#your-username@your-hostname'
     homeConfigurations = {
       "eric@nixos-workstation" = home-manager.lib.homeManagerConfiguration {
-        pkgs = pkgs.unstable; # Home-manager requires 'pkgs' instance
+        pkgs = pkgs.unstable;
         extraSpecialArgs = {
           inherit inputs;
-          inherit pkgs;
         }; # Pass flake inputs to our config
         #  Our main home-manager configuration file <
         modules = [
@@ -241,7 +245,10 @@
               python.enable = true;
             };
             my.programs.neovim.features = {
-              codeium.enable = true;
+              codeium = {
+                enable = true;
+                enterprise = true;
+              };
               perforce.enable = true;
             };
             home = {
@@ -253,7 +260,7 @@
       };
 
       "eric@letouch" = home-manager.lib.homeManagerConfiguration {
-        pkgs = pkgs.unstable; # Home-manager requires 'pkgs' instance
+        inherit pkgs;
         extraSpecialArgs = {
           inherit inputs;
         }; # Pass flake inputs to our config
