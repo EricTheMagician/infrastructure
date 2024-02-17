@@ -68,17 +68,19 @@ in {
           key = "<leader>fb";
           action = ":Telescope file_browser path=%:p:h select_buffer=true<CR>";
         }
-        {
-          key = "tn";
-          action = ":tabnew<CR>";
-        }
+        # {
+        #   key = "tn";
+        #   action = ":tabnew<CR>";
+        # }
         {
           key = "ti";
-          action = ":tabnext<CR>";
+          # action = ":tabnext<CR>";
+          action = ":bn<CR>";
         }
         {
           key = "to";
-          action = ":tabprevious<CR>";
+          # action = ":tabprevious<CR>";
+          action = ":bp<CR>";
         }
       ];
 
@@ -134,6 +136,14 @@ in {
               settings.formatting.command = ["${pkgs.alejandra}/bin/alejandra"];
             };
             pyright = {inherit (cfg.languages.python) enable;};
+            pylsp = {
+              enable = true;
+              settings.plugins = {
+                black.enabled = true;
+                pylint.enabled = true;
+                pylsp_mypy.enabled = true;
+              };
+            };
             yamlls.enable = true;
           };
           keymaps.diagnostic = {
