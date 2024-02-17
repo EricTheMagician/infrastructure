@@ -155,6 +155,27 @@
         "type": "indirect"
       }
     },
+    "flake-parts_3": {
+      "inputs": {
+        "nixpkgs-lib": [
+          "nixvim",
+          "nixpkgs"
+        ]
+      },
+      "locked": {
+        "lastModified": 1704152458,
+        "narHash": "sha256-DS+dGw7SKygIWf9w4eNBUZsK+4Ug27NwEWmn2tnbycg=",
+        "owner": "hercules-ci",
+        "repo": "flake-parts",
+        "rev": "88a2cd8166694ba0b6cb374700799cec53aef527",
+        "type": "github"
+      },
+      "original": {
+        "owner": "hercules-ci",
+        "repo": "flake-parts",
+        "type": "github"
+      }
+    },
     "flake-utils": {
       "inputs": {
         "systems": "systems_2"
@@ -503,6 +524,32 @@
         "url": "https://flakehub.com/f/NixOS/nixpkgs/%2A.tar.gz"
       }
     },
+    "nixvim": {
+      "inputs": {
+        "flake-parts": "flake-parts_3",
+        "home-manager": [
+          "home-manager"
+        ],
+        "nixpkgs": [
+          "nixpkgs-unstable"
+        ],
+        "pre-commit-hooks": [
+          "nix-pre-commit-hooks"
+        ]
+      },
+      "locked": {
+        "lastModified": 1704559377,
+        "narHash": "sha256-qCOkUaRtzQ/RC7Mvwh6nJMD+1re50E5EUXdDuBLPL28=",
+        "rev": "7582a6e41317366980a60963025fe5dfb12613de",
+        "revCount": 918,
+        "type": "tarball",
+        "url": "https://api.flakehub.com/f/pinned/nix-community/nixvim/0.1.918%2Brev-7582a6e41317366980a60963025fe5dfb12613de/018cdfa8-b9e4-700e-981d-3cd098fc54b9/source.tar.gz"
+      },
+      "original": {
+        "type": "tarball",
+        "url": "https://flakehub.com/f/nix-community/nixvim/0.%2A.tar.gz"
+      }
+    },
     "pre-commit-hooks": {
       "inputs": {
         "flake-compat": "flake-compat_2",
@@ -545,10 +592,9 @@
         "nix-pre-commit-hooks": "nix-pre-commit-hooks",
         "nixpkgs": "nixpkgs_2",
         "nixpkgs-unstable": "nixpkgs-unstable",
+        "nixvim": "nixvim",
         "sops-nix": "sops-nix",
-        "vim-codeium": "vim-codeium",
-        "vim-perforce": "vim-perforce",
-        "vim-spelunker": "vim-spelunker"
+        "vim-perforce": "vim-perforce"
       }
     },
     "sops-nix": {
@@ -667,22 +713,6 @@
         "type": "github"
       }
     },
-    "vim-codeium": {
-      "flake": false,
-      "locked": {
-        "lastModified": 1706828666,
-        "narHash": "sha256-Vg3lsee74XlV2n1VdaXP+g5tAFIMBmnAjuBsXMKeGrU=",
-        "owner": "exafunction",
-        "repo": "codeium.vim",
-        "rev": "fd440cd718742daab162241c5bd5857cd92f5f72",
-        "type": "github"
-      },
-      "original": {
-        "owner": "exafunction",
-        "repo": "codeium.vim",
-        "type": "github"
-      }
-    },
     "vim-perforce": {
       "flake": false,
       "locked": {
@@ -696,22 +726,6 @@
       "original": {
         "owner": "nfvs",
         "repo": "vim-perforce",
-        "type": "github"
-      }
-    },
-    "vim-spelunker": {
-      "flake": false,
-      "locked": {
-        "lastModified": 1610467305,
-        "narHash": "sha256-/1MN2KU5+rJhjt7FALvvwmTKRk3n29tU/XQdt1Q5OTE=",
-        "owner": "kamykn",
-        "repo": "spelunker.vim",
-        "rev": "a0bc530f62798bbe053905555a4aa9ed713485eb",
-        "type": "github"
-      },
-      "original": {
-        "owner": "kamykn",
-        "repo": "spelunker.vim",
         "type": "github"
       }
     }

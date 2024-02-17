@@ -36,10 +36,6 @@
     # vim plugins
     vim-perforce.url = "github:nfvs/vim-perforce";
     vim-perforce.flake = false;
-    vim-codeium.url = "github:exafunction/codeium.vim";
-    vim-codeium.flake = false;
-    vim-spelunker.url = "github:kamykn/spelunker.vim";
-    vim-spelunker.flake = false;
 
     # ipfs podcasting
     ipfs-podcasting.url = "https://flakehub.com/f/EricTheMagician/ipfs-podcasting.nix/*.tar.gz";
@@ -61,6 +57,11 @@
       url = "github:danny-avila/LibreChat";
       flake = false;
     };
+
+    nixvim.url = "https://flakehub.com/f/nix-community/nixvim/0.*.tar.gz";
+    nixvim.inputs.nixpkgs.follows = "nixpkgs-unstable";
+    nixvim.inputs.home-manager.follows = "home-manager";
+    nixvim.inputs.pre-commit-hooks.follows = "nix-pre-commit-hooks";
   };
 
   outputs = {
@@ -239,6 +240,10 @@
               cpp.enable = true;
               python.enable = true;
             };
+            my.programs.neovim.features = {
+              codeium.enable = true;
+              perforce.enable = true;
+            };
             home = {
               username = "eric";
               homeDirectory = "/home/eric";
@@ -259,9 +264,12 @@
           inputs.sops-nix.homeManagerModule
           {
             my.programs.plik.enable = true;
-            my.programs.neovim.languages = {
-              nix.enable = true;
-              python.enable = true;
+            my.programs.neovim = {
+              languages = {
+                nix.enable = true;
+                python.enable = true;
+              };
+              features.codeium.enable = true;
             };
             home = {
               username = "eric";
@@ -288,6 +296,7 @@
             };
             my.programs.plik.enable = true;
             my.programs.neovim.languages = {nix.enable = true;};
+            my.programs.neovim.features.codeium.enable = true;
             #my.programs.neovim.codeium.nvim = true;
           }
         ];
