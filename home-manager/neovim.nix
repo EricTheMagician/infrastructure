@@ -92,7 +92,10 @@ in {
         nix-develop.enable = true;
         fugitive.enable = true;
         lastplace.enable = true;
-        nvim-osc52.enable = true;
+        nvim-osc52 = {
+          enable = true;
+          keymaps.enable = true;
+        };
         comment-nvim = {
           enable = true;
         };
