@@ -63,7 +63,21 @@ in {
         [
           vim-bufkill # for :BD to close buffer without killing it
         ]
-        ++ optionals cfg.features.perforce.enable [pkgs.vimPlugins.vim-perforce];
+        ++ optionals cfg.features.perforce.enable [
+          {
+            plugin = vim-perforce;
+            config = ''
+              " open file on perforce on save
+              let g:perforce_open_on_save = 1
+              " saving on change is preferred, at least in neovim.
+              " writing a buffer to disk is a change.
+              " editing a buffer is not a change.
+              let g:perforce_open_on_change = 1
+              " don't prompt on every save
+              let g:perforce_prompt_on_open = 0
+            '';
+          }
+        ];
 
       keymaps = [
         {
