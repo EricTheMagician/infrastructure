@@ -144,7 +144,7 @@ in {
               settings.plugins = {
                 black.enabled = true;
                 pylint.enabled = true;
-                pylsp_mypy.enabled = true;
+                # pylsp_mypy.enabled = true;
               };
             };
             yamlls.enable = true;
@@ -220,6 +220,13 @@ in {
           ];
           mapping = {
             "<CR>" = "cmp.mapping.confirm({ select = true })";
+            "<S-Tab>" = {
+              action = "cmp.mapping.select_prev_item()";
+              modes = [
+                "i"
+                "s"
+              ];
+            };
             "<Tab>" = {
               action = ''
                 function(fallback)
