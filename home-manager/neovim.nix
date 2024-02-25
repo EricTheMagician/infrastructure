@@ -162,7 +162,7 @@ in {
             gd = "definition";
             gi = "implementation";
             gt = "type_definition";
-            f = "format";
+            ft = "format";
             rn = "rename";
           };
         };
