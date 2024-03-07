@@ -37,10 +37,10 @@
                     mountpoint = "/home";
                   };
                   # Parent is not mounted so the mountpoint must be set
-                  #"/nix" = {
-                  #  mountOptions = ["compress=zstd" "noatime"];
-                  #  mountpoint = "/nix";
-                  #};
+                  "/nix" = {
+                    mountOptions = ["compress=zstd" "noatime"];
+                    mountpoint = "/nix";
+                  };
                   # This subvolume will be created but not mounted
                   "/test" = {};
                 };
@@ -75,10 +75,12 @@
                   "/data/seaweedfs" = {
                     mountOptions = ["compress=zstd"];
                   };
-                  "/data/audiobookshelf" = {};
+                  "/data/audiobookshelf" = {
+                    mountpoint = "/var/lib/audiobookshelf";
+                  };
                   "/nix" = {
-                    mountOptions = ["compress=zstd" "noatime"];
-                    mountpoint = "/nix";
+                    # mountOptions = ["compress=zstd" "noatime"];
+                    # mountpoint = "/nix";
                   };
                 };
               };
