@@ -53,7 +53,7 @@
           Type = "oneshot";
           RemainAfterExit = true;
         };
-        preStart = let
+        script = let
           json_data = {
             name = healthcheck-namme;
             slug = healthcheck-namme;
@@ -73,6 +73,7 @@
           echo "Upserting healthcheck ${healthcheck-namme}"
           ${pkgs.curl}/bin/curl "https://healthchecks.eyen.ca/api/v3/checks/" \
             -X POST \
+            --silent \
             -H "Content-Type: application/json" \
             -H "X-Api-Key: $API_KEY" \
             -d '${builtins.toJSON json_data}'
