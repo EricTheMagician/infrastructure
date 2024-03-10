@@ -23,6 +23,7 @@ in {
   my.lldap.enable = true;
   my.nextcloud.enable = true;
   my.tandoor-recipes.enable = true;
+  my.tailscale.enable = true;
 
   # Use the systemd-boot EFI boot loader.
   boot.loader.systemd-boot.enable = true;
