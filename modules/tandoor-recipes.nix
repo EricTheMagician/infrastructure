@@ -68,8 +68,8 @@ in {
         };
       };
       my.backups.services.tandoor-recipes = {
-        paths = ["/var/lib/tandoor-recipes/recipes" "/var/lib/private/tandoor-recipes/recipes"];
-        postgres_databases = ["tandoor-recipes"];
+        paths = ["/var/lib/private/tandoor-recipes/recipes" "/var/lib/private/tandoor-recipes/recipes"];
+        postgres_databases = ["tandoor_recipes"];
       };
       services.postgresql = {
         ensureDatabases = ["tandoor_recipes"];
