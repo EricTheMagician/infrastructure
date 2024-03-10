@@ -5,12 +5,10 @@
   ...
 }: let
   cfg = config.keycloak;
+  inherit (lib) mkEnableOption mkOption types mkIf;
 in {
-  imports = [
-    ../../modules/postgres.nix
-    ../../modules/nginx.nix
-  ];
   options.keycloak = {
+    enable = mkEnableOption "keycloak";
     domain = lib.mkOption {
       type = lib.types.str;
       default = "login.eyen.ca";
@@ -19,8 +17,12 @@ in {
       type = lib.types.port;
       default = 1723;
     };
+    acme_host = mkOption {
+      type = types.str;
+      default = "eyen.ca";
+    };
   };
-  config = {
+  config = mkIf cfg.enable {
     sops.secrets."keycloak/database_password" = {};
     services.keycloak = {
       enable = true;
@@ -38,12 +40,12 @@ in {
       };
     };
     services.nginx.virtualHosts."${cfg.domain}" = {
-      useACMEHost = "eyen.ca";
+      useACMEHost = cfg.acme_host;
       forceSSL = true;
       locations."/" = {
         proxyPass = "http://localhost:${toString cfg.port}";
       };
     };
-    services.postgresqlBackup.databases = ["keycloak"];
+    my.backups.services.keycloak.postgres_databases = ["keycloak"];
   };
 }

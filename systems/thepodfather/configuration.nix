@@ -21,6 +21,7 @@ in {
   my.immich.enable = true;
   my.jellyfin.enable = true;
   my.lldap.enable = true;
+  my.keycloak.enable = true;
   my.nextcloud.enable = true;
   my.tandoor-recipes.enable = true;
   my.tailscale.enable = true;
