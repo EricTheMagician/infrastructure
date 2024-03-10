@@ -23,12 +23,14 @@ let
       inherit (mini-nix) ts;
     }) [
       "audiobookshelf.eyen.ca"
+      "auth.eyen.ca"
       "budget.eyen.ca"
       "grafana.eyen.ca"
       "healthchecks.eyen.ca"
       "it-tools.eyen.ca"
       "librechat.eyen.ca"
-      "mini-nix"
+      "linkwarden.eyen.ca"
+      "mini-nix.eyen.ca"
       "mini-nix-adguard.eyen.ca"
       "minio-api.eyen.ca"
       "minio-web.eyen.ca"

@@ -38,6 +38,7 @@ in {
     enable = true;
     domain = "healthchecks.eyen.ca";
   };
+  my.linkwarden.enable = true;
   my.nextdns.api_secrets.enable = true;
   my.minio = {
     enable = true;

@@ -14,7 +14,9 @@
     ./headscale.nix
     ./healthchecks.nix
     ./jellyfin.nix
+    ./keycloak.nix
     ./knownHosts.nix
+    ./linkwarden.nix
     ./lldap.nix
     ./minio.nix
     #./nebula.nix
