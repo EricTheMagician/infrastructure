@@ -23,8 +23,12 @@
     ./nextcloud.nix
     ./nextdns.nix
     ./nginx.nix
+    ./ntfy.nix
     ./plikd.nix
     ./postgres.nix
+    ./radarr.nix
+    ./sabnzbd.nix
+    ./sonarr.nix
     ./sops.nix
     ./stirling-pdf.nix
     ./tailscale.nix

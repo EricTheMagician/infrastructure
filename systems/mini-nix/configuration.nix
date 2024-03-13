@@ -24,7 +24,6 @@ in {
     ../../services/cache.nix
     ../../services/hercules-ci-agent.nix
     ./ipfs-podcasting.nix
-    ./ntfy.nix
     ../../modules/nextdns.nix
     #./mini-nix/nebula.nix
     #../services/seaweedfs.nix
