@@ -4,10 +4,10 @@
   config,
   ...
 }: let
-  cfg = config.keycloak;
+  cfg = config.my.keycloak;
   inherit (lib) mkEnableOption mkOption types mkIf;
 in {
-  options.keycloak = {
+  options.my.keycloak = {
     enable = mkEnableOption "keycloak";
     domain = lib.mkOption {
       type = lib.types.str;
