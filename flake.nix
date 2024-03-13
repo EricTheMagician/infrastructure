@@ -329,12 +329,6 @@
           user = "root";
           path = deployPkgs.deploy-rs.lib.activate.nixos self.nixosConfigurations.mini-nix;
         };
-        profiles.eric = {
-          sshUser = "root";
-          user = "eric";
-          profilePath = "/nix/var/nix/profiles/per-user/eric/home-manager";
-          path = deploy-rs.lib.${system}.activate.custom self.homeConfigurations.eric.activationPackage "$PROFILE/activate";
-        };
       };
 
       headscale = {
@@ -345,32 +339,16 @@
           path = deployPkgs.deploy-rs.lib.activate.nixos self.nixosConfigurations.headscale;
         };
       };
-    };
 
-    #deploy.nodes.nixos-workstation = {
-    #  hostname = "nixos-workstation";
-    #  fastConnection = true;
-    #  profiles.system = {
-    #    sshUser = "root";
-    #    user = "root";
-    #    path = deployPkgs.deploy-rs.lib.activate.nixos self.nixosConfigurations.nixos-workstation;
-    #  };
-    #};
-
-    deploy.nodes.thepodfather = {
-      hostname = "thepodfather";
-      fastConnection = true;
-      profiles.system = {
-        sshUser = "root";
-        user = "root";
-        path = deployPkgs.deploy-rs.lib.activate.nixos self.nixosConfigurations.thepodfather;
+      thepodfather = {
+        hostname = "thepodfather";
+        fastConnection = true;
+        profiles.system = {
+          sshUser = "root";
+          user = "root";
+          path = deployPkgs.deploy-rs.lib.activate.nixos self.nixosConfigurations.thepodfather;
+        };
       };
-      #profiles.eric = {
-      #  sshUser = "root";
-      #  user = "eric";
-      #  profilePath = "/nix/var/nix/profiles/per-user/eric/home-manager";
-      #  path = deploy-rs.lib.${system}.activate.custom self.homeConfigurations.eric.activationPackage "$PROFILE/activate";
-      #};
     };
 
     checks =
