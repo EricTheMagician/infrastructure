@@ -49,6 +49,7 @@
       value = {
         wantedBy = ["multi-user.target"];
         after = lib.optionals config.my.healthchecks.enable ["healthchecks.service"];
+        requires = ["tailscaled.service"];
         serviceConfig = {
           Type = "oneshot";
           RemainAfterExit = true;
