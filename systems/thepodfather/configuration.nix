@@ -22,7 +22,6 @@ in {
   my.lldap.enable = true;
   my.keycloak.enable = true;
   my.nextcloud.enable = true;
-  my.ntfy.enable = true;
   my.tandoor-recipes.enable = true;
   my.sabnzbd.enable = true;
   my.sonarr = {

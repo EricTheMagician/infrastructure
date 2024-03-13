@@ -46,6 +46,7 @@ in {
     data_dirs = ["/data/minio"];
     region = "mini-nix";
   };
+  my.ntfy.enable = true;
   my.librechat.enable = true;
   my.docker.tools = {
     it-tools.enable = true;

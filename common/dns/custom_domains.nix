@@ -57,6 +57,9 @@ let
       "thepodfather"
       "viewtube.eyen.ca"
       "recipes.eyen.ca"
+      "sonarr.eyen.ca"
+      "radarr.eyen.ca"
+      "sabnzbd.eyen.ca"
     ];
 
   rica-domains =
