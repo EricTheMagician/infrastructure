@@ -13,7 +13,6 @@ in {
     ./docker.machine-disks.nix
     ./hardware-configuration.nix
     ./invidious.nix
-    ./keycloak.nix
     ./peertube.nix
   ];
 
@@ -23,7 +22,17 @@ in {
   my.lldap.enable = true;
   my.keycloak.enable = true;
   my.nextcloud.enable = true;
+  my.ntfy.enable = true;
   my.tandoor-recipes.enable = true;
+  my.sabnzbd.enable = true;
+  my.sonarr = {
+    enable = true;
+    read_write_dirs = ["/var/lib/sabnzbd" "/mnt/unraid/Media/TV"];
+  };
+  my.radarr = {
+    enable = true;
+    read_write_dirs = ["/var/lib/sabnzbd" "/mnt/unraid/Media/Movies"];
+  };
   my.tailscale.enable = true;
 
   # Use the systemd-boot EFI boot loader.
