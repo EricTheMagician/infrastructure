@@ -1,6 +1,5 @@
 {
   config,
-  pkgs,
   lib,
   ...
 }: let
@@ -15,7 +14,7 @@
   db_socket = "/run/postgresql";
   immich_environment = {
     REDIS_SOCKET = redis_socket;
-    #DB_HOSTNAME = "100.64.0.18";
+    DB_HOSTNAME = config.my.immich.database.hostname;
   };
   immich_volumes = [
     "${upload_path}:/usr/src/app/upload"
@@ -48,6 +47,12 @@ in {
     acme_host = mkOption {
       type = types.str;
       default = "eyen.ca";
+    };
+    database = {
+      hostname = mkOption {
+        type = types.str;
+        default = "localhost";
+      };
     };
   };
   config = mkMerge [

@@ -17,7 +17,10 @@ in {
   ];
 
   my.forgejo.enable = true;
-  my.immich.enable = true;
+  my.immich = {
+    enable = true;
+    database.hostname = "100.64.0.18";
+  };
   my.jellyfin.enable = true;
   my.lldap.enable = true;
   my.keycloak.enable = true;
