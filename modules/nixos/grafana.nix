@@ -4,7 +4,7 @@
   ...
 }: let
   create_database =
-    import ../functions/create_postgresql_db.nix
+    import ../../functions/create_postgresql_db.nix
     {
       name = "grafana";
       user_name = "grafana";
@@ -17,7 +17,7 @@
   inherit (lib) mkMerge mkEnableOption mkIf;
   cfg = config.my.programs.grafana;
   grafana_secret_config = {
-    sopsFile = ../../secrets/grafana.yaml;
+    sopsFile = ../../../secrets/grafana.yaml;
     owner = "grafana";
     inherit (config.users.users.grafana) group;
   };

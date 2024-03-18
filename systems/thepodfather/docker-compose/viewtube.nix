@@ -1,9 +1,6 @@
 _: let
   data_path = "/var/lib/viewtube";
 in {
-  imports = [
-    ../../../modules/borg.nix
-  ];
   my.nginx.enable = true;
   my.acme.enable = true;
   virtualisation.arion.projects.viewtube.settings.services = {

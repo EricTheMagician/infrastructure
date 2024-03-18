@@ -16,7 +16,7 @@ in {
   };
   config = mkIf cfg.enable {
     sops.secrets."ntfy/env" = {
-      sopsFile = ../secrets/mini-nix/ntfy.env;
+      sopsFile = ../../secrets/mini-nix/ntfy.env;
       format = "dotenv";
     };
     services.ntfy-sh = {

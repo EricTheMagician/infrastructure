@@ -6,7 +6,7 @@
 }: let
   inherit (lib) mkOption mkEnableOption types mkIf;
   create_database =
-    import ../functions/create_postgresql_db.nix
+    import ../../functions/create_postgresql_db.nix
     {
       name = "forgejo";
       user_name = "forgejo";

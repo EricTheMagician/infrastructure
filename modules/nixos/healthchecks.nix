@@ -7,7 +7,7 @@
 }: let
   inherit (lib) mkOption mkEnableOption types mkIf;
   cfg = config.my.healthchecks;
-  build_borg_backup_job = import ../functions/borg-job.nix;
+  build_borg_backup_job = import ../../functions/borg-job.nix;
   inherit (cfg) domain acme_host;
 in {
   imports = [
@@ -35,7 +35,7 @@ in {
       # This is the actual specification of the secrets.
       secrets."healthchecks" = {
         mode = "0400";
-        sopsFile = ../secrets/healthchecks.yaml;
+        sopsFile = ../../secrets/healthchecks.yaml;
         inherit (config.services.healthchecks) group;
         owner = config.services.healthchecks.user;
         restartUnits = ["healthchecks.service"];

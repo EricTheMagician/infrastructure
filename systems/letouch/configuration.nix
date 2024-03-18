@@ -16,7 +16,7 @@
   imports = [
     # Include the results of the hardware scan.
     ./hardware-configuration.nix
-    ../../modules
+    ../../modules/nixos
     #"${inputs.nixpkgs-unstable}/nixos/modules/programs/hyprland.nix"
   ];
   my.tailscale = {

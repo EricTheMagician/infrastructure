@@ -23,7 +23,7 @@ in {
     my.nginx.enable = true;
     sops.secrets."vaultwarden/env" = {
       format = "dotenv";
-      sopsFile = ../secrets/vaultwarden.env;
+      sopsFile = ../../secrets/vaultwarden.env;
       restartUnits = ["vaultwarden.service"];
     };
     services.vaultwarden = {

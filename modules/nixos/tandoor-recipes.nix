@@ -40,7 +40,7 @@ in {
       #sops.secrets."tandoor/db_password" = {};
       sops.secrets."tandoor/.env" = {
         format = "dotenv";
-        sopsFile = ../secrets/tandoor.env;
+        sopsFile = ../../secrets/tandoor.env;
         restartUnits = ["tandoor-recipes.service"];
       };
       services.tandoor-recipes = {

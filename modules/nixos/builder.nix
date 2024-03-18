@@ -26,12 +26,12 @@ in {
       # This is the actual specification of the secrets.
       secrets."nix-serve.private" = {
         mode = "0400";
-        sopsFile = ../secrets/nix-serve.yaml;
+        sopsFile = ../../secrets/nix-serve.yaml;
       };
       secrets.aws_credentials = {
         #path = "/var/lib/users.users.hercules-ci-agent.home}/.aws/credentials";
         path = "/root/.aws/credentials";
-        sopsFile = ../secrets/hercules.yaml;
+        sopsFile = ../../secrets/hercules.yaml;
       };
     };
   };

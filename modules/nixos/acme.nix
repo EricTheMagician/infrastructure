@@ -45,7 +45,7 @@ in {
       # This is the actual specification of the secrets.
       secrets."cloudflare/api_key" = {
         mode = "0440";
-        sopsFile = ../secrets/cloudflare-api.env;
+        sopsFile = ../../secrets/cloudflare-api.env;
         format = "dotenv";
         inherit (config.security.acme.defaults) group;
       };

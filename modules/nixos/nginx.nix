@@ -55,7 +55,7 @@ in {
         mkIf config.my.nginx.ban-ip {
           # enable the geoip2-lite country database download
           sops.secrets."geoip/license_key" = {
-            sopsFile = ../secrets/maxmind_geoip.yaml;
+            sopsFile = ../../secrets/maxmind_geoip.yaml;
           };
           services.geoipupdate = {
             enable = true;

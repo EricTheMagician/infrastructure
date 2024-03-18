@@ -3,7 +3,7 @@ let
 in {
   imports = [
     ../../common
-    ../../modules
+    ../../modules/nixos
     ./hardware-configuration.nix
     ./disk-configuration.nix
     ./fail2ban.nix

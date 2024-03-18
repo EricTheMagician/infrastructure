@@ -40,7 +40,7 @@ in {
       # This is the actual specification of the secrets.
       secrets."minio_credentials" = {
         mode = "0440";
-        sopsFile = ../secrets/mini-nix/minio.yaml;
+        sopsFile = ../../secrets/mini-nix/minio.yaml;
         owner = "minio";
         group = "minio";
       };

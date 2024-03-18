@@ -35,7 +35,7 @@ in {
 
   config = mkIf cfg.enable {
     sops.secrets."librechat/.env" = {
-      sopsFile = ../../../secrets/librechat.env;
+      sopsFile = ../../../../secrets/librechat.env;
       format = "dotenv";
     };
 

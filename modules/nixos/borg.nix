@@ -85,19 +85,19 @@ in {
       sops.secrets = {
         healthchecks_api_key = {
           mode = "0400";
-          sopsFile = ../secrets/healthchecks.yaml;
+          sopsFile = ../../secrets/healthchecks.yaml;
         };
         ping_key = {
           mode = "0400";
-          sopsFile = ../secrets/healthchecks.yaml;
+          sopsFile = ../../secrets/healthchecks.yaml;
         };
         "borg/password" = {
           mode = "0400";
-          sopsFile = ../secrets/borg-backup.yaml;
+          sopsFile = ../../secrets/borg-backup.yaml;
         };
         "borg/private_key" = {
           mode = "0400";
-          sopsFile = ../secrets/borg-backup.yaml;
+          sopsFile = ../../secrets/borg-backup.yaml;
         };
       };
     })

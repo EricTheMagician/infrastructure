@@ -14,7 +14,7 @@ in {
   };
   config = mkIf config.my.nebula.enable {
     sops.secrets."nebula/ca/ca.crt" = {
-      sopsFile = ../secrets/nebula.yaml;
+      sopsFile = ../../secrets/nebula.yaml;
       owner = "nebula-${network_name}";
     };
     services.nebula.networks.${network_name} = {

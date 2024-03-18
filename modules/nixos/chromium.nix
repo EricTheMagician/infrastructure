@@ -39,6 +39,7 @@
           "iokeahhehimjnekafflcihljlcjccdbe" # alby
           "mnjggcdmjocbbbhaepdhchncahnbgone" # sponson block
           "hnmpcagpplmpfojmgmnngilcnanddlhb" # windscribe
+          # "pnidmkljnhbjfffciajlcpeldoljnidn" # linkwarden
         ]
         ++ lib.optional (kde5_enabled || kde6_enabled) "cimiefiiaegbelhefglklhhakcgmhkai"
         # kde/plasma integration

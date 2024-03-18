@@ -28,7 +28,7 @@ in {
   ];
   config = mkIf cfg.enable {
     sops.secrets."linkwarden/env" = {
-      sopsFile = ../secrets/linkwarden.env;
+      sopsFile = ../../secrets/linkwarden.env;
       restartUnits = ["linkwarden.service"];
       format = "dotenv";
     };

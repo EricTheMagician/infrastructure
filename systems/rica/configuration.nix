@@ -8,7 +8,7 @@
     ./disks.nix
     ../defaults.nix
     ./ssh-luks.nix
-    ../../modules
+    ../../modules/nixos
   ];
   my.fail2ban.enable = true;
   my.tailscale = {

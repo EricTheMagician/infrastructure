@@ -7,7 +7,7 @@
   upload_path = "${data_path}/upload";
   env_file = config.sops.secrets."immich/env_file".path;
   immich_sops = {
-    sopsFile = ../../secrets/immich.yaml;
+    sopsFile = ../../../secrets/immich.yaml;
     mode = "0400";
   };
   redis_socket = config.services.redis.servers.immich.unixSocket;
@@ -23,7 +23,7 @@
     "${db_socket}:${db_socket}"
   ];
 
-  create_database = import ../../functions/create_postgresql_db.nix {
+  create_database = import ../../../functions/create_postgresql_db.nix {
     name = "immich";
     user_name = "immich";
     passwordFile = config.sops.secrets."immich/db_password".path;

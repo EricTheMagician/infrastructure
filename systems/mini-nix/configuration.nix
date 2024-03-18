@@ -19,18 +19,17 @@ in {
     ./hardware-configuration.nix
     ./disk-configuration.nix
     ../defaults.nix
-    ../../modules
+    ../../modules/nixos
     ../../services/locate.nix
     ../../services/cache.nix
     ../../services/hercules-ci-agent.nix
     ./ipfs-podcasting.nix
-    ../../modules/nextdns.nix
+    # ../../modules/nextdns.nix
     #./mini-nix/nebula.nix
     #../services/seaweedfs.nix
     #../containers/kanidm.nix
     # ../common
   ];
-
   my.audiobookshelf.enable = true;
   my.backups.services.audiobookshelf.paths = ["/data/audiobookshelf"];
   my.healthchecks = {
