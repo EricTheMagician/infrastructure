@@ -157,7 +157,7 @@ in {
             # };
             nixd = {
               inherit (cfg.languages.nix) enable;
-              settings.formatting.command = ["${pkgs.alejandra}/bin/alejandra"];
+              settings.formatting.command = "${pkgs.alejandra}/bin/alejandra";
             };
             pyright = {inherit (cfg.languages.python) enable;};
             pylsp = {
@@ -229,36 +229,34 @@ in {
         luasnip.enable = true;
         cmp = {
           enable = true;
-          settings.sources =
-            [
-              {name = "nvim_lsp";}
-              {name = "path";}
-              {name = "buffer";}
-            ]
-            ++ (lib.optional cfg.features.codeium.enable
-              {name = "codeium";});
+          autoEnableSources = true;
+          settings = {
+            sources =
+              [
+                {name = "nvim_lsp";}
+                {name = "path";}
+                {name = "buffer";}
+              ]
+              ++ (lib.optional cfg.features.codeium.enable
+                {name = "codeium";});
+            mapping = {
+              "<CR>" = "cmp.mapping.confirm({ select = true })";
+              "<S-Tab>" = "cmp.mapping.select_prev_item()";
+              "<Tab>" = ''
+                function(fallback)
+                  if cmp.visible() then
+                    cmp.select_next_item()
+                  else
+                    fallback()
+                  end
+                end
+              '';
+            };
+          };
         };
         cmp-nvim-lsp.enable = true;
         cmp-nvim-lsp-document-symbol.enable = true;
         cmp-nvim-lsp-signature-help.enable = true;
-        nvim-cmp = {
-          enable = true;
-          autoEnableSources = true;
-
-          mapping = {
-            "<CR>" = "cmp.mapping.confirm({ select = true })";
-            "<S-Tab>" = "cmp.mapping.select_prev_item()";
-            "<Tab>" = ''
-              function(fallback)
-                if cmp.visible() then
-                  cmp.select_next_item()
-                else
-                  fallback()
-                end
-              end
-            '';
-          };
-        };
         surround.enable = true;
         oil.enable = true;
         treesitter = {

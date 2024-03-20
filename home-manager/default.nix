@@ -61,7 +61,7 @@
     };
     zsh = {
       enable = true; # don't forget to add   `environment.pathsToLink = [ "/share/zsh" ];` to the system environment
-      enableAutosuggestions = true;
+      autosuggestion.enable = true;
       history = {
         size = 100 * 1000;
         save = 100 * 1000;
