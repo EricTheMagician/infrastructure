@@ -151,7 +151,11 @@ in {
             };
             efm.enable = true; # for formatting and linters
             jsonls.enable = true;
-            nil_ls = {
+            # nil_ls = {
+            #   inherit (cfg.languages.nix) enable;
+            #   settings.formatting.command = ["${pkgs.alejandra}/bin/alejandra"];
+            # };
+            nixd = {
               inherit (cfg.languages.nix) enable;
               settings.formatting.command = ["${pkgs.alejandra}/bin/alejandra"];
             };
@@ -223,39 +227,36 @@ in {
           };
         };
         luasnip.enable = true;
+        cmp = {
+          enable = true;
+          settings.sources =
+            [
+              {name = "nvim_lsp";}
+              {name = "path";}
+              {name = "buffer";}
+            ]
+            ++ (lib.optional cfg.features.codeium.enable
+              {name = "codeium";});
+        };
         cmp-nvim-lsp.enable = true;
         cmp-nvim-lsp-document-symbol.enable = true;
         cmp-nvim-lsp-signature-help.enable = true;
         nvim-cmp = {
           enable = true;
           autoEnableSources = true;
-          sources = [
-            {name = "nvim_lsp";}
-            {name = "codeium";}
-            {name = "path";}
-            {name = "buffer";}
-          ];
+
           mapping = {
             "<CR>" = "cmp.mapping.confirm({ select = true })";
-            "<S-Tab>" = {
-              action = "cmp.mapping.select_prev_item()";
-              modes = [
-                "i"
-                "s"
-              ];
-            };
-            "<Tab>" = {
-              action = ''
-                function(fallback)
-                  if cmp.visible() then
-                    cmp.select_next_item()
-                  else
-                    fallback()
-                  end
+            "<S-Tab>" = "cmp.mapping.select_prev_item()";
+            "<Tab>" = ''
+              function(fallback)
+                if cmp.visible() then
+                  cmp.select_next_item()
+                else
+                  fallback()
                 end
-              '';
-              modes = ["i" "s"];
-            };
+              end
+            '';
           };
         };
         surround.enable = true;

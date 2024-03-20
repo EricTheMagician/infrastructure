@@ -58,13 +58,21 @@
       flake = false;
     };
 
-    nixvim.url = "https://flakehub.com/f/nix-community/nixvim/0.*.tar.gz";
+    nixvim.url = "github:nix-community/nixvim";
     nixvim.inputs.nixpkgs.follows = "nixpkgs-unstable";
     nixvim.inputs.home-manager.follows = "home-manager";
     #nixvim.inputs.home-manager.inputs.nixpkgs.follows = "nixpkgs-unstable";
     nixvim.inputs.pre-commit-hooks.follows = "nix-pre-commit-hooks";
 
     nvim-codeium.url = "github:Exafunction/codeium.nvim";
+
+    # nixos-router
+    nixos-router.url = "github:chayleaf/nixos-router";
+    nixos-router.inputs.nixpkgs.follows = "nixpkgs";
+
+    # notnft
+    notnft.url = "github:chayleaf/notnft";
+    notnft.inputs.nixpkgs.follows = "nixpkgs";
   };
 
   outputs = {
@@ -230,6 +238,7 @@
         pkgs = pkgs.unstable;
         extraSpecialArgs = {
           inherit inputs;
+          stable = pkgs;
         }; # Pass flake inputs to our config
         #  Our main home-manager configuration file <
         modules = [
@@ -263,6 +272,7 @@
         inherit pkgs;
         extraSpecialArgs = {
           inherit inputs;
+          stable = pkgs;
         }; # Pass flake inputs to our config
         #  Our main home-manager configuration file <
         modules = [
