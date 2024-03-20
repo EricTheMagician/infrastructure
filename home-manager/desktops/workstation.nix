@@ -21,7 +21,7 @@
     # (pkgs.writeShellScriptBin "my-hello" ''
     #   echo "Hello, ${config.home.username}!"
     # '')
-    vivaldi
+    (vivaldi.override {proprietaryCodecs = true;})
     vivaldi-ffmpeg-codecs
     # gs.unstablevscode.fhs
     # vscode
@@ -77,6 +77,7 @@
     #(neovim-qt.override {neovim = config.programs.neovim.finalPackage;})
     nextcloud-client
     element-desktop
+    wpsoffice
   ];
 
   home.shellAliases = {
