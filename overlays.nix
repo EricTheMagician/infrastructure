@@ -51,6 +51,11 @@
       overlays = [my_vim_plugins inputs.nvim-codeium.overlays.${system}.default];
     };
   };
+
+  other-packages = final: prev: {
+    inherit (inputs.flox.packages.x86_64-linux) flox;
+  };
+
   #unstable-packages = final: prev: {
   #  unstable = import inputs.nixpkgs-unstable {
   #    inherit (final) system ;

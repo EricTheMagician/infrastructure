@@ -16,11 +16,17 @@ in {
     enable = mkEnableOption "postgresql";
   };
   config = mkIf cfg.enable {
+    assertions = [
+      {
+        assertion = !immich_enabled || ((lib.versionAtLeast pkgs.unstable.postgresql16Packages.pgvecto-rs.version "0.2") && (lib.versionOlder pkgs.unstable.postgresql16Packages.pgvecto-rs.version "0.3"));
+        message = "pgvecto-rs didn't have the expected version. Fix ME if this was expected";
+      }
+    ];
     services.postgresql = {
       # https://nixos.wiki/wiki/PostgreSQL
       enable = true;
-      #package = pkgs.unstable.postgresql_16;
-      package = pkgs.postgresql_16.withPackages (p: (lib.optional immich_enabled (pkgs.pgvecto_rs.override {postgres = pkgs.postgresql_16;}))); #.override {postgresql = pkgs.unstable.postgresql_16;})));
+      package = pkgs.unstable.postgresql_16.withPackages (p: (lib.optional immich_enabled p.pgvecto-rs));
+
       settings = mkIf immich_enabled {
         shared_preload_libraries = "vectors.so";
       };
