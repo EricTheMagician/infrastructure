@@ -97,4 +97,6 @@
       package = pkgs.vscode.fhs;
     };
   };
+  my.gdb.enable = true;
+  my.gdb.pretty-print.qt.enable = true;
 }

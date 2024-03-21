@@ -11,7 +11,7 @@
   # You should not change this value, even if you update Home Manager. If you do
   # want to update the value, then make sure to first check the Home Manager
   # release notes.
-  imports = [./plik.nix ./neovim.nix];
+  imports = [./plik.nix ./neovim.nix ../modules/home-manager];
   home = {
     stateVersion = "23.05"; # Please read the comment before changing.
     enableNixpkgsReleaseCheck = false;
