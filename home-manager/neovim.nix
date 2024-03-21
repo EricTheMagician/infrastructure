@@ -59,6 +59,7 @@ in {
         tokyonight.enable = true;
         # gruvbox.enable = true;
       };
+      extraPackages = lib.optionals cfg.features.codeium.enable [pkgs.curl];
       extraPlugins = with pkgs.vimPlugins;
         [
           vim-bufkill # for :BD to close buffer without killing it
