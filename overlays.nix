@@ -35,7 +35,11 @@
       {
         # add's stirling-pdf
         url = "https://patch-diff.githubusercontent.com/raw/NixOS/nixpkgs/pull/283305.patch";
-        hash = "sha256-/G+dkMBPR85a9nm3yQzws01LmxUHkZVlPJvJXj5An6I=";
+        hash = "sha256-ZeNOC2ByusDsp7juf+QdMY43Fg2zfv5+ZTOH3/joItA=";
+      }
+      {
+        url = "https://patch-diff.githubusercontent.com/raw/NixOS/nixpkgs/pull/289664.diff";
+        hash = "sha256-ZzodY4kr8tq/Vo0kZEwTzxDkuiPx7xRqCcvTkb/cltk=";
       }
     ];
     originPkgs = inputs.nixpkgs-unstable.legacyPackages.${system};
@@ -55,13 +59,4 @@
   other-packages = final: prev: {
     inherit (inputs.flox.packages.x86_64-linux) flox;
   };
-
-  #unstable-packages = final: prev: {
-  #  unstable = import inputs.nixpkgs-unstable {
-  #    inherit (final) system ;
-  #    config.allowUnfree = final.config.allowUnfree ;
-  #    overlays = [my_vim_plugins];
-  #  };
-
-  #};
 }

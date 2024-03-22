@@ -73,6 +73,8 @@
     # notnft
     notnft.url = "github:chayleaf/notnft";
     notnft.inputs.nixpkgs.follows = "nixpkgs";
+    # enable flox in my environment
+    flox.url = "github:flox/flox";
   };
 
   outputs = {
@@ -90,8 +92,7 @@
     kde6,
     libre-chat,
     nvim-codeium,
-    #mynixpkgs,
-    #synapse,
+    flox,
     ...
   } @ inputs: let
     system = "x86_64-linux";
