@@ -4,6 +4,12 @@
     user = "root";
   };
 
+  "mini-nix-zellij" = {
+    hostname = "100.64.0.14";
+    user = "eric";
+    RemoteCommand = "zellij a nix --create";
+  };
+
   "mini-nix" = {
     hostname = "100.64.0.14";
     user = "eric";
@@ -19,7 +25,7 @@
     user = "codeium";
   };
 
-  "ors-ftp3" = {
+  "ftp3" = {
     hostname = "192.168.0.25";
     user = "root";
   };
