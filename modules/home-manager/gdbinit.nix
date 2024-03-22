@@ -33,6 +33,7 @@ in {
     home.file.".gdbinit".source = pkgs.writeText ".gdbinit" (''
         set history save on
         set print thread-events off
+        set debuginfod enabled
         python
         import sys
         sys.path.insert(0, '${lib.getLib pkgs.gcc-unwrapped}/share/gcc-${pkgs.gcc-unwrapped.version}/python')
