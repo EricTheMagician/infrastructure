@@ -396,10 +396,10 @@
       };
 
     devShells.x86_64-linux.my-admin-portal = let
-      python_env = pkgs.python3.withPackages (ps: [ps.textual ps.textual ps.systemd ps.pydantic ps.typing-extensions]);
+      python_env = pkgs.python3.withPackages (ps: [ps.textual ps.textual ps.systemd ps.pydantic ps.typing-extensions ps.fastapi ps.uvicorn]);
     in
       pkgs.mkShell {
-        nativeBuildInputs = [python_env pkgs.python3Packages.textual-dev pkgs.hatch];
+        nativeBuildInputs = [python_env pkgs.python3Packages.textual-dev pkgs.hatch pkgs.yarn];
         shellHook = ''
           CWD=`pwd`
           export PYTHONPATH=$CWD/src
