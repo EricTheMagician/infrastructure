@@ -41,6 +41,12 @@ in {
           ]
           ++ pkgs.vscode-utils.extensionsFromVscodeMarketplace
           [
+            {
+              name = "codeium";
+              publisher = "Codeium";
+              version = "1.7.34";
+              sha256 = "";
+            }
           ];
       }
     ];
