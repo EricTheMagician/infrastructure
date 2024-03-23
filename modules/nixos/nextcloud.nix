@@ -92,6 +92,8 @@ in {
           "SYS_ADMIN"
           "--pull=always"
         ];
+        # I took the default value from the container, and added my tailscale subnet
+        volumes = ["${./assets/coolwsd.xml}:/etc/coolwsd/coolwsd.xml"];
       };
     };
 
