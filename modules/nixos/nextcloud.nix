@@ -14,6 +14,13 @@ in {
       type = types.str;
       default = "cloud.eyen.ca";
     };
+    collabora = {
+      enable = mkEnableOption "collabora";
+      domain = mkOption {
+        type = types.str;
+        default = "office.eyen.ca";
+      };
+    };
   };
   config = mkIf cfg.enable {
     sops.secrets."nextcloud/admin_password" = {
@@ -83,8 +90,8 @@ in {
         #};
         ports = ["9980:9980"];
         environment = {
-          inherit (cfg) domain;
-          server_name = cfg.domain;
+          inherit (cfg.collabora) domain;
+          server_name = cfg.collabora.domain;
           extra_params = "--o:ssl.enable=false --o:ssl.termination=true";
         };
         extraOptions = [
