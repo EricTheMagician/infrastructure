@@ -5,10 +5,11 @@
   inputs,
   ...
 }: let
-  inherit (lib) mkIf mkEnableOption genAttrs optionalAttrs optionals;
+  inherit (lib) mkIf mkEnableOption genAttrs optionalAttrs optionals optional;
   cfg = config.my.programs.neovim;
   enable_dap =
     cfg.languages.python.enable || cfg.languages.cpp.enable;
+  nvimcfg = config.programs.nixvim;
 in {
   imports = [
     inputs.nixvim.homeManagerModules.nixvim
@@ -37,7 +38,7 @@ in {
       };
       options = {
         number = true;
-        relativenumber = true;
+        # relativenumber = true;
         expandtab = true;
         smartindent = true;
         tabstop = 4;
@@ -59,7 +60,7 @@ in {
         tokyonight.enable = true;
         # gruvbox.enable = true;
       };
-      extraPackages = lib.optionals cfg.features.codeium.enable [pkgs.curl];
+      extraPackages = optionals cfg.features.codeium.enable [pkgs.curl];
       extraPlugins = with pkgs.vimPlugins;
         [
           vim-bufkill # for :BD to close buffer without killing it
@@ -301,7 +302,10 @@ in {
           #            };
           #          };
         };
-
+        toggleterm = {
+          enable = true;
+          openMapping = "<leader>tt";
+        };
         telescope = {
           enable = true;
           keymaps = {
