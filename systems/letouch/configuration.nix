@@ -187,7 +187,7 @@
         "cache.nixos.org-1:6NCHdD59X431o0gWypbMrAURkbJ16ZPMQFGspcDShjY="
       ];
       max-jobs = 16;
-      cores = 2;
+      cores = 8;
     };
   };
 
