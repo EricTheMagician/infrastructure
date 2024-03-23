@@ -305,6 +305,8 @@ in {
         toggleterm = {
           enable = true;
           openMapping = "<leader>tt";
+          # since my leader key is spacebar, it makes everything slow when I press the spacebar sicne it has to wait to see if that is the key that I want to press
+          insertMappings = false;
         };
         telescope = {
           enable = true;
