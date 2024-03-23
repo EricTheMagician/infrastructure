@@ -7,6 +7,10 @@
     pkgs.element-desktop
     pkgs.ulauncher
   ];
+  programs.vscode = {
+    enable = true;
+    package = pkgs.vscode.fhsWithPackages (ps: with ps; [nix-direnv]);
+  };
 
   systemd.user.services.ulauncher = {
     # mostly taken from https://github.com/Ulauncher/Ulauncher/blob/v6/ulauncher.service
