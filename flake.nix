@@ -106,6 +106,7 @@
         overlays.additions
         overlays.my_vim_plugins
         overlays.unstable-packages
+        overlays.other-packages
       ];
     };
 
