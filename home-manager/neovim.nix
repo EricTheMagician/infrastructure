@@ -153,10 +153,10 @@ in {
             };
             efm.enable = true; # for formatting and linters
             jsonls.enable = true;
-            # nil_ls = {
-            #   inherit (cfg.languages.nix) enable;
-            #   settings.formatting.command = ["${pkgs.alejandra}/bin/alejandra"];
-            # };
+            nil_ls = {
+              inherit (cfg.languages.nix) enable;
+              settings.formatting.command = ["${pkgs.alejandra}/bin/alejandra"];
+            };
             nixd = {
               inherit (cfg.languages.nix) enable;
               settings.formatting.command = "${pkgs.alejandra}/bin/alejandra";
