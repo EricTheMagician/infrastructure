@@ -13,9 +13,6 @@ _: {
     MaxFileSec=7day
   '';
 
-  # Use systemd-resolved for DNS lookups, but disable
-  # its dnssec support because it is kinda broken in
-  # surprising ways.
   services.resolved = {
     enable = true;
   };
