@@ -270,7 +270,7 @@
       };
 
       "eric@letouch" = home-manager.lib.homeManagerConfiguration {
-        inherit pkgs;
+        pkgs = pkgs.unstable;
         extraSpecialArgs = {
           inherit inputs;
           stable = pkgs;
