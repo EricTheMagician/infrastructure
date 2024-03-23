@@ -17,6 +17,7 @@
     # Include the results of the hardware scan.
     ./hardware-configuration.nix
     ../../modules/nixos
+    ./tlp.nix
     #"${inputs.nixpkgs-unstable}/nixos/modules/programs/hyprland.nix"
   ];
   my.tailscale = {

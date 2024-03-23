@@ -33,7 +33,6 @@
     ./stirling-pdf.nix
     ./tailscale.nix
     ./tandoor-recipes.nix
-    #./tlp.nix
     ./vaultwarden.nix
     #./vscode.nix
     ./wayland.nix
