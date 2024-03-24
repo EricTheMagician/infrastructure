@@ -24,6 +24,8 @@ in {
     services.jellyfin = {
       enable = true;
       package = pkgs.unstable.jellyfin;
+      user = "sabnzbd";
+      group = "sabnzbd";
     };
     services.nginx.virtualHosts.${domain} = {
       useACMEHost = acme_host;
