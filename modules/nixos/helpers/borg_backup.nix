@@ -48,7 +48,7 @@
       name = "healthchecks-job-${name}";
       value = {
         wantedBy = ["multi-user.target"];
-        after = lib.optionals config.my.healthchecks.enable ["healthchecks.service"];
+        after = (lib.optionals config.my.healthchecks.enable ["healthchecks.service"]) ++ (lib.optionals config.services.tailscale.enable ["tailscale.service"]);
         requires = ["tailscaled.service"];
         serviceConfig = {
           Type = "oneshot";
