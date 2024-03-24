@@ -111,7 +111,7 @@ in {
       useACMEHost = acme_host;
       forceSSL = true;
       locations."/" = {
-        proxyPass = "http://${cfg.domain}:${builtins.toString cfg.port}";
+        proxyPass = "http://localhost:${builtins.toString cfg.port}";
         proxyWebsockets = true;
       };
     };
