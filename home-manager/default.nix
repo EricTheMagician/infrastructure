@@ -90,20 +90,21 @@
       };
     };
 
-    tmux = {
-      enable = true;
-      terminal = "screen-256color";
-      shortcut = "a";
-      shell = "${pkgs.zsh}/bin/zsh";
-      sensibleOnTop = true;
-      baseIndex = 1;
-
-      tmuxinator.enable = true;
-    };
+    # tmux = {
+    #   enable = true;
+    #   terminal = "screen-256color";
+    #   shortcut = "a";
+    #   shell = "${pkgs.zsh}/bin/zsh";
+    #   sensibleOnTop = true;
+    #   baseIndex = 1;
+    #
+    #   tmuxinator.enable = true;
+    # };
+    #
 
     bat.enable = true; # a cat like tool, but with wings?
     #fish.enable = true;
-    gitui.enable = true;
+    # gitui.enable = true;
     # Let Home Manager install and manage itself.
     home-manager.enable = true;
     fzf = {
