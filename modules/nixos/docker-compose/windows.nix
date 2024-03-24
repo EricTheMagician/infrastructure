@@ -63,6 +63,9 @@ in {
       };
     };
 
-    my.backups.services.windows-vm.paths = [cfg.data_location];
+    my.backups.services.windows-vm = {
+      paths = [cfg.data_location];
+      startAt = "weekly";
+    };
   };
 }
