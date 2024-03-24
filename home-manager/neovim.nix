@@ -100,6 +100,11 @@ in {
           # action = ":tabprevious<CR>";
           action = ":bp<CR>";
         }
+        {
+          # opens git fugitive in a new tab
+          key = "tg";
+          action = ":tab Git<CR>";
+        }
       ];
 
       plugins = {
