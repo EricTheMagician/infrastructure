@@ -5,8 +5,8 @@
     nixpkgs.url = "https://flakehub.com/f/NixOS/nixpkgs/*.tar.gz";
     nixpkgs-unstable.url = "github:nixos/nixpkgs/nixos-unstable";
 
-    #mynixpkgs.url = "github:EricTheMagician/mynixpkgs";
-    #mynixpkgs.inputs.nixpkgs.follows = "nixpkgs";
+    # mynixpkgs.url = "github:EricTheMagician/mynixpkgs";
+    mynixpkgs.url = "/home/eric/git/nixpkgs";
 
     # Home manager
     home-manager.url = "github:nix-community/home-manager";
@@ -42,10 +42,10 @@
     #ipfs-podcasting.url = "/home/eric/git/ipfs-podcasting";
     ipfs-podcasting.inputs.nixpkgs.follows = "nixpkgs-unstable";
 
-    microvm = {
-      url = "github:astro/microvm.nix";
-      inputs = {nixpkgs.follows = "nixpkgs";};
-    };
+    # microvm = {
+    #   url = "github:astro/microvm.nix";
+    #   inputs = {nixpkgs.follows = "nixpkgs";};
+    # };
 
     # kde 6 until it is merged into nixpkgs
     kde6.url = "github:nix-community/kde2nix";
@@ -88,7 +88,7 @@
     nix-pre-commit-hooks,
     arion,
     ipfs-podcasting,
-    microvm,
+    # microvm,
     kde6,
     libre-chat,
     nvim-codeium,
@@ -107,6 +107,10 @@
         overlays.my_vim_plugins
         overlays.unstable-packages
         overlays.other-packages
+
+        (final: prev: {
+          lib = prev.lib // (import ./common/net.nix {inherit (final) lib;}).lib;
+        })
       ];
     };
 
@@ -181,7 +185,7 @@
         modules = [
           disko.nixosModules.disko
           ipfs-podcasting.nixosModules.ipfs-podcasting
-          microvm.nixosModules.host
+          # microvm.nixosModules.host
           ./systems/mini-nix
         ];
       };
@@ -210,7 +214,8 @@
         modules = [
           disko.nixosModules.disko
           arion.nixosModules.arion
-          microvm.nixosModules.host
+          # microvm.nixosModules.host
+          # microvm.nixosModules.microvm
           #synapse.nixosModules
           ./systems/defaults.nix
           ./systems/thepodfather/configuration.nix

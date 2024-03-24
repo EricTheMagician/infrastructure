@@ -57,6 +57,10 @@ in {
   my.backups.paths = ["/home/eric/git"];
   #my.programs.grafana.enable = false;
   my.programs.upload-to-nix-cache-script.enable = true;
+  my.windows = {
+    enable = true;
+    host_ip = ["100.64.0.14"];
+  };
 
   virtualisation.arion.backend = "docker";
 

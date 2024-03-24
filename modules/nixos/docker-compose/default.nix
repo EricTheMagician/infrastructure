@@ -4,5 +4,6 @@
     ./immich.nix
     ./librechat
     ./tools
+    ./windows.nix
   ];
 }
