@@ -149,6 +149,7 @@
   #end
   #'';
   home.shellAliases = {
+    ls = "${pkgs.eza}/bin/eza --header";
   };
 
   # Home Manager is pretty good at managing dotfiles. The primary way to manage
