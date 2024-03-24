@@ -25,7 +25,7 @@ in {
   config = mkIf cfg.enable {
     services.tailscale = {
       enable = true;
-      authKeyFile = "/run/secrets/tailscale_auth";
+      authKeyFile = "/run/secrets/tailscale/auth";
       inherit (cfg) extraUpFlags;
     };
     networking.firewall = {
