@@ -45,7 +45,7 @@ in {
       api.service = {
         image = "ghcr.io/danny-avila/librechat-dev-api:latest";
         ports = [
-          "${builtins.toString cfg.port}:3080"
+          "127.0.0.1:${builtins.toString cfg.port}:3080"
         ];
         extra_hosts = [
           "host.docker.internal:host-gateway"
@@ -75,7 +75,7 @@ in {
           MONGO_URI = "mongodb://mongodb:27017/LibreChat";
         };
         ports = [
-          "5664:80"
+          "127.0.0.1:5664:80"
         ];
         volumes = [
           "${source}/client/nginx.conf:/etc/nginx/conf.d/default.conf"
@@ -111,7 +111,7 @@ in {
       useACMEHost = acme_host;
       forceSSL = true;
       locations."/" = {
-        proxyPass = "http://localhost:${builtins.toString cfg.port}";
+        proxyPass = "http://127.0.0.1:${builtins.toString cfg.port}";
         proxyWebsockets = true;
       };
     };

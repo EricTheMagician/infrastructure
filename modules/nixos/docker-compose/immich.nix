@@ -80,7 +80,7 @@ in {
           image = "ghcr.io/immich-app/immich-server:release";
           command = ["start.sh" "immich"];
           ports = [
-            "${builtins.toString cfg.port}:3001"
+            "127.0.0.1:${builtins.toString cfg.port}:3001"
           ];
           environment = immich_environment;
           volumes =
@@ -116,7 +116,7 @@ in {
       services.nginx.virtualHosts.${cfg.domain} = {
         useACMEHost = cfg.acme_host;
         forceSSL = true;
-        locations."/".proxyPass = "http://localhost:${builtins.toString cfg.port}";
+        locations."/".proxyPass = "http://127.0.0.1:${builtins.toString cfg.port}";
       };
       my.backups.services.immich = {
         paths = [data_path];

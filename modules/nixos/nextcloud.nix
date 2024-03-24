@@ -88,7 +88,7 @@ in {
         #  imageDigest = "sha256:32c05e2d10450875eb153be11bfb7683fa0db95746e1f59d8c2fc3d988b45445";
         #  sha256 = "sha256-laQJldVH8ri54lFecJ26tGdlOGtnb+w7Bb+GJ/spzr8=";
         #};
-        ports = ["9980:9980"];
+        ports = ["127.0.0.1:9980:9980"];
         environment = {
           inherit (cfg.collabora) domain;
           server_name = cfg.collabora.domain;

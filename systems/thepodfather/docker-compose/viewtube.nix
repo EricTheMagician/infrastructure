@@ -19,7 +19,7 @@ in {
       };
       # dns = import ../../../common/dns/podman_dns.nix;
       ports = [
-        "8066:8066"
+        "127.0.0.1:8066:8066"
       ];
     };
     mongodb.service = {
