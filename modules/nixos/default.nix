@@ -13,10 +13,12 @@
     #./grafana.nix
     ./headscale.nix
     ./healthchecks.nix
+    ./incus.nix
     ./jellyfin.nix
     ./keycloak.nix
     ./knownHosts.nix
     ./linkwarden.nix
+    ./lxd.nix
     ./lldap.nix
     ./minio.nix
     #./nebula.nix
