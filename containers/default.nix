@@ -1,3 +1,3 @@
 {
-  imports = [./adguard.nix];
+  imports = [./adguard.nix ./helpers];
 }
