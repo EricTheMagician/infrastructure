@@ -51,7 +51,7 @@ in {
           ++ (mkPortMap "3389" "udp" cfg.host_ip)
           ++ (mkPortMap "8006" "tcp" cfg.host_ip);
         stop_grace_period = "2m";
-        restart = "on-failure";
+        restart = "unless-stopped";
         environment =
           {
             VERSION = "tiny11";
