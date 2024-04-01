@@ -23,57 +23,6 @@
     # '')
     (vivaldi.override {proprietaryCodecs = true;})
     vivaldi-ffmpeg-codecs
-    # gs.unstablevscode.fhs
-    # vscode
-    # (
-    #   vscode-with-extensions.override
-    #   {
-    #     vscodeExtensions = with pkgs.vscode-extensions;
-    #     [
-
-    #       # generatl development related packages
-    #       ms-vscode-remote.remote-ssh
-    #       eamodio.gitlens
-    #       # ms-vscode.powershell
-    #       # ms-azuretools.vscode-docker
-
-    #       # python related packages
-    #       ms-python.python
-    #       ms-python.vscode-pylance
-
-    #       # C++ related packages
-    #       ms-vscode.cpptools
-    #       ms-vscode.cmake-tools
-    #       xaver.clang-format
-
-    #       # nix related packages
-    #       bbenoist.nix
-    #       arrterian.nix-env-selector
-    #       jnoortheen.nix-ide
-    #     ] ++ pkgs.vscode-utils.extensionsFromVscodeMarketplace
-    #     [
-    #       {
-    #         publisher = "mjcrouch";
-    #         name = "perforce";
-    #         version = "4.15.7";
-    #         sha256 = "sha256-BXBfxg2GrXvohvu2b02JqtxbGxPxSanNId6DQ39akHI=";
-    #       }
-    #       {
-    #         publisher = "ms-python";
-    #         name = "black-formatter";
-    #         version ="2023.5.12151008";
-    #         sha256 = "sha256-YBcyyE9Z2eL914J8I97WQW8a8A4Ue6C0pCUjWRRPcr8=";
-    #       }
-    #       {
-    #         publisher = "Codeium";
-    #         name = "codeium-enterprise-updater";
-    #         version = "1.0.9";
-    #         sha256 = "sha256-WyDVhc9fjQ+Qgw7F04ESxicRK53vaVxgFtGRHQGpgeI=";
-    #       }
-    #     ];
-    #   }
-    # )
-
     #(neovim-qt.override {neovim = config.programs.neovim.finalPackage;})
     nextcloud-client
     element-desktop
@@ -99,4 +48,16 @@
   };
   my.gdb.enable = true;
   my.gdb.pretty-print.qt.enable = true;
+  my.programs.neovim.languages = {
+    nix.enable = true;
+    cpp.enable = true;
+    python.enable = true;
+  };
+  my.programs.neovim.features = {
+    codeium = {
+      enable = true;
+      enterprise = true;
+    };
+    perforce.enable = true;
+  };
 }

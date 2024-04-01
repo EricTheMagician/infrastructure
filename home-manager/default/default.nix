@@ -132,7 +132,10 @@
 
   my.programs.neovim = {
     enable = true;
+    languages.nix.enable = true;
+    features.codeium.enable = true;
   };
+  my.programs.plik.enable = true;
   #programs.neovim = import ./neovim/home-manager.nix {
   #  inherit pkgs;
   #  inherit config;

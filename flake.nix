@@ -249,24 +249,9 @@
         }; # Pass flake inputs to our config
         #  Our main home-manager configuration file <
         modules = [
-          ./home-manager
-          ./home-manager/desktops
-          ./home-manager/desktops/workstation.nix
+          ./home-manager/workstation
           inputs.sops-nix.homeManagerModule
           {
-            my.programs.plik.enable = true;
-            my.programs.neovim.languages = {
-              nix.enable = true;
-              cpp.enable = true;
-              python.enable = true;
-            };
-            my.programs.neovim.features = {
-              codeium = {
-                enable = true;
-                enterprise = true;
-              };
-              perforce.enable = true;
-            };
             home = {
               username = "eric";
               homeDirectory = "/home/eric";
@@ -284,17 +269,9 @@
         #  Our main home-manager configuration file <
         modules = [
           ./home-manager
-          ./home-manager/desktops/default.nix
+          ./home-manager/letouch
           inputs.sops-nix.homeManagerModule
           {
-            my.programs.plik.enable = true;
-            my.programs.neovim = {
-              languages = {
-                nix.enable = true;
-                python.enable = true;
-              };
-              features.codeium.enable = true;
-            };
             home = {
               username = "eric";
               homeDirectory = "/home/eric";
@@ -310,7 +287,7 @@
         }; # Pass flake inputs to our config
         # > Our main home-manager configuration file <
         modules = [
-          ./home-manager
+          ./home-manager/default
           inputs.sops-nix.homeManagerModule
           {
             #imports = [(inputs.sops-nix + "/modules/home-manager/sops.nix")];
@@ -318,10 +295,6 @@
               username = "eric";
               homeDirectory = "/home/eric";
             };
-            my.programs.plik.enable = true;
-            my.programs.neovim.languages = {nix.enable = true;};
-            my.programs.neovim.features.codeium.enable = true;
-            #my.programs.neovim.codeium.nvim = true;
           }
         ];
       };

@@ -8,6 +8,15 @@
     pkgs.element-desktop
     pkgs.ulauncher
   ];
+
+  my.programs.neovim = {
+    enable = true;
+    languages = {
+      nix.enable = true;
+    };
+    features.codeium.enable = true;
+  };
+
   programs.vscode = {
     enable = true;
     package = pkgs.vscode.fhsWithPackages (ps: with ps; [nix-direnv]);
