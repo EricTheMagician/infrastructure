@@ -1,5 +1,6 @@
 # this config file will list list a default set of packages that should be available on all of my desktops
 {pkgs, ...}: {
+  imports = [../default];
   home.packages = [
     pkgs.obsidian
     pkgs.wezterm

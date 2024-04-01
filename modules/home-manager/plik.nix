@@ -14,7 +14,7 @@ in {
   config = lib.mkIf cfg.enable {
     home.packages = [pkgs.plik];
     sops.secrets."programs/.plik.cfg" = {
-      sopsFile = ../secrets/plik.yaml;
+      sopsFile = ../../secrets/plik.yaml;
       path = "${config.home.homeDirectory}/.plikrc";
     };
   };

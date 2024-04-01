@@ -11,9 +11,9 @@
   # You should not change this value, even if you update Home Manager. If you do
   # want to update the value, then make sure to first check the Home Manager
   # release notes.
-  imports = [./plik.nix ./neovim.nix ../modules/home-manager];
+  imports = [../../modules/home-manager];
   home = {
-    stateVersion = "23.05"; # Please read the comment before changing.
+    stateVersion = "23.05";
     enableNixpkgsReleaseCheck = false;
 
     # The home.packages option allows you to install Nix packages into your
@@ -186,7 +186,6 @@
 
   home.sessionVariables = {
     EDITOR = "nvim";
-    WORLD = "hello";
   };
 
   # configure git with my defaults

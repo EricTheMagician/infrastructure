@@ -9,7 +9,6 @@
   cfg = config.my.programs.neovim;
   enable_dap =
     cfg.languages.python.enable || cfg.languages.cpp.enable;
-  nvimcfg = config.programs.nixvim;
 in {
   imports = [
     inputs.nixvim.homeManagerModules.nixvim
