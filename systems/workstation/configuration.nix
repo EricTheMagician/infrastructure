@@ -10,9 +10,9 @@
 }: {
   imports = [
     # Include the results of the hardware scan.
-    ./nixos-workstation-hardware-configuration.nix
-    ../modules/nixos
-    ../services/locate.nix
+    ./hardware-configuration.nix
+    ../../modules/nixos
+    ../../services/locate.nix
     #../modules/container_support.nix
     #./workstation/forgejo-runner.nix
     #../services/hercules-ci-agent.nix
