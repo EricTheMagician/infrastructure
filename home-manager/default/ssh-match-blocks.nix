@@ -36,7 +36,12 @@
   "vm-server2" = {
     hostname = "131.153.203.129";
     user = "proxmox";
-    proxyJump = "192.168.0.37";
+    # proxyJump = "192.168.0.37";
+  };
+  "vm-server2-nixos-vm" = {
+    hostname = "10.99.99.14";
+    user = "root";
+    proxyJump = "vm-server2";
   };
 
   "vm-server2-proxy" = {
