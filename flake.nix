@@ -324,6 +324,7 @@
       headscale = {
         hostname = "headscale";
         profiles.system = {
+          fastConnection = true;
           sshUser = "root";
           user = "root";
           path = deployPkgs.deploy-rs.lib.activate.nixos self.nixosConfigurations.headscale;
