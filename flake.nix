@@ -153,7 +153,7 @@
         modules = [
           disko.nixosModules.disko
           ./systems/defaults.nix
-          ./systems/nixos-workstation-configuration.nix
+          ./systems/workstation/configuration.nix
         ];
       };
 

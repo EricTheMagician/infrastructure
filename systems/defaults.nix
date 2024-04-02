@@ -5,7 +5,7 @@
   inputs,
   ...
 }: let
-  inherit ((import ../home-manager/zsh_config.nix)) zsh;
+  inherit ((import ../home-manager/default/zsh_config.nix)) zsh;
 in {
   # disable building the documentation
   documentation.nixos.enable = false;
