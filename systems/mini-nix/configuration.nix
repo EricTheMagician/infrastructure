@@ -2,7 +2,9 @@
 # Use this to configure your system environment (it replaces /etc/nixos/configuration.nix)
 {
   inputs,
+  config,
   pkgs,
+  lib,
   ...
 }: let
   sshKeys = import ../../common/ssh-keys.nix;
@@ -20,6 +22,7 @@ in {
     ./disk-configuration.nix
     ../defaults.nix
     ../../modules/nixos
+    ../../containers
     ../../services/locate.nix
     ../../services/cache.nix
     ../../services/hercules-ci-agent.nix
@@ -60,6 +63,15 @@ in {
   my.windows = {
     enable = true;
     host_ip = ["100.64.0.14"];
+  };
+  my.container.adguard-home = {
+    enable = true;
+    bridge = {
+      name = "br-adguard-home";
+      address = "10.255.255.1";
+      prefixLength = 24;
+    };
+    nginx.domain.name = "adguard.lan.mini-nix.eyen.ca";
   };
 
   virtualisation.arion.backend = "docker";

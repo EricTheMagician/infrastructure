@@ -22,6 +22,7 @@ let
       inherit (mini-nix) home;
       inherit (mini-nix) ts;
     }) [
+      "adguard.lan.mini-nix.eyen.ca"
       "audiobookshelf.eyen.ca"
       "auth.eyen.ca"
       "budget.eyen.ca"
@@ -45,6 +46,7 @@ let
       inherit domain;
       inherit (thepodfather) ts home;
     }) [
+      "adguard.lan.thepodfather.eyen.ca"
       "cloud.eyen.ca"
       "git.eyen.ca"
       "immich.eyen.ca"

@@ -71,12 +71,16 @@ in {
         };
         dns_config = {
           nameservers = ["45.90.28.0#ad3362.dns.nextdns.io" "45.90.30.0#ad3362.dns.nextdns.io" "https://dns.nextdns.io/ad3362" "2a07:a8c0::ad:3362" "2a07:a8c1::ad:3362"];
+          # nameservers = ["100.64.0.14" "100.64.0.18"];
           magic_dns = false;
           override_local_dns = true;
           domains = ["eyen.ca"];
+          extra_records = (import ../../common/dns).tailscale_dns_entries;
         };
       };
     };
+    # make the headscale stop time shorter so that restarting it is a lot faster
+    systemd.services.headscale.serviceConfig.TimeoutStopSec = "30s";
 
     my.backups.services.headscale = {
       startAt = "weekly";
@@ -85,10 +89,6 @@ in {
         monthly = 3;
       };
       paths = [(config.services.headscale.settings.db_path + "/..")];
-      #patterns = [
-      #  "+ ${config.services.headscale.settings.db_path}"
-      #  ("- " + (config.services.headscale.settings.db_path + "/.."))
-      #];
     };
 
     security.acme.certs.${domain} = {

@@ -8,6 +8,7 @@ in {
   imports = [
     # Include the results of the hardware scan.
     ../../modules/nixos
+    ../../containers
     #./docker-compose/tools.nix
     ./docker-compose/viewtube.nix
     ./docker.machine-disks.nix
@@ -34,6 +35,15 @@ in {
   my.radarr = {
     enable = true;
     read_write_dirs = ["/var/lib/sabnzbd" "/mnt/unraid/Media/Movies"];
+  };
+  my.container.adguard-home = {
+    enable = true;
+    bridge = {
+      name = "br-adguard-home";
+      address = "10.255.255.1";
+      prefixLength = 24;
+    };
+    nginx.domain.name = "adguard.lan.thepodfather.eyen.ca";
   };
   my.tailscale.enable = true;
 
