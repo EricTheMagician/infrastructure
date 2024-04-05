@@ -48,7 +48,7 @@
       pigz # fast extraction for gz files
       pixz # fast extraction for xz files
       fd
-      helix
+      httpie
     ];
   };
   programs = {
@@ -77,7 +77,6 @@
           "docker-compose"
           "celery" # adds completion for python celery
           "zoxide" # simple navigation with z and history
-          "tmux" # adds aliases to tmux
           "extract" # creates a command extract and alias x to quickly extract files
           "dircycle" # doesn't seem to work on mini-nix -- let's me use `ctrl + shift + <left/right>` to cycle through my cd paths like a browser would
           "rsync" # adds alias like rsync-copy rsync-move
@@ -85,6 +84,7 @@
           "colored-man-pages" # automatically color man pages. I can also preprend `colored` e.g. `colored git help clone`, to try and get colours for terminal output
           "cp" # create alias to cpv: copies with progress bar using rsync
           "copyfile" # copies the content of <file> to my clipboard. e.g. `copyfile temp.txt`
+          "httpie" # zsh completion for httpie, a friendlier cURL replacement.
         ];
         theme = "robbyrussell";
       };
