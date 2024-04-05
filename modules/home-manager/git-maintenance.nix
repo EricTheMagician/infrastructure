@@ -1,5 +1,6 @@
 {
   config,
+  pkgs,
   lib,
   ...
 }: let
@@ -22,6 +23,7 @@ in {
           Service = {
             Type = "oneshot";
             ExecStart = command;
+            Environment = ["PATH=${pkgs.openssh}/bin:$PATH"];
           };
           Install = {
             WantedBy = ["multi-user.target"];
