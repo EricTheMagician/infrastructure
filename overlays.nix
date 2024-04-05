@@ -32,12 +32,13 @@
     inherit (final) system;
 
     patches = [
+      # {
+      #   # add conda
+      #   url = "https://patch-diff.githubusercontent.com/raw/NixOS/nixpkgs/pull/296461.diff";
+      #   hash = "sha256-Xrfgg4aVB1u2HlBkA+RN5U5//XPbRR6WeTlpT7hB3Lc=";
+      # }
       {
-        # add's stirling-pdf
-        url = "https://patch-diff.githubusercontent.com/raw/NixOS/nixpkgs/pull/283305.patch";
-        hash = "sha256-ZeNOC2ByusDsp7juf+QdMY43Fg2zfv5+ZTOH3/joItA=";
-      }
-      {
+        # add gitbutler
         url = "https://patch-diff.githubusercontent.com/raw/NixOS/nixpkgs/pull/289664.diff";
         hash = "sha256-ZzodY4kr8tq/Vo0kZEwTzxDkuiPx7xRqCcvTkb/cltk=";
       }
