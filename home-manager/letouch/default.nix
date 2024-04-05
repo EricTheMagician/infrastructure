@@ -1,7 +1,7 @@
 {
   imports = [../default-desktop];
 
-  my.neovim = {
+  my.programs.neovim = {
     enable = true;
     languages.python.enable = true;
   };

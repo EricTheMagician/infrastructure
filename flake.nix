@@ -268,7 +268,6 @@
         }; # Pass flake inputs to our config
         #  Our main home-manager configuration file <
         modules = [
-          ./home-manager
           ./home-manager/letouch
           inputs.sops-nix.homeManagerModule
           {
