@@ -357,9 +357,15 @@
             --home-profile $HOME_PROFILE \
             --tailscale-profile $TAILSCALE_PROFILE
       '';
+      update-adguard = pkgs.writeShellScriptBin "update-nextdns" ''
+        deploy -s --targets .#mini-nix.system .#thepodfather
+      '';
+      update-dns = pkgs.writeShellScriptBin "update-nextdns" ''
+        deploy -s --targets .#mini-nix.system .#thepodfather .#headscale
+      '';
     in
       pkgs.mkShell {
-        buildInputs = [pkgs.unstable.deploy-rs pkgs.unstable.sops pkgs.unstable.ssh-to-age pkgs.unstable.nix-build-uncached pkgs.unstable.statix update-dns-shell-script];
+        buildInputs = [pkgs.unstable.deploy-rs pkgs.unstable.sops pkgs.unstable.ssh-to-age pkgs.unstable.nix-build-uncached pkgs.unstable.statix update-adguard update-dns];
         shellHook = let
           pre-commit-check = nix-pre-commit-hooks.lib.${system}.run {
             src = ./.;
