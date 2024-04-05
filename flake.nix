@@ -357,11 +357,11 @@
             --home-profile $HOME_PROFILE \
             --tailscale-profile $TAILSCALE_PROFILE
       '';
-      update-adguard = pkgs.writeShellScriptBin "update-nextdns" ''
-        deploy -s --targets .#mini-nix.system .#thepodfather
+      update-adguard = pkgs.writeShellScriptBin "update-adguard" ''
+        ${pkgs.unstable.deploy-rs}/bin/deploy -s --targets .#mini-nix.system .#thepodfather
       '';
-      update-dns = pkgs.writeShellScriptBin "update-nextdns" ''
-        deploy -s --targets .#mini-nix.system .#thepodfather .#headscale
+      update-dns = pkgs.writeShellScriptBin "update-dns" ''
+        ${pkgs.unstable.deploy-rs}/bin/deploy -s --targets .#mini-nix.system .#thepodfather .#headscale
       '';
     in
       pkgs.mkShell {
