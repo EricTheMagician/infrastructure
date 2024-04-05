@@ -37,7 +37,7 @@ in {
       default = "eno1";
     };
   };
-  options.my.container.adguard-ts = options.my.container.adguard-home;
+  # options.my.container.adguard-ts = options.my.container.adguard-home;
 
   config = mkMerge [
     (mkIf cfg-home.enable {
@@ -60,7 +60,7 @@ in {
           allowedTCPPorts = lib.optionals cfg-home.openFirewall [53];
           allowedUDPPorts = lib.optional cfg-home.openFirewall 53;
         };
-        nat.externalInterface = cfg-home.network_device;
+        # nat.externalInterface = cfg-home.network_device;
         # firewall.extraCommands = ''
         # nat.extraCommands = ''
         #   # Forward DNS traffic from ${cfg-home.network_device}
@@ -106,6 +106,7 @@ in {
         # ephemeral = true; # don't keep track of files modified
         privateNetwork = true;
         hostBridge = cfg-home.bridge.name;
+        localAddress = "${containerIp}/${builtins.toString cfg-home.bridge.prefixLength}";
         # forward ports for the dns
         forwardPorts = [
           {
@@ -134,7 +135,7 @@ in {
             defaultGateway = {
               inherit (cfg-home.bridge) address;
               interface = "eth0";
-              metric = 0;
+              metric = 10;
             };
           };
           networking.firewall = {
