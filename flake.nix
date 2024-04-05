@@ -5,8 +5,7 @@
     nixpkgs.url = "https://flakehub.com/f/NixOS/nixpkgs/*.tar.gz";
     nixpkgs-unstable.url = "github:nixos/nixpkgs/nixos-unstable";
 
-    # mynixpkgs.url = "github:EricTheMagician/mynixpkgs";
-    mynixpkgs.url = "/home/eric/git/nixpkgs";
+    linkwarden.url = "github:EricTheMagician/nixpkgs/linkwarden";
 
     # Home manager
     home-manager.url = "github:nix-community/home-manager";

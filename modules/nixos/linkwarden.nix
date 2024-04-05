@@ -7,7 +7,7 @@
 }: let
   cfg = config.my.linkwarden;
   inherit (lib) mkIf mkOption mkEnableOption types;
-  mypkgs = import inputs.mynixpkgs {
+  mypkgs = import inputs.linkwarden {
     inherit (pkgs) system;
     config.allowUnfree = true; # final.config.allowUnfree;
   };
@@ -24,7 +24,7 @@ in {
     };
   };
   imports = [
-    (inputs.mynixpkgs + "/nixos/modules/services/web-apps/linkwarden.nix")
+    (inputs.linkwarden + "/nixos/modules/services/web-apps/linkwarden.nix")
   ];
   config = mkIf cfg.enable {
     sops.secrets."linkwarden/env" = {

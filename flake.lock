@@ -572,6 +572,22 @@
         "type": "github"
       }
     },
+    "linkwarden": {
+      "locked": {
+        "lastModified": 1709099370,
+        "narHash": "sha256-YJ15UmikcrI/UTjM6xHq2wuMB0EHE258sVlTJ1f6arI=",
+        "owner": "EricTheMagician",
+        "repo": "nixpkgs",
+        "rev": "6873e8847d60309a7d8402ffc41f31c93586104b",
+        "type": "github"
+      },
+      "original": {
+        "owner": "EricTheMagician",
+        "ref": "linkwarden",
+        "repo": "nixpkgs",
+        "type": "github"
+      }
+    },
     "nix-darwin": {
       "inputs": {
         "nixpkgs": [
@@ -912,6 +928,7 @@
         "ipfs-podcasting": "ipfs-podcasting",
         "kde6": "kde6",
         "libre-chat": "libre-chat",
+        "linkwarden": "linkwarden",
         "nix-pre-commit-hooks": "nix-pre-commit-hooks",
         "nixos-router": "nixos-router",
         "nixpkgs": "nixpkgs_3",
