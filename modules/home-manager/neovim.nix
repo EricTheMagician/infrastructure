@@ -35,7 +35,7 @@ in {
         mapleader = " ";
         maplocalleader = " ";
       };
-      options = {
+      opts = {
         number = true;
         # relativenumber = true;
         expandtab = true;
@@ -116,7 +116,7 @@ in {
           enable = true;
           keymaps.enable = true;
         };
-        comment-nvim = {
+        comment = {
           enable = true;
         };
         codeium-nvim = {
