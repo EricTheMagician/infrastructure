@@ -70,8 +70,8 @@ in {
           ];
         };
         dns_config = {
-          nameservers = ["45.90.28.0#ad3362.dns.nextdns.io" "45.90.30.0#ad3362.dns.nextdns.io" "https://dns.nextdns.io/ad3362" "2a07:a8c0::ad:3362" "2a07:a8c1::ad:3362"];
-          # nameservers = ["100.64.0.14" "100.64.0.18"];
+          # nameservers = ["45.90.28.0#ad3362.dns.nextdns.io" "45.90.30.0#ad3362.dns.nextdns.io" "https://dns.nextdns.io/ad3362" "2a07:a8c0::ad:3362" "2a07:a8c1::ad:3362"];
+          nameservers = ["100.64.0.14" "100.64.0.18"];
           magic_dns = false;
           override_local_dns = true;
           domains = ["eyen.ca"];
