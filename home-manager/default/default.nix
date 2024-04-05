@@ -185,6 +185,9 @@
     #   org.gradle.console=verbose
     #   org.gradle.daemon.idletimeout=3600000
     # '';
+
+    # enable unfree by default
+    ".config/nixpkgs/config.nix".source = ./config.nix;
   };
 
   home.sessionVariables = {
