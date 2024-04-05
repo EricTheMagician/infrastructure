@@ -12,14 +12,16 @@
     port = 53;
     rewrites = (import ../../common/dns).adguard_dns_entries;
   };
+
+  cache_ttl_min = 60 * 60 * 4;
+  cache_ttl_max = 60 * 60 * 24 * 4;
+
   user_rules = [
     # custom rules to filter out additional ads
     "||wd.adcolony.xyz^$important"
     "||is2-ssl.mzstatic.com^$important"
     "||app.appsflyer.com^$important"
     "||a1931.dscgi3.akamai.net^$important"
-    "#||e673.dscx.akamaiedge.net^$client=''192.168.88.46''"
-    "#||e673.dscx.akamaiedge.net^$client=''192.168.88.46''"
     "||impressions.crossinstall.io^$important"
     "||szeventhub.servicebus.windows.net^$important"
     "||logs.ironsrc.mobi^$important"
@@ -31,15 +33,10 @@
   ];
 
   upstream_dns = [
-    "https://dns.nextdns.io/f2314b"
-    "quic://f2314b.dns.nextdns.io"
+    "1.1.1.1"
   ];
-
   bootstrap_dns = [
-    "45.90.28.207"
-    "45.90.30.207"
-    "2a07:a8c0::f2:314b"
-    "2a07:a8c1::f2:314b"
+    "1.1.1.1"
   ];
 
   # the filters list
@@ -55,6 +52,18 @@
       url = "https://adaway.org/hosts.txt";
       name = "AdAway Default Blocklist";
       id = 2;
+    }
+    {
+      enabled = true;
+      url = "https://adguardteam.github.io/HostlistsRegistry/assets/filter_24.txt";
+      name = "1Hosts (Lite)";
+      id = 24;
+    }
+    {
+      enabled = true;
+      url = "https://adguardteam.github.io/HostlistsRegistry/assets/filter_30.txt";
+      name = "PhishTank and OpenPhish";
+      id = 30;
     }
     {
       enabled = true;
