@@ -132,7 +132,7 @@ in {
           };
         };
         dap = {
-          enable = cfg.languages.python.enable || cfg.languages.cpp.enable;
+          enable = lib.mkForce false; #  cfg.languages.python.enable || cfg.languages.cpp.enable;
           adapters.executables = {
             cpp = optionalAttrs cfg.languages.cpp.enable {
               command = "${pkgs.gdb}/bin/gdb";
