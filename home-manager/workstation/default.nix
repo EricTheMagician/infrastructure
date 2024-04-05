@@ -48,16 +48,19 @@
   };
   my.gdb.enable = true;
   my.gdb.pretty-print.qt.enable = true;
-  my.programs.neovim.languages = {
-    nix.enable = true;
-    cpp.enable = true;
-    python.enable = true;
-  };
-  my.programs.neovim.features = {
-    codeium = {
-      enable = true;
-      enterprise = true;
+  my.programs.neovim = {
+    enable = true;
+    languages = {
+      python.enable = true;
+      cpp.enable = false;
+      nix.enable = true;
     };
-    perforce.enable = true;
+    features = {
+      codeium = {
+        enable = true;
+        enterprise = true;
+      };
+      perforce.enable = true;
+    };
   };
 }
