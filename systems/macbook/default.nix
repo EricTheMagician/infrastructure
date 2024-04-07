@@ -6,9 +6,14 @@
   lib,
   ...
 }: {
+  services.tailscale = {
+    enable = true;
+    overrideLocalDns = true;
+  };
   environment.systemPackages = [
     pkgs.vim
     pkgs.alacritty
+    pkgs.btop
   ];
 
   # Auto upgrade nix package and the daemon service.
@@ -56,7 +61,26 @@
   # Used for backwards compatibility, please read the changelog before changing.
   # $ darwin-rebuild changelog
   system.stateVersion = 4;
-
+  # my system configuration
+  system = {
+    startup.chime = false;
+    defaults = {
+      trackpad = {
+        # Whether to enable trackpad tap to click. The default is false.
+        Clicking = true;
+        # Whether to enable trackpad right click. The default is false.
+        TrackpadRightClick = true;
+      };
+      # Allow users to login to the machine as guests using the Guest account. Default is true.
+      loginwindow.GuestEnabled = false;
+      finder = {
+        # Whether to always show file extensions. The default is false.
+        AppleShowAllExtensions = true;
+        # Whether to always show hidden files. The default is false.
+        AppleShowAllFiles = true;
+      };
+    };
+  };
   # The platform the configuration will be used on.
   nixpkgs.hostPlatform = "aarch64-darwin";
 }
