@@ -520,7 +520,7 @@
     "ipfs-podcasting": {
       "inputs": {
         "nixpkgs": [
-          "nixpkgs-unstable"
+          "nixos-unstable"
         ]
       },
       "locked": {
@@ -591,6 +591,26 @@
     "nix-darwin": {
       "inputs": {
         "nixpkgs": [
+          "nixpkgs-darwin"
+        ]
+      },
+      "locked": {
+        "lastModified": 1711763326,
+        "narHash": "sha256-sXcesZWKXFlEQ8oyGHnfk4xc9f2Ip0X/+YZOq3sKviI=",
+        "owner": "LnL7",
+        "repo": "nix-darwin",
+        "rev": "36524adc31566655f2f4d55ad6b875fb5c1a4083",
+        "type": "github"
+      },
+      "original": {
+        "owner": "LnL7",
+        "repo": "nix-darwin",
+        "type": "github"
+      }
+    },
+    "nix-darwin_2": {
+      "inputs": {
+        "nixpkgs": [
           "nixvim",
           "nixpkgs"
         ]
@@ -653,6 +673,22 @@
         "type": "github"
       }
     },
+    "nixos-unstable": {
+      "locked": {
+        "lastModified": 1712163089,
+        "narHash": "sha256-Um+8kTIrC19vD4/lUCN9/cU9kcOsD1O1m+axJqQPyMM=",
+        "owner": "nixos",
+        "repo": "nixpkgs",
+        "rev": "fd281bd6b7d3e32ddfa399853946f782553163b5",
+        "type": "github"
+      },
+      "original": {
+        "owner": "nixos",
+        "ref": "nixos-unstable",
+        "repo": "nixpkgs",
+        "type": "github"
+      }
+    },
     "nixpkgs": {
       "locked": {
         "lastModified": 1704300003,
@@ -681,6 +717,22 @@
       "original": {
         "owner": "NixOS",
         "ref": "release-23.05",
+        "repo": "nixpkgs",
+        "type": "github"
+      }
+    },
+    "nixpkgs-darwin": {
+      "locked": {
+        "lastModified": 1712386448,
+        "narHash": "sha256-kacQwZ5WnJv4HH5s8tlZTClyiwVP8XAaywI5I7QqLIY=",
+        "owner": "NixOS",
+        "repo": "nixpkgs",
+        "rev": "7644b4bc09c6329bcd82561a076fd7add697d092",
+        "type": "github"
+      },
+      "original": {
+        "owner": "NixOS",
+        "ref": "nixpkgs-23.11-darwin",
         "repo": "nixpkgs",
         "type": "github"
       }
@@ -735,16 +787,16 @@
     },
     "nixpkgs-unstable": {
       "locked": {
-        "lastModified": 1712163089,
-        "narHash": "sha256-Um+8kTIrC19vD4/lUCN9/cU9kcOsD1O1m+axJqQPyMM=",
+        "lastModified": 1712388808,
+        "narHash": "sha256-9ogU4c3vUmuMDoRlbQCeq3OKx0XJmgHcLZ4XywJNYWI=",
         "owner": "nixos",
         "repo": "nixpkgs",
-        "rev": "fd281bd6b7d3e32ddfa399853946f782553163b5",
+        "rev": "fe4295b9ecd88764c1abf6179e03b1a828ca0e9a",
         "type": "github"
       },
       "original": {
         "owner": "nixos",
-        "ref": "nixos-unstable",
+        "ref": "nixpkgs-unstable",
         "repo": "nixpkgs",
         "type": "github"
       }
@@ -803,9 +855,9 @@
         "home-manager": [
           "home-manager"
         ],
-        "nix-darwin": "nix-darwin",
+        "nix-darwin": "nix-darwin_2",
         "nixpkgs": [
-          "nixpkgs-unstable"
+          "nixos-unstable"
         ],
         "pre-commit-hooks": [
           "nix-pre-commit-hooks"
@@ -929,9 +981,12 @@
         "kde6": "kde6",
         "libre-chat": "libre-chat",
         "linkwarden": "linkwarden",
+        "nix-darwin": "nix-darwin",
         "nix-pre-commit-hooks": "nix-pre-commit-hooks",
         "nixos-router": "nixos-router",
+        "nixos-unstable": "nixos-unstable",
         "nixpkgs": "nixpkgs_3",
+        "nixpkgs-darwin": "nixpkgs-darwin",
         "nixpkgs-unstable": "nixpkgs-unstable",
         "nixvim": "nixvim",
         "notnft": "notnft",

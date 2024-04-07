@@ -3,7 +3,8 @@
   inputs = {
     # Nixpkgs
     nixpkgs.url = "https://flakehub.com/f/NixOS/nixpkgs/*.tar.gz";
-    nixpkgs-unstable.url = "github:nixos/nixpkgs/nixos-unstable";
+    nixos-unstable.url = "github:nixos/nixpkgs/nixos-unstable";
+    nixpkgs-unstable.url = "github:nixos/nixpkgs/nixpkgs-unstable";
 
     linkwarden.url = "github:EricTheMagician/nixpkgs/linkwarden";
 
@@ -39,7 +40,7 @@
     # ipfs podcasting
     ipfs-podcasting.url = "https://flakehub.com/f/EricTheMagician/ipfs-podcasting.nix/*.tar.gz";
     #ipfs-podcasting.url = "/home/eric/git/ipfs-podcasting";
-    ipfs-podcasting.inputs.nixpkgs.follows = "nixpkgs-unstable";
+    ipfs-podcasting.inputs.nixpkgs.follows = "nixos-unstable";
 
     # microvm = {
     #   url = "github:astro/microvm.nix";
@@ -58,9 +59,9 @@
     };
 
     nixvim.url = "github:nix-community/nixvim";
-    nixvim.inputs.nixpkgs.follows = "nixpkgs-unstable";
+    nixvim.inputs.nixpkgs.follows = "nixos-unstable";
     nixvim.inputs.home-manager.follows = "home-manager";
-    #nixvim.inputs.home-manager.inputs.nixpkgs.follows = "nixpkgs-unstable";
+    #nixvim.inputs.home-manager.inputs.nixpkgs.follows = "nixos-unstable";
     nixvim.inputs.pre-commit-hooks.follows = "nix-pre-commit-hooks";
 
     nvim-codeium.url = "github:Exafunction/codeium.nvim";
@@ -74,6 +75,10 @@
     notnft.inputs.nixpkgs.follows = "nixpkgs";
     # enable flox in my environment
     flox.url = "github:flox/flox";
+
+    nixpkgs-darwin.url = "github:NixOS/nixpkgs/nixpkgs-23.11-darwin";
+    nix-darwin.url = "github:LnL7/nix-darwin";
+    nix-darwin.inputs.nixpkgs.follows = "nixpkgs-darwin";
   };
 
   outputs = {
@@ -83,6 +88,7 @@
     disko,
     deploy-rs,
     sops-nix,
+    nixos-unstable,
     nixpkgs-unstable,
     nix-pre-commit-hooks,
     arion,
@@ -91,7 +97,7 @@
     kde6,
     libre-chat,
     nvim-codeium,
-    flox,
+    nixpkgs-darwin,
     ...
   } @ inputs: let
     system = "x86_64-linux";
@@ -104,7 +110,7 @@
         nvim-codeium.overlays.${system}.default
         overlays.additions
         overlays.my_vim_plugins
-        overlays.unstable-packages
+        overlays.unstable-nixos
         overlays.other-packages
 
         (final: prev: {
@@ -113,6 +119,12 @@
       ];
     };
 
+    darwin-system = "aarch64-darwin";
+    darwin-pkgs = import nixpkgs-darwin {
+      system = darwin-system;
+      config.allowUnfree = true;
+      overlays = [overlays.unstable-nixos];
+    };
     deployPkgs = import nixpkgs {
       inherit system;
       overlays = [
@@ -126,7 +138,6 @@
       ];
     };
   in {
-    inherit overlays;
     formatter.x86_64-linux = nixpkgs.legacyPackages.x86_64-linux.alejandra;
 
     # add my personal cache
@@ -258,7 +269,24 @@
           }
         ];
       };
-
+      "ericyen@Erics-MacBook-Pro.local" = home-manager.lib.homeManagerConfiguration {
+        pkgs = darwin-pkgs.unstable;
+        extraSpecialArgs = {
+          inherit inputs;
+          stable = pkgs;
+        }; # Pass flake inputs to our config
+        #  Our main home-manager configuration file <
+        modules = [
+          inputs.sops-nix.homeManagerModule
+          ./home-manager/default
+          {
+            home = {
+              username = "ericyen";
+              homeDirectory = "/Users/ericyen";
+            };
+          }
+        ];
+      };
       "eric@letouch" = home-manager.lib.homeManagerConfiguration {
         pkgs = pkgs.unstable;
         extraSpecialArgs = {
@@ -277,6 +305,7 @@
           }
         ];
       };
+
       "eric" = home-manager.lib.homeManagerConfiguration {
         pkgs = pkgs.unstable; # Home-manager requires 'pkgs' instance
         extraSpecialArgs = {

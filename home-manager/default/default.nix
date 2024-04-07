@@ -49,6 +49,7 @@
       pixz # fast extraction for xz files
       fd
       httpie
+      zoxide
     ];
   };
   programs = {
@@ -62,6 +63,9 @@
     zsh = {
       enable = true; # don't forget to add   `environment.pathsToLink = [ "/share/zsh" ];` to the system environment
       autosuggestion.enable = true;
+      initExtra = ''
+        source /nix/var/nix/profiles/default/etc/profile.d/nix-daemon.sh
+      '';
       history = {
         size = 100 * 1000;
         save = 100 * 1000;

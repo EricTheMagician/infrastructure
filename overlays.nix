@@ -28,7 +28,36 @@
 
   # When applied, the unstable nixpkgs set (declared in the flake inputs) will
   # be accessible through 'pkgs.unstable'
-  unstable-packages = final: _prev: let
+  unstable-nixos = final: _prev: let
+    inherit (final) system;
+
+    patches = [
+      # {
+      #   # add conda
+      #   url = "https://patch-diff.githubusercontent.com/raw/NixOS/nixpkgs/pull/296461.diff";
+      #   hash = "sha256-Xrfgg4aVB1u2HlBkA+RN5U5//XPbRR6WeTlpT7hB3Lc=";
+      # }
+      {
+        # add gitbutler
+        url = "https://patch-diff.githubusercontent.com/raw/NixOS/nixpkgs/pull/289664.diff";
+        hash = "sha256-ZzodY4kr8tq/Vo0kZEwTzxDkuiPx7xRqCcvTkb/cltk=";
+      }
+    ];
+    originPkgs = inputs.nixos-unstable.legacyPackages.${system};
+    nixpkgs-unstable = originPkgs.applyPatches {
+      name = "nixpkgs-patched";
+      src = inputs.nixos-unstable;
+      patches = map originPkgs.fetchpatch patches;
+    };
+  in {
+    unstable = import nixpkgs-unstable {
+      inherit (final) system;
+      config.allowUnfree = final.config.allowUnfree;
+      overlays = [my_vim_plugins inputs.nvim-codeium.overlays.${system}.default];
+    };
+  };
+
+  unstable-nixpkgs = final: _prev: let
     inherit (final) system;
 
     patches = [
