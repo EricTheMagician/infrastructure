@@ -329,9 +329,11 @@
     };
     darwinConfigurations."macbook" = nix-darwin.lib.darwinSystem {
       pkgs = darwin-pkgs;
-      specialArgs = {inherit inputs;};
+      specialArgs = {inherit inputs self;};
       modules = [./systems/macbook];
     };
+
+    darwinPackages = darwin-pkgs;
 
     # deploy-rs section
     deploy.nodes = {

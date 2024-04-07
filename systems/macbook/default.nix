@@ -1,4 +1,5 @@
 {
+  self,
   inputs,
   config,
   pkgs,
@@ -12,6 +13,8 @@
 
   # Auto upgrade nix package and the daemon service.
   services.nix-daemon.enable = true;
+  nix.package = pkgs.nix;
+
   nix = {
     # This will add each flake input as a registry
     # To make nix3 commands consistent with your flake
@@ -37,6 +40,23 @@
         "nix-community.cachix.org-1:mB9FSh9qf2dCimDSUo8Zy7bkq5CX+/rkCWyvRCYg3Fs="
         "cache.nixos.org-1:6NCHdD59X431o0gWypbMrAURkbJ16ZPMQFGspcDShjY="
       ];
+      max-jobs = 4;
+      cores = 8;
     };
   };
+
+  # Create /etc/zshrc that loads the nix-darwin environment.
+  programs.zsh.enable = true; # default shell on catalina
+  programs.bash.enable = true;
+  # programs.fish.enable = true;
+
+  # Set Git commit hash for darwin-version.
+  system.configurationRevision = self.rev or self.dirtyRev or null;
+
+  # Used for backwards compatibility, please read the changelog before changing.
+  # $ darwin-rebuild changelog
+  system.stateVersion = 4;
+
+  # The platform the configuration will be used on.
+  nixpkgs.hostPlatform = "aarch64-darwin";
 }
