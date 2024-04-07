@@ -98,6 +98,7 @@
     libre-chat,
     nvim-codeium,
     nixpkgs-darwin,
+    nix-darwin,
     ...
   } @ inputs: let
     system = "x86_64-linux";
@@ -325,6 +326,11 @@
           }
         ];
       };
+    };
+    darwinConfigurations."macbook" = nix-darwin.lib.darwinSystem {
+      pkgs = darwin-pkgs;
+      specialArgs = {inherit inputs;};
+      modules = [./systems/macbook];
     };
 
     # deploy-rs section
